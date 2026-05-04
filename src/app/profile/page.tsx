@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { Header } from "../components/header";
 import { Footer } from "../components/footer";
 
@@ -93,11 +94,7 @@ export default function ProfilePage() {
               )}
             </div>
             <article className="prose prose-stone max-w-none prose-headings:font-serif prose-headings:font-medium prose-p:text-body prose-li:text-body prose-strong:text-ink prose-a:text-ink prose-a:underline">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: markdownToHtml(profile?.content || ""),
-                }}
-              />
+              <ReactMarkdown>{profile?.content || ""}</ReactMarkdown>
             </article>
           </div>
         )}
@@ -107,18 +104,3 @@ export default function ProfilePage() {
   );
 }
 
-function markdownToHtml(md: string): string {
-  return md
-    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^(?!<[hulo])/gm, '<p>')
-    .replace(/<p><\/p>/g, '')
-    .replace(/<p>(<[hulo])/g, '$1')
-    .replace(/(<\/[hulo][^>]*>)<\/p>/g, '$1');
-}
