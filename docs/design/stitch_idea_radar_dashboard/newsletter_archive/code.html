@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Idea Radar - Newsletter Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed": "#1b1c1c",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-fixed": "#e4e2e1",
+                        "background": "#fbf9f9",
+                        "tertiary": "#191914",
+                        "inverse-on-surface": "#f2f0f0",
+                        "on-primary-fixed-variant": "#474747",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6c5",
+                        "on-secondary-container": "#626361",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1b1c1c",
+                        "error-container": "#ffdad6",
+                        "secondary": "#5e5e5d",
+                        "inverse-surface": "#303031",
+                        "on-surface-variant": "#444748",
+                        "tertiary-fixed": "#e6e2db",
+                        "surface-container-low": "#f5f3f3",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#5f5e5e",
+                        "on-primary-container": "#959494",
+                        "outline": "#747878",
+                        "on-tertiary-fixed": "#1c1c17",
+                        "surface": "#fbf9f9",
+                        "on-tertiary-container": "#97948e",
+                        "surface-bright": "#fbf9f9",
+                        "tertiary-fixed-dim": "#cac6bf",
+                        "on-secondary-fixed": "#1a1c1b",
+                        "on-secondary-fixed-variant": "#464746",
+                        "on-background": "#1b1c1c",
+                        "surface-dim": "#dbdad9",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#484742",
+                        "secondary-fixed": "#e3e2e0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e3e2e2",
+                        "primary-fixed-dim": "#c8c6c6",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#2e2d29",
+                        "surface-container-highest": "#e3e2e2",
+                        "inverse-primary": "#c8c6c6",
+                        "secondary-container": "#e0dfde",
+                        "primary": "#181919",
+                        "surface-container": "#efeded",
+                        "primary-container": "#2d2d2d",
+                        "outline-variant": "#c4c7c7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "xs": "8px",
+                        "sm": "16px",
+                        "container-max": "1280px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "h1": ["Newsreader"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "h2": ["Newsreader"],
+                        "h3": ["Newsreader"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "h1": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "label-sm": ["13px", { "lineHeight": "1", "letterSpacing": "0.04em", "fontWeight": "600" }],
+                        "h2": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+                        "h3": ["24px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md antialiased">
+<!-- TopNavBar -->
+<nav class="bg-[#F9F8F6] dark:bg-stone-950 docked full-width top-0 border-b border-[#E5E1DA] dark:border-stone-800 flat no shadows z-50 sticky">
+<div class="flex justify-between items-center w-full px-10 h-20 max-w-[1440px] mx-auto">
+<!-- Brand -->
+<div class="flex items-center gap-sm">
+<img alt="Idea Radar Logo" class="h-8 w-8 object-contain rounded-DEFAULT" data-alt="A minimal and sophisticated logo for 'Idea Radar'. The logo should evoke the idea of discovery, intelligence, and a 'radar' scan but in a clean, abstract, and modern way. Use a single, elegant stroke or geometric shape. Colors should align with a warm, premium light theme (deep charcoal or a subtle metallic accent on a warm white background). No text, just the icon. Style: Bauhaus-meets-modern-tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmUYiNK_RSFDNnW07CvObzXYUcHeWdna_tykNrdYmgLyA12b57Ep-E-CLKhTWoUPbk0Sk9eaYq0Z42JYotTRGfMQMHx7uN4J8pb1zCT7toVj8IK24NE_8ItepfcNvYmPVRw3VD3fIds0FXSOvDhRsq1tg4Tvqn0aBoHSMax8jSickqazEZeQEDd6JninByK09F84z9eKC2nTkySU0qdoBvh88d-TdAkQTin2t8c_ljZMa3Ink-P4gV4RAlh_IqXotvzXMs5HxpXFS6"/>
+<span class="font-serif italic text-2xl tracking-tight text-[#2D2D2D] dark:text-stone-50 font-h3 text-h3">Idea Radar</span>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-md">
+<a class="text-stone-500 dark:text-stone-400 font-sans uppercase tracking-widest text-[10px] hover:bg-[#F1EFEA] dark:hover:bg-stone-900 transition-colors duration-200 scale-100 active:scale-95 transition-transform px-3 py-2 rounded-DEFAULT font-label-sm text-label-sm" href="#">Dashboard</a>
+<a class="text-stone-500 dark:text-stone-400 font-sans uppercase tracking-widest text-[10px] hover:bg-[#F1EFEA] dark:hover:bg-stone-900 transition-colors duration-200 scale-100 active:scale-95 transition-transform px-3 py-2 rounded-DEFAULT font-label-sm text-label-sm" href="#">Profile</a>
+<a class="text-[#2D2D2D] dark:text-stone-100 border-b-2 border-[#2D2D2D] pb-1 hover:bg-[#F1EFEA] dark:hover:bg-stone-900 transition-colors duration-200 scale-100 active:scale-95 transition-transform px-3 py-2 rounded-DEFAULT font-label-sm text-label-sm" href="#">Newsletter</a>
+</div>
+<!-- Trailing Icons -->
+<div class="flex items-center gap-sm">
+<button aria-label="settings" class="text-[#2D2D2D] dark:text-stone-200 hover:bg-[#F1EFEA] dark:hover:bg-stone-900 transition-colors duration-200 p-2 rounded-DEFAULT">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button aria-label="notifications" class="text-[#2D2D2D] dark:text-stone-200 hover:bg-[#F1EFEA] dark:hover:bg-stone-900 transition-colors duration-200 p-2 rounded-DEFAULT">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden ml-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-lg py-xl grid grid-cols-1 md:grid-cols-12 gap-md">
+<!-- Left Column: Manage Subscription -->
+<div class="md:col-span-4 flex flex-col gap-lg">
+<section class="flex flex-col gap-sm">
+<h1 class="font-h1 text-h1 text-on-background">Newsletter</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your intelligence feed and access past broadcasts.</p>
+</section>
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-md">
+<div class="flex flex-col gap-xs">
+<h2 class="font-h3 text-h3 text-on-surface">Your Subscription</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">You are currently subscribed to the weekly intelligence synthesis.</p>
+</div>
+<div class="flex flex-col gap-sm">
+<label class="flex items-center gap-sm cursor-pointer group">
+<div class="w-10 h-6 bg-primary-container rounded-full relative flex items-center p-1 transition-colors duration-200">
+<div class="w-4 h-4 bg-on-primary rounded-full absolute right-1 shadow-sm transition-transform duration-200"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface uppercase">Weekly Synthesis</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<div class="w-10 h-6 bg-surface-container-highest border border-outline-variant rounded-full relative flex items-center p-1 transition-colors duration-200">
+<div class="w-4 h-4 bg-on-surface-variant rounded-full absolute left-1 shadow-sm transition-transform duration-200"></div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Daily Highlights</span>
+</label>
+</div>
+<div class="pt-sm border-t border-surface-variant">
+<label class="flex flex-col gap-xs">
+<span class="font-label-sm text-label-sm text-on-surface uppercase">Delivery Email</span>
+<input class="bg-transparent border border-outline-variant rounded-DEFAULT px-sm py-2 font-body-md text-on-surface focus:border-primary-container focus:ring-0 outline-none transition-colors w-full" type="email" value="builder@example.com"/>
+</label>
+</div>
+<div class="flex gap-sm pt-xs">
+<button class="bg-primary-container text-on-primary font-label-sm text-label-sm px-md py-2 rounded-DEFAULT uppercase tracking-wider hover:bg-tertiary transition-colors">Update</button>
+<button class="bg-transparent border border-outline-variant text-on-surface font-label-sm text-label-sm px-md py-2 rounded-DEFAULT uppercase tracking-wider hover:bg-surface-container-low transition-colors">Unsubscribe</button>
+</div>
+</section>
+</div>
+<!-- Right Column: Archive List (Bento-ish layout) -->
+<div class="md:col-span-8 flex flex-col gap-md">
+<div class="flex items-center justify-between border-b border-surface-variant pb-sm">
+<h2 class="font-h2 text-h2 text-on-background">Archive</h2>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<span class="font-label-sm text-label-sm uppercase">Filter</span>
+</button>
+</div>
+</div>
+<!-- Archive Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-md">
+<!-- Archive Card 1 -->
+<a class="group bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm hover:border-primary-container transition-colors relative" href="#">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Oct 24, 2023</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase">Weekly</span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary-container transition-colors line-clamp-2">The Convergence of Generative UI and Static Architectures</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">An analysis of how dynamic interface generation is clashing with traditional component libraries, and what it means for the future of frontend systems.</p>
+<div class="mt-auto pt-sm flex items-center text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm uppercase mr-1">Read Issue</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<!-- Archive Card 2 -->
+<a class="group bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm hover:border-primary-container transition-colors relative" href="#">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Oct 17, 2023</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase">Weekly</span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary-container transition-colors line-clamp-2">Spatial Computing Sub-Trends You Missed</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Beyond the hardware announcements, the underlying interaction models for spatial are evolving quietly. Here are three key patterns emerging in the wild.</p>
+<div class="mt-auto pt-sm flex items-center text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm uppercase mr-1">Read Issue</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<!-- Archive Card 3 -->
+<a class="group bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm hover:border-primary-container transition-colors relative sm:col-span-2" href="#">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Oct 10, 2023</span>
+<div class="flex gap-xs">
+<span class="bg-error-container text-on-error-container font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase">Deep Dive</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase">Weekly</span>
+</div>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary-container transition-colors">LLM Context Windows vs. Human Working Memory</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">A comprehensive breakdown of how scaling context windows in models changes application design, drawing parallels to cognitive load limits in human users.</p>
+<div class="mt-auto pt-sm flex items-center text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm uppercase mr-1">Read Issue</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<!-- Archive Card 4 -->
+<a class="group bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm hover:border-primary-container transition-colors relative" href="#">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Oct 03, 2023</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase">Weekly</span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary-container transition-colors line-clamp-2">The Return of Skeuomorphism (But Not How You Think)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">Material design is dead, but flat design is evolving. We look at the rise of subtle textures and depth cues in modern high-end software.</p>
+<div class="mt-auto pt-sm flex items-center text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm uppercase mr-1">Read Issue</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+<!-- Archive Card 5 -->
+<a class="group bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col gap-sm hover:border-primary-container transition-colors relative" href="#">
+<div class="flex justify-between items-start">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Sep 26, 2023</span>
+<span class="bg-surface-container-high text-on-surface font-label-sm text-[10px] px-2 py-1 rounded-sm uppercase">Weekly</span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface group-hover:text-primary-container transition-colors line-clamp-2">Agentic Workflows: A UX Challenge</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">When AI agents perform multi-step tasks autonomously, how do we design interfaces that build trust without overwhelming the user with logs?</p>
+<div class="mt-auto pt-sm flex items-center text-primary-container opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm uppercase mr-1">Read Issue</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</a>
+</div>
+<div class="flex justify-center mt-sm">
+<button class="bg-transparent border border-outline-variant text-on-surface font-label-sm text-label-sm px-md py-2 rounded-DEFAULT uppercase tracking-wider hover:bg-surface-container-low transition-colors">Load Older Issues</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#F1EFEA] dark:bg-stone-900 w-full border-t border-[#E5E1DA] dark:border-stone-800 flat no shadows mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-10 py-6 w-full max-w-container-max mx-auto gap-sm">
+<span class="font-sans text-[10px] uppercase tracking-tighter text-stone-600 dark:text-stone-400 font-label-sm">Idea Radar Intelligence © 2024 • Last scan complete</span>
+<div class="flex gap-md">
+<a class="font-sans text-[10px] uppercase tracking-tighter text-stone-400 hover:text-[#2D2D2D] opacity-100 hover:opacity-80 transition-opacity font-label-sm" href="#">System Status</a>
+<a class="font-sans text-[10px] uppercase tracking-tighter text-stone-400 hover:text-[#2D2D2D] opacity-100 hover:opacity-80 transition-opacity font-label-sm" href="#">API</a>
+<a class="font-sans text-[10px] uppercase tracking-tighter text-stone-400 hover:text-[#2D2D2D] opacity-100 hover:opacity-80 transition-opacity font-label-sm" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</body></html>
