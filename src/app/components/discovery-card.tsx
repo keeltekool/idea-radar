@@ -28,8 +28,22 @@ type Props = {
   variant: "curated" | "basic";
 };
 
+function formatDate(dateStr: string | null): string | null {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+  return date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
 export function DiscoveryCard({ discovery, variant }: Props) {
   const d = discovery;
+  const dateLabel = formatDate(d.publishedAt);
 
   async function sendFeedback(feedback: "spark" | "pass") {
     await fetch(`/api/discoveries/${d.id}/feedback`, {
@@ -47,6 +61,9 @@ export function DiscoveryCard({ discovery, variant }: Props) {
           <SourceBadge name={d.sourceName} />
           {d.author && (
             <span className="text-body text-sm">by {d.author}</span>
+          )}
+          {dateLabel && (
+            <span className="text-slate text-xs">· {dateLabel}</span>
           )}
           <span
             className={`ml-auto px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider border ${
@@ -90,6 +107,9 @@ export function DiscoveryCard({ discovery, variant }: Props) {
             <SourceBadge name={d.sourceName} />
             {d.author && (
               <span className="text-body text-sm">by {d.author}</span>
+            )}
+            {dateLabel && (
+              <span className="text-slate text-xs">· {dateLabel}</span>
             )}
           </div>
           <h3 className="font-serif text-2xl text-ink mb-1">
