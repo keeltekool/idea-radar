@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { DiscoveryCard } from "./discovery-card";
+import { LatestMemoCard } from "./latest-memo-card";
 
 type Discovery = {
   id: number;
@@ -135,6 +136,8 @@ export function DashboardContent() {
           </select>
         </div>
       </div>
+
+      <LatestMemoCard />
 
       {/* Tab bar */}
       <div className="flex gap-1 mb-8">
