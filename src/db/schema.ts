@@ -109,6 +109,16 @@ export const scrapeRuns = pgTable("scrape_runs", {
   errors: jsonb("errors").$type<ScrapeError[]>().default([]),
 });
 
+export const builderMemos = pgTable("builder_memos", {
+  id: serial("id").primaryKey(),
+  scrapeRunId: integer("scrape_run_id"),
+  content: text("content").notNull(),
+  discoveryCount: integer("discovery_count").notNull().default(0),
+  generatedAt: timestamp("generated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
 export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
