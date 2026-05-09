@@ -32,10 +32,17 @@ Output piped to `worker/src/save-memo.ts` which writes to Neon.
 ## Memo structure (every run)
 
 1. **What came in** — 2-3 sentence summary of run landscape
-2. **Patterns** — what builders are doing that you aren't (tech, distribution, monetization)
-3. **Direct callouts** — specific discoveries by name, mapped to builder profile
+2. **Patterns You're Missing** — what builders are doing that you aren't (tech, distribution, monetization). Each pattern gets a full paragraph with linked examples.
+3. **Direct callouts** — EVERY accepted discovery gets 3-5 sentences with a clickable markdown link `[title](url)`. Describe what they built, how, and why it maps to the builder profile. Group wildcards separately.
 4. **The gap** — honest assessment of where you're stuck vs. where the field moves
-5. **One concrete suggestion** — one specific "try this next" with reasoning
+5. **One concrete suggestion** — one specific "try this next" with reasoning and link to the discovery that inspired it
+
+## Memo rules (MANDATORY)
+
+- **Clickable links:** Every referenced discovery MUST include a markdown link `[title](url)` using the discovery's actual URL. NEVER use bare ID references like `(id:123)`.
+- **Length:** 800-1200 words minimum. Go deep — this is a coaching brief, not a summary.
+- **Grounded:** Every sentence references either a specific discovery (with link) or the builder profile. Zero generic motivational filler.
+- **Tone:** Blunt, direct, no hedging.
 
 ## Frontend
 

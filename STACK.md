@@ -34,7 +34,7 @@
 4. Claude Code scores (feasibility/novelty/stretch, threshold 7.0)
 5. pipe JSON → npx tsx worker/src/update-decisions.ts → write to Neon
 6. npx tsx worker/src/update-acceptance-rates.ts
-7. Claude Code generates ~500-word coaching memo → pipe JSON → npx tsx worker/src/save-memo.ts
+7. Claude Code generates coaching memo (see docs/plans/2026-05-09-builder-memo-design.md for rules) → pipe JSON → npx tsx worker/src/save-memo.ts
 ```
 
 ## Sources (15 feeds from 7 platforms)
