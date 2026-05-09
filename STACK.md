@@ -34,6 +34,7 @@
 4. Claude Code scores (feasibility/novelty/stretch, threshold 7.0)
 5. pipe JSON → npx tsx worker/src/update-decisions.ts → write to Neon
 6. npx tsx worker/src/update-acceptance-rates.ts
+7. Claude Code generates ~500-word coaching memo → pipe JSON → npx tsx worker/src/save-memo.ts
 ```
 
 ## Sources (15 feeds from 7 platforms)
@@ -66,6 +67,7 @@ cd worker/src && npx tsx update-decisions.ts   # Write scored decisions (stdin)
 cd worker/src && npx tsx update-acceptance-rates.ts  # Recalculate rates
 cd worker/src && npx tsx scan-profile.ts       # Scan STACK.md files
 cd worker/src && npx tsx save-profile.ts       # Save profile (stdin)
+cd worker/src && npx tsx save-memo.ts           # Save memo (stdin JSON)
 cd worker/src && npx tsx seed.ts               # Re-seed sources
 npx drizzle-kit push                           # Push schema to Neon
 npx drizzle-kit studio                         # Drizzle Studio
@@ -97,6 +99,8 @@ npx drizzle-kit studio                         # Drizzle Studio
 5. Navigate to `/newsletter` — subscribe form renders
 6. Tracker Admin → switch to "Idea Radar" — 15 sources visible
 7. Feedback buttons (Sparked/Pass) update DB
+8. Navigate to `/memo` — memos page renders with history
+9. Dashboard shows "Latest Builder Memo" card (if memos exist)
 
 ## Parked Items
 
