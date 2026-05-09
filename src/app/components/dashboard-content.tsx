@@ -22,6 +22,7 @@ type Discovery = {
   isWildcard: boolean;
   userFeedback: string | null;
   publishedAt: string | null;
+  scrapedAt: string;
 };
 
 type Source = {
@@ -45,6 +46,35 @@ const SORT_OPTIONS = [
   { value: "novelty", label: "Novelty" },
   { value: "stretch", label: "Stretch" },
 ];
+
+function groupByScrapedDate(items: Discovery[]) {
+  const groups: { date: string; label: string; items: Discovery[] }[] = [];
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+  for (const item of items) {
+    const d = new Date(item.scrapedAt);
+    const dateKey = d.toDateString();
+    const last = groups[groups.length - 1];
+
+    if (last && last.date === dateKey) {
+      last.items.push(item);
+    } else {
+      let label: string;
+      if (dateKey === today) label = "Today";
+      else if (dateKey === yesterday) label = "Yesterday";
+      else
+        label = d.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+
+      groups.push({ date: dateKey, label, items: [item] });
+    }
+  }
+  return groups;
+}
 
 export function DashboardContent() {
   const [tab, setTab] = useState<Tab>("curated");
@@ -166,19 +196,33 @@ export function DashboardContent() {
           </p>
         </div>
       ) : (
-        <div
-          className={
-            tab === "curated"
-              ? "grid grid-cols-1 xl:grid-cols-2 gap-6"
-              : "flex flex-col gap-4"
-          }
-        >
-          {discoveries.map((d) => (
-            <DiscoveryCard
-              key={d.id}
-              discovery={d}
-              variant={tab === "curated" ? "curated" : "basic"}
-            />
+        <div className="flex flex-col gap-0">
+          {groupByScrapedDate(discoveries).map((group, gi) => (
+            <div key={group.date}>
+              {gi > 0 && <div className="border-t-2 border-stone-border my-8" />}
+              <div className="flex items-center gap-3 mb-5">
+                <span className="font-serif text-lg text-ink">{group.label}</span>
+                <span className="bg-cream text-slate text-[11px] font-semibold px-2 py-0.5 rounded border border-stone-border">
+                  {group.items.length} items
+                </span>
+                <div className="flex-1 h-px bg-stone-border" />
+              </div>
+              <div
+                className={
+                  tab === "curated"
+                    ? "grid grid-cols-1 xl:grid-cols-2 gap-6"
+                    : "flex flex-col gap-4"
+                }
+              >
+                {group.items.map((d) => (
+                  <DiscoveryCard
+                    key={d.id}
+                    discovery={d}
+                    variant={tab === "curated" ? "curated" : "basic"}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       )}
