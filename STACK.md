@@ -1,12 +1,12 @@
 # Idea Radar — Stack
 
-> Last updated: 2026-05-04
+> Last updated: 2026-05-09
 
 ## Services
 
 | Service | Purpose | Env Vars |
 |---------|---------|----------|
-| **Neon** | Postgres DB (sources, discoveries, builder_profile, scrape_runs) | `DATABASE_URL` |
+| **Neon** | Postgres DB (sources, discoveries, builder_profile, builder_memos, scrape_runs) | `DATABASE_URL` |
 | **Vercel** | Next.js dashboard hosting | — |
 | **Loop Control Center** | Pipeline loop management (manual trigger) | LCC API key in LCC `.env.local` |
 | **GitHub** | `GITHUB_TOKEN` for GitHub Search API source | `GITHUB_TOKEN` |
