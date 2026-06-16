@@ -200,7 +200,7 @@ export function DashboardContent() {
           </p>
         </div>
       ) : tab === "curated" ? (
-        <div className="flex flex-col gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <LaneSection
             label="Novel"
             tagline="Expand your range — territory you haven't touched"
@@ -234,13 +234,15 @@ function LaneSection({
 }) {
   return (
     <section>
-      <div className="flex items-baseline gap-3 mb-6 border-b-2 border-ink pb-3">
-        <h2 className={`font-serif text-3xl font-medium tracking-[-0.02em] ${accent}`}>
-          {label}
-        </h2>
-        <span className="bg-cream text-slate text-[12px] font-semibold px-2 py-0.5 rounded border border-stone-border">
-          {items.length}
-        </span>
+      <div className="sticky top-0 z-10 bg-canvas/95 backdrop-blur-sm mb-6 border-b-2 border-ink pb-3 pt-1">
+        <div className="flex items-baseline gap-3">
+          <h2 className={`font-serif text-3xl font-medium tracking-[-0.02em] ${accent}`}>
+            {label}
+          </h2>
+          <span className="bg-cream text-slate text-[12px] font-semibold px-2 py-0.5 rounded border border-stone-border">
+            {items.length}
+          </span>
+        </div>
         <span className="text-slate text-sm italic">{tagline}</span>
       </div>
       {items.length === 0 ? (
@@ -276,7 +278,7 @@ function DateGroupedGrid({
           <div
             className={
               variant === "curated"
-                ? "grid grid-cols-1 xl:grid-cols-2 gap-6"
+                ? "flex flex-col gap-6"
                 : "flex flex-col gap-4"
             }
           >
