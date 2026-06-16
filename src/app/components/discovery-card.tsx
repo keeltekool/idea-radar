@@ -13,9 +13,13 @@ type Discovery = {
   techStack: string[] | null;
   categories: string[] | null;
   status: string;
+  track: string | null;
   feasibilityScore: number | null;
   noveltyScore: number | null;
   stretchScore: number | null;
+  tractionScore: number | null;
+  relevanceScore: number | null;
+  improvabilityScore: number | null;
   compositeScore: number | null;
   summary: string | null;
   isWildcard: boolean;
@@ -44,6 +48,7 @@ function formatDate(dateStr: string | null): string | null {
 export function DiscoveryCard({ discovery, variant }: Props) {
   const d = discovery;
   const dateLabel = formatDate(d.publishedAt);
+  const isFamiliar = d.track === "familiar";
 
   async function sendFeedback(feedback: "spark" | "pass") {
     await fetch(`/api/discoveries/${d.id}/feedback`, {
@@ -140,15 +145,25 @@ export function DiscoveryCard({ discovery, variant }: Props) {
       </div>
 
       <div className="flex gap-2 my-1">
-        <ScorePill label="Feasibility" value={d.feasibilityScore} type="feasibility" />
-        <ScorePill label="Novelty" value={d.noveltyScore} type="novelty" />
-        <ScorePill label="Stretch" value={d.stretchScore} type="stretch" />
+        {isFamiliar ? (
+          <>
+            <ScorePill label="Traction" value={d.tractionScore} type="traction" />
+            <ScorePill label="Relevance" value={d.relevanceScore} type="relevance" />
+            <ScorePill label="Do Better" value={d.improvabilityScore} type="improvability" />
+          </>
+        ) : (
+          <>
+            <ScorePill label="Feasibility" value={d.feasibilityScore} type="feasibility" />
+            <ScorePill label="Novelty" value={d.noveltyScore} type="novelty" />
+            <ScorePill label="Stretch" value={d.stretchScore} type="stretch" />
+          </>
+        )}
       </div>
 
       {d.summary && (
         <div className="bg-cream border border-stone-border rounded p-3">
           <h4 className="text-[11px] font-semibold uppercase tracking-wider text-ink mb-1">
-            Why this matters
+            {isFamiliar ? "The angle to do it better" : "Why this matters"}
           </h4>
           <p className="text-body text-sm">{d.summary}</p>
         </div>

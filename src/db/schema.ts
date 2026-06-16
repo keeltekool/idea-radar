@@ -31,6 +31,11 @@ export const discoveryStatusEnum = pgEnum("discovery_status", [
 
 export const userFeedbackEnum = pgEnum("user_feedback", ["spark", "pass"]);
 
+export const discoveryTrackEnum = pgEnum("discovery_track", [
+  "novel",
+  "familiar",
+]);
+
 export const scrapeRunStatusEnum = pgEnum("scrape_run_status", [
   "running",
   "success",
@@ -68,9 +73,15 @@ export const discoveries = pgTable(
     stars: integer("stars"),
     upvotes: integer("upvotes"),
     status: discoveryStatusEnum("status").notNull().default("pending"),
+    track: discoveryTrackEnum("track").notNull().default("novel"),
+    // Novel-lane axes (expansion: distance from the portfolio)
     feasibilityScore: real("feasibility_score"),
     noveltyScore: real("novelty_score"),
     stretchScore: real("stretch_score"),
+    // Familiar-lane axes (inspiration: popular, recognizable, "do it better")
+    tractionScore: real("traction_score"),
+    relevanceScore: real("relevance_score"),
+    improvabilityScore: real("improvability_score"),
     compositeScore: real("composite_score"),
     summary: text("summary"),
     categories: text("categories").array().default([]),

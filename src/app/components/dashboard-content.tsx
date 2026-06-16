@@ -14,9 +14,13 @@ type Discovery = {
   techStack: string[] | null;
   categories: string[] | null;
   status: string;
+  track: string | null;
   feasibilityScore: number | null;
   noveltyScore: number | null;
   stretchScore: number | null;
+  tractionScore: number | null;
+  relevanceScore: number | null;
+  improvabilityScore: number | null;
   compositeScore: number | null;
   summary: string | null;
   isWildcard: boolean;
@@ -195,37 +199,93 @@ export function DashboardContent() {
             Run the pipeline to fetch and score projects from your 15 sources.
           </p>
         </div>
-      ) : (
-        <div className="flex flex-col gap-0">
-          {groupByScrapedDate(discoveries).map((group, gi) => (
-            <div key={group.date}>
-              {gi > 0 && <div className="border-t-2 border-stone-border my-8" />}
-              <div className="flex items-center gap-3 mb-5">
-                <span className="font-serif text-lg text-ink">{group.label}</span>
-                <span className="bg-cream text-slate text-[11px] font-semibold px-2 py-0.5 rounded border border-stone-border">
-                  {group.items.length} items
-                </span>
-                <div className="flex-1 h-px bg-stone-border" />
-              </div>
-              <div
-                className={
-                  tab === "curated"
-                    ? "grid grid-cols-1 xl:grid-cols-2 gap-6"
-                    : "flex flex-col gap-4"
-                }
-              >
-                {group.items.map((d) => (
-                  <DiscoveryCard
-                    key={d.id}
-                    discovery={d}
-                    variant={tab === "curated" ? "curated" : "basic"}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+      ) : tab === "curated" ? (
+        <div className="flex flex-col gap-12">
+          <LaneSection
+            label="Novel"
+            tagline="Expand your range — territory you haven't touched"
+            accent="text-olive"
+            items={discoveries.filter((d) => d.track !== "familiar")}
+          />
+          <LaneSection
+            label="Familiar"
+            tagline="Do it better — popular, recognizable, improvable"
+            accent="text-[#3c5a78]"
+            items={discoveries.filter((d) => d.track === "familiar")}
+          />
         </div>
+      ) : (
+        <DateGroupedGrid items={discoveries} variant="basic" />
       )}
     </>
+  );
+}
+
+function LaneSection({
+  label,
+  tagline,
+  accent,
+  items,
+}: {
+  label: string;
+  tagline: string;
+  accent: string;
+  items: Discovery[];
+}) {
+  return (
+    <section>
+      <div className="flex items-baseline gap-3 mb-6 border-b-2 border-ink pb-3">
+        <h2 className={`font-serif text-3xl font-medium tracking-[-0.02em] ${accent}`}>
+          {label}
+        </h2>
+        <span className="bg-cream text-slate text-[12px] font-semibold px-2 py-0.5 rounded border border-stone-border">
+          {items.length}
+        </span>
+        <span className="text-slate text-sm italic">{tagline}</span>
+      </div>
+      {items.length === 0 ? (
+        <p className="text-body text-sm py-6">
+          Nothing in this lane from the latest run.
+        </p>
+      ) : (
+        <DateGroupedGrid items={items} variant="curated" />
+      )}
+    </section>
+  );
+}
+
+function DateGroupedGrid({
+  items,
+  variant,
+}: {
+  items: Discovery[];
+  variant: "curated" | "basic";
+}) {
+  return (
+    <div className="flex flex-col gap-0">
+      {groupByScrapedDate(items).map((group, gi) => (
+        <div key={group.date}>
+          {gi > 0 && <div className="border-t-2 border-stone-border my-8" />}
+          <div className="flex items-center gap-3 mb-5">
+            <span className="font-serif text-lg text-ink">{group.label}</span>
+            <span className="bg-cream text-slate text-[11px] font-semibold px-2 py-0.5 rounded border border-stone-border">
+              {group.items.length} items
+            </span>
+            <div className="flex-1 h-px bg-stone-border" />
+          </div>
+          <div
+            className={
+              variant === "curated"
+                ? "grid grid-cols-1 xl:grid-cols-2 gap-6"
+                : "flex flex-col gap-4"
+            }
+          >
+            {group.items.map((d) => (
+              <DiscoveryCard key={d.id} discovery={d} variant={variant} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

@@ -2,11 +2,14 @@
  * Takes JSON curation decisions from stdin and writes them to Neon.
  * Claude Code in the LCC loop pipes scored decisions here.
  *
- * Expected input format:
+ * Expected input format (two lanes):
  * {
  *   "decisions": [
- *     { "id": 1, "status": "accepted", "feasibility": 8, "novelty": 9, "stretch": 7, "composite": 8.2, "summary": "...", "categories": ["saas"], "isWildcard": false },
- *     { "id": 2, "status": "rejected", "reason": "tutorial" }
+ *     // NOVEL lane (expansion): feasibility / novelty / stretch
+ *     { "id": 1, "status": "accepted", "track": "novel", "feasibility": 8, "novelty": 9, "stretch": 7, "composite": 8.2, "summary": "...", "categories": ["saas"], "isWildcard": false },
+ *     // FAMILIAR lane (inspiration): traction / relevance / improvability
+ *     { "id": 2, "status": "accepted", "track": "familiar", "traction": 9, "relevance": 8, "improvability": 8, "composite": 8.3, "summary": "...", "categories": ["devtools"], "isWildcard": false },
+ *     { "id": 3, "status": "rejected", "reason": "tutorial" }
  *   ]
  * }
  */
@@ -26,9 +29,15 @@ if (!DATABASE_URL) {
 type Decision = {
   id: number;
   status: "accepted" | "rejected";
+  track?: "novel" | "familiar";
+  // Novel-lane axes
   feasibility?: number;
   novelty?: number;
   stretch?: number;
+  // Familiar-lane axes
+  traction?: number;
+  relevance?: number;
+  improvability?: number;
   composite?: number;
   summary?: string;
   categories?: string[];
@@ -70,10 +79,14 @@ async function main() {
           .update(discoveries)
           .set({
             status: "accepted",
-            feasibilityScore: d.feasibility || null,
-            noveltyScore: d.novelty || null,
-            stretchScore: d.stretch || null,
-            compositeScore: d.composite || null,
+            track: d.track || "novel",
+            feasibilityScore: d.feasibility ?? null,
+            noveltyScore: d.novelty ?? null,
+            stretchScore: d.stretch ?? null,
+            tractionScore: d.traction ?? null,
+            relevanceScore: d.relevance ?? null,
+            improvabilityScore: d.improvability ?? null,
+            compositeScore: d.composite ?? null,
             summary: d.summary || null,
             categories: d.categories || [],
             isWildcard: d.isWildcard || false,
