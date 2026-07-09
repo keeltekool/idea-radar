@@ -46,3 +46,6 @@ next-env.d.ts
 
 # watch pipeline run artifacts
 scripts/output/
+
+# LinkedIn session for social sweep (holds cookies — never commit)
+.pw-profile/
