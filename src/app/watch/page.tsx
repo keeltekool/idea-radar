@@ -64,18 +64,18 @@ export default async function WatchPage() {
     <>
       <Header />
       <main className="flex-1 max-w-[1280px] mx-auto px-5 md:px-10 py-8 md:py-10 w-full">
-        {/* Title + stats */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10">
+        {/* Masthead — the Watch is its own product; the band says so */}
+        <div className="bg-olive-deep text-canvas px-6 md:px-10 py-8 md:py-12 mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            <h1 className="font-serif italic text-[34px] md:text-[44px] leading-tight text-ink">
+            <h1 className="font-serif italic text-[38px] md:text-[56px] leading-[1.05] text-canvas">
               EE AI Builders Watch
             </h1>
-            <p className="text-[15px] text-body mt-2 max-w-[52ch]">
+            <p className="text-[15px] text-canvas/75 mt-3 max-w-[52ch]">
               The Estonian AI trainer &amp; agency field, under continuous
               watch.
             </p>
           </div>
-          <dl className="flex items-baseline gap-6 md:gap-8 shrink-0">
+          <dl className="flex items-baseline gap-8 md:gap-10 shrink-0">
             {[
               [gridPlayers.length, "players"],
               [allSources.length, "pages"],
@@ -85,10 +85,10 @@ export default async function WatchPage() {
               ],
             ].map(([value, label]) => (
               <div key={String(label)}>
-                <dd className="font-serif text-2xl md:text-[28px] text-ink leading-none">
+                <dd className="font-serif text-[30px] md:text-[36px] text-canvas leading-none">
                   {value}
                 </dd>
-                <dt className="text-[11px] uppercase tracking-[0.08em] text-slate mt-1.5">
+                <dt className="text-[11px] uppercase tracking-[0.1em] text-canvas/60 mt-2">
                   {label}
                 </dt>
               </div>

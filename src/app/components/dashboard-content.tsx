@@ -122,7 +122,7 @@ export function DashboardContent() {
     <>
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 border-b border-stone-border pb-6">
         <div className="flex items-center gap-4">
-          <h1 className="font-serif text-[40px] font-medium tracking-[-0.02em] text-ink">
+          <h1 className="font-serif italic text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.02em] text-ink">
             {TABS.find((t) => t.key === tab)?.label}
           </h1>
           <span className="bg-cream text-slate text-[13px] font-semibold px-2 py-1 rounded border border-stone-border">
