@@ -61,7 +61,7 @@ export function DiscoveryCard({ discovery, variant }: Props) {
 
   if (variant === "basic") {
     return (
-      <article className="bg-white border border-stone-border rounded-lg p-6 flex flex-col gap-3 hover:bg-cream transition-colors">
+      <article className="bg-surface border border-stone-border rounded-lg p-6 flex flex-col gap-3 hover:bg-cream transition-colors">
         <div className="flex items-center gap-2">
           <SourceBadge name={d.sourceName} />
           {d.author && (
@@ -96,7 +96,7 @@ export function DiscoveryCard({ discovery, variant }: Props) {
 
   return (
     <article
-      className={`bg-white border rounded-lg p-6 flex flex-col gap-3 hover:bg-cream transition-colors ${
+      className={`bg-surface border rounded-lg p-6 flex flex-col gap-3 hover:bg-cream transition-colors ${
         d.isWildcard ? "border-2 border-ochre" : "border-stone-border"
       }`}
     >

@@ -65,20 +65,35 @@ export default async function WatchPage() {
       <Header />
       <main className="flex-1 max-w-[1280px] mx-auto px-5 md:px-10 py-8 md:py-10 w-full">
         {/* Title + stats */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-8">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5 mb-10">
           <div>
-            <h1 className="font-serif italic text-3xl md:text-4xl text-ink">
+            <h1 className="font-serif italic text-[34px] md:text-[44px] leading-tight text-ink">
               EE AI Builders Watch
             </h1>
-            <p className="text-sm text-body mt-2">
-              The Estonian AI trainer &amp; agency field, under continuous watch.
+            <p className="text-[15px] text-body mt-2 max-w-[52ch]">
+              The Estonian AI trainer &amp; agency field, under continuous
+              watch.
             </p>
           </div>
-          <div className="text-[12px] uppercase tracking-[0.08em] text-slate">
-            {gridPlayers.length} players · {allSources.length} pages tracked ·
-            last run{" "}
-            {lastRun?.startedAt ? timeAgo(lastRun.startedAt) : "never"}
-          </div>
+          <dl className="flex items-baseline gap-6 md:gap-8 shrink-0">
+            {[
+              [gridPlayers.length, "players"],
+              [allSources.length, "pages"],
+              [
+                lastRun?.startedAt ? timeAgo(lastRun.startedAt) : "never",
+                "last run",
+              ],
+            ].map(([value, label]) => (
+              <div key={String(label)}>
+                <dd className="font-serif text-2xl md:text-[28px] text-ink leading-none">
+                  {value}
+                </dd>
+                <dt className="text-[11px] uppercase tracking-[0.08em] text-slate mt-1.5">
+                  {label}
+                </dt>
+              </div>
+            ))}
+          </dl>
         </div>
 
         {lastRun === null ? (
@@ -92,19 +107,19 @@ export default async function WatchPage() {
             {/* Left column: memo preview + changes feed */}
             <div className="lg:col-span-7 space-y-8">
               {memo && (
-                <section className="border border-stone-border bg-white p-6">
-                  <div className="flex items-baseline justify-between mb-3">
-                    <h2 className="text-[13px] font-semibold uppercase tracking-[0.04em] text-olive">
+                <section className="border border-stone-border bg-surface lift">
+                  <div className="flex items-baseline justify-between px-6 pt-5 pb-3 border-b border-stone-border">
+                    <h2 className="text-[13px] font-semibold uppercase tracking-[0.04em] text-olive-deep">
                       Latest Watch Memo
                     </h2>
                     <Link
                       href="/watch/memos"
-                      className="text-[12px] text-slate hover:text-ink transition-colors"
+                      className="text-[12px] font-semibold text-slate hover:text-ink transition-colors"
                     >
                       Read all →
                     </Link>
                   </div>
-                  <p className="text-sm text-body leading-relaxed line-clamp-5 whitespace-pre-line">
+                  <p className="px-6 py-5 font-serif text-[17px] leading-[1.65] text-body line-clamp-5 whitespace-pre-line">
                     {memo.contentMd
                       .replace(/^#+\s.*$/gm, "")
                       .replace(/\*\*/g, "")
@@ -119,21 +134,25 @@ export default async function WatchPage() {
                   Recent changes
                 </h2>
                 {changes.length === 0 ? (
-                  <div className="border border-stone-border bg-cream px-5 py-8 text-sm text-body">
-                    Baseline captured{" "}
-                    {lastRun.startedAt ? timeAgo(lastRun.startedAt) : ""} — no
-                    substantive changes observed yet. The next run starts the
-                    change log.
+                  <div className="border border-stone-border bg-cream px-6 py-8">
+                    <p className="font-serif text-[17px] text-ink">
+                      Baseline captured{" "}
+                      {lastRun.startedAt ? timeAgo(lastRun.startedAt) : ""}.
+                    </p>
+                    <p className="text-sm text-body mt-1.5">
+                      No substantive changes observed yet — the next run starts
+                      the change log.
+                    </p>
                   </div>
                 ) : (
-                  <ul className="divide-y divide-stone-border border border-stone-border bg-white">
+                  <ul className="divide-y divide-stone-border border border-stone-border bg-surface">
                     {changes.map((c) => (
                       <li key={c.id}>
                         <Link
                           href={`/watch/player/${c.playerSlug}`}
                           className="flex items-start gap-3 px-5 py-4 hover:bg-cream transition-colors"
                         >
-                          <span className="mt-0.5 shrink-0 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 border border-stone-border text-olive">
+                          <span className="mt-0.5 shrink-0 text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 bg-olive-wash text-olive-deep">
                             {CHANGE_TYPE_LABEL[c.changeType] ?? c.changeType}
                           </span>
                           <span className="text-sm text-body leading-snug">
@@ -157,15 +176,18 @@ export default async function WatchPage() {
             <div className="lg:col-span-5 space-y-8">
               <Link
                 href="/watch/brief"
-                className="block border border-stone-border bg-white p-5 hover:bg-cream transition-colors"
+                className="block border border-stone-border bg-surface p-6 lift"
               >
-                <span className="text-[13px] font-semibold uppercase tracking-[0.04em] text-ink">
+                <span className="font-serif italic text-xl text-ink">
                   Field Brief
                 </span>
-                <p className="text-sm text-body mt-1.5">
-                  The living map of the field — archetypes, weaknesses, and your
-                  openings. Updated surgically every run.
+                <p className="text-sm text-body mt-2">
+                  The living map of the field — archetypes, weaknesses, and
+                  your openings. Updated surgically every run.
                 </p>
+                <span className="inline-block text-[12px] font-semibold text-olive-deep mt-3">
+                  Open the brief →
+                </span>
               </Link>
 
               <PlayerGrid players={gridPlayers} />

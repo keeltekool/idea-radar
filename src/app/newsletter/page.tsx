@@ -42,7 +42,7 @@ export default function NewsletterPage() {
               </p>
             </div>
 
-            <div className="bg-white border border-stone-border rounded-lg p-6 flex flex-col gap-6">
+            <div className="bg-surface border border-stone-border rounded-lg p-6 flex flex-col gap-6">
               <div>
                 <h2 className="font-serif text-2xl text-ink mb-1">
                   Subscribe

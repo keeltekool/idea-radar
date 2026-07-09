@@ -65,22 +65,24 @@ export function PlayerGrid({ players }: { players: GridPlayer[] }) {
           <li key={p.slug}>
             <Link
               href={`/watch/player/${p.slug}`}
-              className="block border border-stone-border bg-white px-4 py-3 hover:bg-cream transition-colors h-full"
+              className={`block border px-4 py-3.5 h-full lift ${
+                p.changed
+                  ? "border-olive/40 bg-olive-wash"
+                  : "border-stone-border bg-surface"
+              }`}
             >
-              <span className="block text-sm font-semibold text-ink leading-tight">
+              <span className="block text-sm font-semibold text-ink leading-snug">
                 {p.name}
               </span>
               <span className="block text-[11px] text-slate mt-1">
                 {ARCHETYPE_LABEL[p.archetype] ?? p.archetype} · {p.domain}
               </span>
               <span
-                className={`block text-[11px] mt-1.5 ${
-                  p.changed ? "text-olive font-semibold" : "text-slate"
+                className={`block text-[11px] mt-2 ${
+                  p.changed ? "text-olive-deep font-semibold" : "text-slate"
                 }`}
               >
-                {p.changed
-                  ? `▲ changed ${p.lastChangeAgo}`
-                  : "— quiet"}
+                {p.changed ? `▲ changed ${p.lastChangeAgo}` : "quiet"}
               </span>
             </Link>
           </li>

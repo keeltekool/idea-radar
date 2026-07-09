@@ -2,21 +2,98 @@
 @plugin "@tailwindcss/typography";
 
 @theme inline {
+  /* Surfaces — editorial canvas, unchanged identity */
   --color-canvas: #F9F8F6;
   --color-cream: #F1EFEA;
+  --color-surface: #FFFFFF;
   --color-stone-border: #E5E1DA;
-  --color-ink: #2D2D2D;
-  --color-body: #555555;
+  --color-stone-strong: #CFC9BC;
+
+  /* Ink ramp — body + slate deepened for real contrast */
+  --color-ink: #24241F;
+  --color-body: #45443E;
+  --color-slate: #75726A;
+
+  /* Brand accents */
   --color-olive: #4B6344;
-  --color-ochre: #D9A05B;
-  --color-slate: #929292;
+  --color-olive-deep: #3A4E35;
+  --color-olive-wash: #EEF1EA;
+  --color-ochre: #B07B2E;
+  --color-ochre-wash: #F7EFE2;
 
   --font-serif: "Newsreader", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 body {
   background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-olive);
+  color: var(--color-canvas);
+}
+
+h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* One consistent focus vocabulary across the app */
+:focus-visible {
+  outline: 2px solid var(--color-olive);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+/* Details/summary: animated chevron, no default marker */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > summary .chev {
+  display: inline-block;
+  transition: transform 200ms var(--ease-out-quart);
+}
+details[open] > summary .chev {
+  transform: rotate(90deg);
+}
+
+/* Hover for bordered rows/cards: state via border + tint, not movement */
+.lift {
+  transition:
+    border-color 180ms var(--ease-out-quart),
+    background-color 180ms var(--ease-out-quart),
+    box-shadow 180ms var(--ease-out-quart);
+}
+.lift:hover {
+  border-color: var(--color-stone-strong);
+  box-shadow: 0 1px 0 0 var(--color-stone-border);
+}
+
+/* Single entrance for async-loaded content (state reveal, not choreography) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up {
+  animation: fade-up 240ms var(--ease-out-quart) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

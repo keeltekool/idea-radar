@@ -115,8 +115,8 @@ export default async function PlayerPage({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left: signal profile + posts + tracked pages */}
           <div className="lg:col-span-5 space-y-8">
-            <section className="border border-stone-border bg-white p-6">
-              <h2 className="text-[13px] font-semibold uppercase tracking-[0.04em] text-olive mb-4">
+            <section className="border border-stone-border bg-surface p-6">
+              <h2 className="text-[13px] font-semibold uppercase tracking-[0.04em] text-olive-deep mb-4">
                 Signal profile
               </h2>
               {!signals ? (
@@ -176,7 +176,7 @@ export default async function PlayerPage({
                   step of each loop run.
                 </p>
               ) : (
-                <ul className="divide-y divide-stone-border border border-stone-border bg-white">
+                <ul className="divide-y divide-stone-border border border-stone-border bg-surface">
                   {posts.map((p) => (
                     <li key={p.id} className="px-4 py-3">
                       <p className="text-sm text-body leading-snug line-clamp-3">
@@ -195,7 +195,7 @@ export default async function PlayerPage({
               <h2 className="text-[13px] font-semibold uppercase tracking-[0.04em] text-ink mb-3">
                 Tracked pages ({pages.length})
               </h2>
-              <ul className="divide-y divide-stone-border border border-stone-border bg-white">
+              <ul className="divide-y divide-stone-border border border-stone-border bg-surface">
                 {pages.map((s) => (
                   <li key={s.id} className="px-4 py-2.5 flex items-center gap-3">
                     <a
@@ -234,9 +234,9 @@ export default async function PlayerPage({
             ) : (
               <ul className="space-y-3">
                 {changes.map((c) => (
-                  <li key={c.id} className="border border-stone-border bg-white p-5">
+                  <li key={c.id} className="border border-stone-border bg-surface p-5">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 border border-stone-border text-olive">
+                      <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 bg-olive-wash text-olive-deep">
                         {CHANGE_TYPE_LABEL[c.changeType] ?? c.changeType}
                       </span>
                       <span className="text-[11px] text-slate">

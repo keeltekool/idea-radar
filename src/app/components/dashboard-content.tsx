@@ -140,14 +140,14 @@ export function DashboardContent() {
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white border border-stone-border rounded py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-ink transition-colors"
+              className="w-full bg-surface border border-stone-border rounded py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-ink transition-colors"
             />
           </div>
 
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="bg-white border border-stone-border rounded py-2 px-3 text-[13px] font-semibold uppercase tracking-wider text-ink focus:outline-none focus:border-ink"
+            className="bg-surface border border-stone-border rounded py-2 px-3 text-[13px] font-semibold uppercase tracking-wider text-ink focus:outline-none focus:border-ink"
           >
             <option value="">All sources</option>
             {sources.map((s) => (
@@ -160,7 +160,7 @@ export function DashboardContent() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="bg-white border border-stone-border rounded py-2 px-3 text-[13px] font-semibold uppercase tracking-wider text-ink focus:outline-none focus:border-ink"
+            className="bg-surface border border-stone-border rounded py-2 px-3 text-[13px] font-semibold uppercase tracking-wider text-ink focus:outline-none focus:border-ink"
           >
             {SORT_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
@@ -191,7 +191,23 @@ export function DashboardContent() {
       </div>
 
       {loading ? (
-        <div className="text-center py-20 text-slate">Loading...</div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8" aria-hidden>
+          {[0, 1].map((col) => (
+            <div key={col} className="flex flex-col gap-4">
+              <div className="h-9 w-40 bg-cream rounded animate-pulse" />
+              {[0, 1, 2].map((row) => (
+                <div
+                  key={row}
+                  className="border border-stone-border bg-surface p-5"
+                >
+                  <div className="h-4 w-3/4 bg-cream rounded animate-pulse mb-3" />
+                  <div className="h-3 w-full bg-cream rounded animate-pulse mb-2" />
+                  <div className="h-3 w-2/3 bg-cream rounded animate-pulse" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       ) : discoveries.length === 0 ? (
         <div className="text-center py-20">
           <p className="font-serif text-2xl text-ink mb-2">No discoveries yet</p>
@@ -200,7 +216,7 @@ export function DashboardContent() {
           </p>
         </div>
       ) : tab === "curated" ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start fade-up">
           <LaneSection
             label="Novel"
             tagline="Expand your range — territory you haven't touched"
@@ -215,7 +231,9 @@ export function DashboardContent() {
           />
         </div>
       ) : (
-        <DateGroupedGrid items={discoveries} variant="basic" />
+        <div className="fade-up">
+          <DateGroupedGrid items={discoveries} variant="basic" />
+        </div>
       )}
     </>
   );
@@ -234,7 +252,7 @@ function LaneSection({
 }) {
   return (
     <section>
-      <div className="sticky top-0 z-10 bg-canvas/95 backdrop-blur-sm mb-6 border-b-2 border-ink pb-3 pt-1">
+      <div className="sticky top-16 md:top-20 z-10 bg-canvas/95 backdrop-blur-sm mb-6 border-b-2 border-ink pb-3 pt-1">
         <div className="flex items-baseline gap-3">
           <h2 className={`font-serif text-3xl font-medium tracking-[-0.02em] ${accent}`}>
             {label}

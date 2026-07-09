@@ -33,7 +33,7 @@ export function LatestMemoCard() {
 
   return (
     <Link href="/memo" className="block mb-8">
-      <div className="bg-white border border-stone-border rounded-lg p-6 hover:bg-cream transition-colors">
+      <div className="bg-surface border border-stone-border rounded-lg p-6 hover:bg-cream transition-colors">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-[11px] font-semibold uppercase tracking-wider text-ink">
             Latest Builder Memo

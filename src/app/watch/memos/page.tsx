@@ -49,12 +49,12 @@ export default async function WatchMemosPage() {
               <details
                 key={m.id}
                 open={i === 0}
-                className="border border-stone-border bg-white group"
+                className="border border-stone-border bg-surface group lift"
               >
-                <summary className="cursor-pointer px-6 py-4 text-sm font-semibold text-ink list-none flex items-baseline justify-between hover:bg-cream transition-colors">
+                <summary className="px-6 py-4 text-sm font-semibold text-ink flex items-baseline justify-between gap-3 hover:bg-cream transition-colors">
                   <span>Run #{m.runId} — {fmt(m.createdAt)}</span>
-                  <span className="text-[11px] text-slate group-open:hidden">
-                    expand
+                  <span aria-hidden className="chev text-slate text-base leading-none">
+                    ›
                   </span>
                 </summary>
                 <div className="px-6 pb-6 prose prose-sm max-w-none prose-headings:font-sans prose-headings:text-ink prose-p:text-body prose-li:text-body prose-strong:text-ink">

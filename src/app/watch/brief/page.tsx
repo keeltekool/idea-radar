@@ -55,12 +55,12 @@ export default async function FieldBriefPage() {
               <details
                 key={s.id}
                 open={i <= 1}
-                className="border border-stone-border bg-white group"
+                className="border border-stone-border bg-surface group lift"
               >
-                <summary className="cursor-pointer px-6 py-4 text-sm font-semibold text-ink list-none flex items-baseline justify-between hover:bg-cream transition-colors">
+                <summary className="px-6 py-4 text-sm font-semibold text-ink flex items-baseline justify-between gap-3 hover:bg-cream transition-colors">
                   <span>{SECTION_TITLE[s.section] ?? s.section}</span>
-                  <span className="text-[11px] text-slate group-open:hidden">
-                    expand
+                  <span aria-hidden className="chev text-slate text-base leading-none">
+                    ›
                   </span>
                 </summary>
                 <div className="px-6 pb-6 prose prose-sm max-w-none overflow-x-auto prose-headings:font-sans prose-headings:text-ink prose-p:text-body prose-li:text-body prose-strong:text-ink prose-table:text-[13px]">

@@ -82,7 +82,7 @@ export default function ProfilePage() {
         {loading ? (
           <div className="text-center py-20 text-slate">Loading...</div>
         ) : (
-          <div className="bg-white border border-stone-border rounded-lg p-8 md:p-12">
+          <div className="bg-surface border border-stone-border rounded-lg p-8 md:p-12">
             <div className="flex items-center justify-between border-b border-stone-border pb-4 mb-6">
               <h2 className="font-serif text-[32px] font-medium text-ink">
                 Synthesized Profile

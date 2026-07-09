@@ -70,7 +70,7 @@ export default function MemoPage() {
               return (
                 <article
                   key={memo.id}
-                  className="bg-white border border-stone-border rounded-lg overflow-hidden"
+                  className="bg-surface border border-stone-border rounded-lg overflow-hidden"
                 >
                   <button
                     onClick={() => setExpandedId(isExpanded ? null : memo.id)}
