@@ -28,16 +28,20 @@ const body = {
     `memo=${args.get("memo") ?? "false"}`,
 };
 
-const res = await fetch(
-  `https://loop-control-center.vercel.app/api/loops/${loopId}/runs`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
+async function main() {
+  const res = await fetch(
+    `https://loop-control-center.vercel.app/api/loops/${loopId}/runs`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
     },
-    body: JSON.stringify(body),
-  },
-);
-console.log(JSON.stringify({ status: res.status, body: await res.text() }));
-if (!res.ok) process.exit(1);
+  );
+  console.log(JSON.stringify({ status: res.status, body: await res.text() }));
+  if (!res.ok) process.exit(1);
+}
+
+main();

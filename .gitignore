@@ -43,3 +43,6 @@ next-env.d.ts
 .env
 
 .vercel
+
+# watch pipeline run artifacts
+scripts/output/

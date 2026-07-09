@@ -105,7 +105,11 @@ export default async function WatchPage() {
                     </Link>
                   </div>
                   <p className="text-sm text-body leading-relaxed line-clamp-5 whitespace-pre-line">
-                    {memo.contentMd.replace(/^#+\s.*$/gm, "").trim().slice(0, 600)}
+                    {memo.contentMd
+                      .replace(/^#+\s.*$/gm, "")
+                      .replace(/\*\*/g, "")
+                      .trim()
+                      .slice(0, 600)}
                   </p>
                 </section>
               )}

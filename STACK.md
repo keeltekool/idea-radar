@@ -1,14 +1,15 @@
 # Idea Radar — Stack
 
-> Last updated: 2026-05-09
+> Last updated: 2026-07-09
 
 ## Services
 
 | Service | Purpose | Env Vars |
 |---------|---------|----------|
 | **Neon** | Postgres DB (sources, discoveries, builder_profile, builder_memos, scrape_runs) | `DATABASE_URL` |
+| **Neon (ee-ai-watch)** | EE AI Builders Watch DB — watch_* tables + admin-compatible sources/snapshots/scrape_runs | `DATABASE_URL_EEWATCH` |
 | **Vercel** | Next.js dashboard hosting | — |
-| **Loop Control Center** | Pipeline loop management (manual trigger) | LCC API key in LCC `.env.local` |
+| **Loop Control Center** | Pipeline loops (manual trigger; EE Watch loop `d79880d8…`) | `LCC_API_KEY`, `EEWATCH_LCC_LOOP_ID` |
 | **GitHub** | `GITHUB_TOKEN` for GitHub Search API source | `GITHUB_TOKEN` |
 
 ## Brand
@@ -55,6 +56,15 @@ Shared admin at `eudi-wallet-tracker.vercel.app/admin` with project switcher.
 - `DATABASE_URL_IDEARADAR` env var on EUDI Vercel
 - `schema-idearadar.ts` in EUDI repo
 - Source table with type badges, acceptance rates, bulk actions
+
+## EE AI Builders Watch (`/watch` tab — separate product, same app)
+
+Estonian AI trainer/agency competitive tracker. Spec: `EE-AI-Influencers-Watcher/SPEC.md`.
+- Own Neon (`ee-ai-watch`), schema owner `src/db/schema-watch.ts` + `drizzle.config.watch.ts` (`npx drizzle-kit push --config drizzle.config.watch.ts`)
+- Admin = Tracker Admin project #5 "EE AI Builders Watch" (`schema-eewatch.ts` copy in EUDI repo)
+- Run: `run loop ee-ai-watch` → executes `loop/ee-ai-watch-pipeline.md` (LCC DB prompt = source of truth)
+- Pipeline scripts in `worker/src/watch/` (run-watch, digest, save-signals, save-watch-memo, lcc-report, selfcheck)
+- Routes: `/watch`, `/watch/player/[slug]`, `/watch/memos`, `/watch/brief` — read Neon at request time, no redeploy per run
 
 ## Dev
 
