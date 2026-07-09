@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/memo", label: "Memos" },
   { href: "/profile", label: "Profile" },
   { href: "/newsletter", label: "Newsletter" },
+  { href: "/watch", label: "EE Watch" },
 ];
 
 export function Header() {
