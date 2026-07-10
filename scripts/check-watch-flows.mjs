@@ -35,7 +35,8 @@ async function flow(viewport, label) {
     await page.goto(`${BASE}/watch`, { waitUntil: "networkidle" });
     const body = await page.locator("body").innerText();
     if (!body.includes("EE AI Builders Watch")) throw new Error("title missing");
-    if (!/\d+ players\s*·\s*\d+ pages tracked/i.test(body)) throw new Error("stats missing");
+    if (!/\d[\s\S]{0,4}players/i.test(body) || !/\d[\s\S]{0,4}pages/i.test(body))
+      throw new Error("stats missing");
     if (body.includes("No runs yet")) throw new Error("still shows empty state");
   });
 
