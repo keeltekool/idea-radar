@@ -59,10 +59,6 @@ const PLAYERS: SeedPlayer[] = [
     ],
   },
   {
-    slug: "eesti-ai", name: "eesti.ai (Riigikantselei program)", archetype: "gov", domain: "eesti.ai",
-    pages: [["https://eesti.ai/", "home"], ["https://eesti.ai/tiim", "about"]],
-  },
-  {
     slug: "non-tech-ai-advisory", name: "Non-Tech AI Advisory (Teet Torimel)", archetype: "corp-trainer", domain: "nontechaiadvisory.com",
     pages: [["https://nontechaiadvisory.com/", "home"]],
   },
@@ -111,14 +107,6 @@ const PLAYERS: SeedPlayer[] = [
     ],
   },
   {
-    slug: "bcs-koolitus", name: "BCS Koolitus", archetype: "school", domain: "bcskoolitus.ee",
-    pages: [
-      ["https://www.bcskoolitus.ee/", "home"],
-      ["https://www.bcskoolitus.ee/koolitus/praktiline-ai-automatiseerimise-koolitus-juhtidele/", "services"],
-      ["https://www.bcskoolitus.ee/koolitus/praktiline-ai-rakendamise-intensiivkursus-tehnilistele-spetsialistidele/", "services"],
-    ],
-  },
-  {
     slug: "ux-estonia", name: "UX Estonia", archetype: "school", domain: "uxestonia.ee",
     pages: [
       ["https://uxestonia.ee/", "home"],
@@ -126,14 +114,10 @@ const PLAYERS: SeedPlayer[] = [
       ["https://uxestonia.ee/koolitused/vibe-coding-ehk-vaibkoodimine-koolitus", "services"],
     ],
   },
-  {
-    slug: "veebikool", name: "Veebikool", archetype: "school", domain: "veebikool.ee",
-    pages: [["https://veebikool.ee/", "home"], ["https://veebikool.ee/koolitused/arvuti-kasutamine/ai/", "services"]],
-  },
-  {
-    slug: "taltech", name: "TalTech (AI kursused)", archetype: "school", domain: "taltech.ee",
-    pages: [["https://taltech.ee/kursus/48504", "services", "AI juurutamise programm ettevõtetele"]],
-  },
+  // Removed 2026-07-10 (owner decision — not AI builders / off-topic drift):
+  // taltech (university, crawl drifted to campus news), bcs-koolitus + veebikool
+  // (broad IT-course schools, AI a fraction of catalog), eesti-ai (gov program,
+  // context-only). Do not re-add without owner sign-off.
 ];
 
 async function main() {
