@@ -81,11 +81,37 @@ interface ChangeRecord {
 }
 
 async function main() {
-  const players = await db.select().from(watchPlayers).where(eq(watchPlayers.active, true));
+  let players = await db.select().from(watchPlayers).where(eq(watchPlayers.active, true));
   const allSources = await db.select().from(sources).where(eq(sources.active, true));
   if (allSources.length === 0) {
     console.error("No active sources — seed via admin first.");
     process.exit(1);
+  }
+
+  // Auto-register admin-added competitors: a source whose competitor has no
+  // player row would otherwise be silently skipped by the loops below. New
+  // players start as 'unclassified' with no linkedin_url — the attended
+  // enrichment step of the loop run names/classifies them and fills LinkedIn.
+  const knownSlugs = new Set(players.map((p) => p.slug));
+  const orphanSlugs = [...new Set(allSources.map((s) => s.competitor))].filter(
+    (slug) => !knownSlugs.has(slug),
+  );
+  const registered: string[] = [];
+  for (const slug of orphanSlugs) {
+    const firstUrl = allSources.find((s) => s.competitor === slug)!.url;
+    const domain = new URL(firstUrl).hostname.replace(/^www\./, "");
+    const [created] = await db
+      .insert(watchPlayers)
+      .values({ slug, name: slug, archetype: "unclassified", domain })
+      .onConflictDoNothing({ target: watchPlayers.slug })
+      .returning();
+    if (created) {
+      players = [...players, created];
+      registered.push(slug);
+    }
+  }
+  if (registered.length > 0) {
+    console.log(`auto-registered players: ${registered.join(", ")}`);
   }
 
   const [run] = await db
@@ -227,6 +253,7 @@ async function main() {
       changesDetected,
       pagesDiscovered: discovered,
       thinPages: changes.filter((c) => c.thin).length,
+      playersRegistered: registered,
       outFile,
     }),
   );
