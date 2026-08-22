@@ -118,6 +118,57 @@ const PLAYERS: SeedPlayer[] = [
   // taltech (university, crawl drifted to campus news), bcs-koolitus + veebikool
   // (broad IT-course schools, AI a fraction of catalog), eesti-ai (gov program,
   // context-only). Do not re-add without owner sign-off.
+
+  // Added 2026-08-22 — new entrants research batch
+  {
+    slug: "pragmatiq-ai", name: "PragmatiqAI (Andres Gavriljuk)", archetype: "corp-trainer", domain: "pragmatiqai.com",
+    pages: [
+      ["https://pragmatiqai.com/", "home"],
+      ["https://pragmatiqai.com/about", "about"],
+    ],
+  },
+  {
+    slug: "ivar-berg", name: "Ivar Berg", archetype: "solo-trainer", domain: "ivarberg.com",
+    pages: [["https://ivarberg.com/", "home"]],
+  },
+  {
+    slug: "ai-agentuur", name: "AI Agentuur (Heikki Mägi)", archetype: "agency", domain: "aiagentuur.ee",
+    pages: [
+      ["https://aiagentuur.ee/", "home"],
+      ["https://aiagentuur.ee/meist", "about"],
+    ],
+  },
+  {
+    slug: "aipowerment", name: "AIPowerment (Sandra Reivik & Gerlyn Tiigemäe)", archetype: "coach-community", domain: "aipowerment.ee",
+    pages: [
+      ["https://aipowerment.ee/", "home"],
+      ["https://aipowerment.ee/podcast", "blog"],
+    ],
+  },
+  {
+    slug: "katriin-mangus", name: "Katriin Mangus", archetype: "solo-trainer", domain: "katriinmangus.ee",
+    pages: [
+      ["https://katriinmangus.ee/", "home"],
+      ["https://katriinmangus.ee/claude-intensiivkursus/", "services"],
+    ],
+  },
+  {
+    slug: "ai-abc", name: "AI-ABC (Oliver Loit)", archetype: "solo-trainer", domain: "ai-abc.ee",
+    pages: [
+      ["https://www.ai-abc.ee/", "home"],
+      ["https://www.ai-abc.ee/eng", "other", "EN version"],
+    ],
+  },
+  {
+    slug: "jane-helandi", name: "Jane Helandi (JS Koolitused)", archetype: "solo-trainer", domain: "linkedin.com",
+    pages: [["https://www.linkedin.com/in/janehelandi/", "about"]],
+  },
+  {
+    slug: "gerlyn-tiigemae", name: "Gerlyn Tiigemäe", archetype: "solo-trainer", domain: "gerlyntiigemae.com",
+    pages: [
+      ["https://gerlyntiigemae.com/", "home"],
+    ],
+  },
 ];
 
 async function main() {
