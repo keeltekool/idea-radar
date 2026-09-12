@@ -43,28 +43,28 @@ The builder has 45+ projects. These patterns are OVERREPRESENTED and get a -2 pe
 - Health / wellness / fitness (only GymPal)
 - Education / learning (only Skill4Win)
 - Creative tools / content creation (zero)
-- Marketplace / platform with transactions (only Rental Business Kit)
+- Multiplayer / realtime / collaborative (zero)
 - Social / community features (zero)
-- E-commerce / subscription commerce (zero)
 - Gaming / interactive entertainment (only WHO DIS)
 - Mobile-first / native experiences (mostly web)
-- Products with recurring revenue / paid users (almost zero — SongDrop has Stripe but no paying users)
+- Hardware integration / IoT / physical world (zero)
+- New interaction patterns: drag-and-drop builders, canvas editors, voice UI, AR/spatial, generative art
 
-**LANE A — PUSH** (`track: "novel"`) — unfamiliar domains, maximum growth:
-- **Feasibility**: Can the builder build this with Next.js/Tailwind/Vercel/Neon/Claude/Stripe/Clerk? (1-10)
+**LANE A — PUSH** (`track: "novel"`) — unfamiliar domains, new skills to learn:
+- **Feasibility**: Can the builder build this with Next.js/Tailwind/Vercel/Neon/Claude? (1-10)
 - **Novelty**: How different from the builder's 45+ existing projects? Apply comfort zone penalties and growth gap bonuses. (1-10)
-- **Stretch**: Does this push into a genuinely unfamiliar domain, business model, or interaction pattern? (1-10)
+- **Stretch**: Does this push into a genuinely unfamiliar domain, tech, or interaction pattern? (1-10)
 - Composite = (feasibility × 0.2) + (novelty × 0.4) + (stretch × 0.4). Threshold = 7.0.
-- Summary: 2 sentences — name the GROWTH GAP this fills and what existing skill transfers. Include a domain tag (HEALTH, EDUCATION, CREATIVE, MARKETPLACE, SOCIAL, E-COMMERCE, GAMING, MOBILE).
+- Summary: 2 sentences — what makes this COOL and what NEW SKILL would building it teach you?
 
-**LANE B — LEVEL UP** (`track: "familiar"`) — proven revenue in adjacent markets:
-- **Traction**: How popular/validated? Revenue numbers, user counts, upvotes. Proven paying market = HIGH. (1-10)
+**LANE B — LEVEL UP** (`track: "familiar"`) — "I could build this better":
+- **Traction**: How popular/validated? Upvotes, stars, user excitement. People clearly want this = HIGH. (1-10)
 - **Relevance**: How well does the builder's existing stack and skills apply? (1-10)
-- **Improvability**: Concrete angle — Estonian market gap, sharper UX, missing feature, price undercut? (1-10)
+- **Improvability**: Is there an obvious angle to do it better — sharper UX, missing feature, different audience, better taste? (1-10)
 - Composite = (traction × 0.3) + (relevance × 0.35) + (improvability × 0.35). Threshold = 7.0.
-- Summary: 2 sentences — name the REVENUE ANGLE and what existing project is the skeleton.
+- Summary: 2 sentences — what's the CRAFT ANGLE? What would you do differently and why would it be better?
 
-For BOTH lanes: assign 1-3 domain categories. Note revenue signal if visible (MRR, pricing tier, "free").
+For BOTH lanes: assign 1-3 domain categories.
 
 **BALANCE — soft 50/50.** Target ~equal counts per lane. Thin lane lowers bar to ~6.5.
 
