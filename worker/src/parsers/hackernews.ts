@@ -14,7 +14,9 @@ export async function parseHackerNews(
     (Date.now() - daysBack * 24 * 60 * 60 * 1000) / 1000
   );
 
-  const url = `https://hn.algolia.com/api/v1/search?query=&tags=show_hn&hitsPerPage=${limit}&numericFilters=created_at_i>${since}`;
+  const tags = (config.tags as string) || "show_hn";
+  const query = (config.query as string) || "";
+  const url = `https://hn.algolia.com/api/v1/search_by_date?query=${encodeURIComponent(query)}&tags=${tags}&hitsPerPage=${limit}&numericFilters=created_at_i>${since},points>${minPoints}`;
 
   try {
     const res = await fetch(url);
@@ -30,12 +32,10 @@ export async function parseHackerNews(
     const hits = data?.hits || [];
 
     for (const hit of hits) {
-      if ((hit.points || 0) < minPoints) continue;
-
       const projectUrl = hit.url || `https://news.ycombinator.com/item?id=${hit.objectID}`;
 
       discoveries.push({
-        title: (hit.title || "").replace(/^Show HN:\s*/i, ""),
+        title: (hit.title || "").replace(/^(Show HN|Launch HN):\s*/i, ""),
         url: projectUrl,
         description: hit.story_text
           ? hit.story_text.slice(0, 500)

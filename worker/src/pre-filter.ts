@@ -12,7 +12,6 @@ if (!DATABASE_URL) {
 }
 
 const REQUIRED_TERMS = [
-  "ai",
   "built",
   "ship",
   "launch",
@@ -24,12 +23,28 @@ const REQUIRED_TERMS = [
   "tool",
   "app",
   "platform",
-  "dashboard",
-  "automat",
   "startup",
   "maker",
-  "developer tool",
-  "open source",
+  "product",
+  "pricing",
+  "users",
+  "mvp",
+  "marketplace",
+  "booking",
+  "tracker",
+  "pwa",
+  "mobile",
+  "subscription",
+  "revenue",
+  "customers",
+  "launched",
+  "health",
+  "fitness",
+  "education",
+  "fintech",
+  "creative",
+  "e-commerce",
+  "community",
 ];
 
 const BLOCKED_TERMS = [
@@ -47,6 +62,20 @@ const BLOCKED_TERMS = [
   "learn ",
   "roadmap to",
   "study guide",
+  "library",
+  "framework",
+  "package",
+  "npm ",
+  "pip ",
+  "docker",
+  "kubernetes",
+  "devops",
+  "infrastructure",
+  "benchmark",
+  "linting",
+  "eslint",
+  "webpack",
+  "vite plugin",
 ];
 
 function passesPreFilter(title: string, description: string | null): boolean {

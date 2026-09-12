@@ -1,7 +1,7 @@
 # Idea Radar Pipeline — Loop Prompt
 
 ## Goal
-Scrape 15 indie builder sources, keyword-filter noise, score survivors against the Builder Profile for feasibility/novelty/stretch, and update the Neon DB with curated discoveries.
+Scrape 14 consumer-product sources, keyword-filter noise, score survivors against the Builder Profile's GROWTH GAPS, and curate discoveries that PUSH the builder into unfamiliar domains or LEVEL UP their revenue potential.
 
 ## Working Directory
 `C:\Users\Kasutaja\Claude_Projects\idea-radar`
@@ -10,47 +10,65 @@ Scrape 15 indie builder sources, keyword-filter noise, score survivors against t
 
 ### Step 1: Scrape all sources
 ```bash
-cd C:\Users\Kasutaja\Claude_Projects\idea-radar\worker\src && npx tsx run-scrape.ts
+cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/run-scrape.ts
 ```
-This fetches from all 15 active sources (Product Hunt, GitHub, HN, Dev.to, Reddit, Lobsters, Medium) and stores raw items as "pending" in Neon. Log the output — note how many new discoveries were found.
+Fetches from 14 active consumer-product sources (Product Hunt, HN Show/Launch, Dev.to, Reddit, Medium, Kicktraq, YouTube) and stores raw items as "pending" in Neon.
 
 ### Step 2: Pre-filter (keyword gate)
 ```bash
-cd C:\Users\Kasutaja\Claude_Projects\idea-radar\worker\src && npx tsx pre-filter.ts
+cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/pre-filter.ts
 ```
-This marks items as "relevant" or "irrelevant" based on required/blocked keyword matching. No AI needed. Log the counts (total, relevant, irrelevant).
+Marks items as "relevant" or "irrelevant" based on consumer-product keyword matching. No AI needed.
 
 ### Step 3: Read relevant discoveries for scoring
 ```bash
-cd C:\Users\Kasutaja\Claude_Projects\idea-radar\worker\src && npx tsx ai-pass.ts
+cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/ai-pass.ts
 ```
-This outputs JSON to stdout with all relevant discoveries + the Builder Profile + past feedback. Read the output carefully.
+Outputs JSON with all relevant discoveries + Builder Profile + past feedback.
 
 ### Step 4: Score each discovery (YOU are the AI scorer) — TWO LANES
 
-First, the gate: **Is this a real shipped product/tool by an indie builder?** If NO (essay, tutorial, opinion piece, launch diary, marketing, news) → reject with a one-word reason. The gate is the same for both lanes — noise stays out.
+**GATE (both lanes):** Is this a real shipped product/tool/service? If NO (essay, tutorial, opinion, news, library, framework, dev-infra) → reject with a one-word reason.
 
-If YES, decide which **lane** it belongs to and score it on that lane's three axes (1-10 each). Pick the lane where the item is genuinely strong; if it fits both, choose the lane where it scores higher.
+If YES, assign to the lane where it scores strongest. Score on that lane's three axes (1-10 each).
 
-**LANE A — NOVEL** (`track: "novel"`) — expansion, distance from the portfolio:
-- **Feasibility**: Can the builder realistically build something similar with Next.js/Tailwind/Vercel/Neon/Claude API?
-- **Novelty**: How different is this from the builder's existing 41 projects? HIGH = good (new territory).
-- **Stretch**: Does this push into genuinely unfamiliar domain or tech? HIGH = good.
+**THE BUILDER'S COMFORT ZONE (penalize these):**
+The builder has 45+ projects. These patterns are OVERREPRESENTED and get a -2 penalty on novelty/stretch:
+- Aggregators / scrapers / feed readers (EUDI, Athlon, HankeRadar, Idea Radar, VAIB-X)
+- Price trackers / comparison tools (Hinnavaht, Sinu Aed, PriceHNTR)
+- Dashboard / admin UIs (LCC, Launchpad, Spordipaev)
+- Estonian-market utilities (Keeletark, Kalkulaator, Energiatark)
+
+**THE BUILDER'S GROWTH GAPS (reward these with +2 on novelty/stretch):**
+- Health / wellness / fitness (only GymPal)
+- Education / learning (only Skill4Win)
+- Creative tools / content creation (zero)
+- Marketplace / platform with transactions (only Rental Business Kit)
+- Social / community features (zero)
+- E-commerce / subscription commerce (zero)
+- Gaming / interactive entertainment (only WHO DIS)
+- Mobile-first / native experiences (mostly web)
+- Products with recurring revenue / paid users (almost zero — SongDrop has Stripe but no paying users)
+
+**LANE A — PUSH** (`track: "novel"`) — unfamiliar domains, maximum growth:
+- **Feasibility**: Can the builder build this with Next.js/Tailwind/Vercel/Neon/Claude/Stripe/Clerk? (1-10)
+- **Novelty**: How different from the builder's 45+ existing projects? Apply comfort zone penalties and growth gap bonuses. (1-10)
+- **Stretch**: Does this push into a genuinely unfamiliar domain, business model, or interaction pattern? (1-10)
 - Composite = (feasibility × 0.2) + (novelty × 0.4) + (stretch × 0.4). Threshold = 7.0.
-- Summary: 1-2 sentences on GROWTH — why this is new territory worth entering.
+- Summary: 2 sentences — name the GROWTH GAP this fills and what existing skill transfers. Include a domain tag (HEALTH, EDUCATION, CREATIVE, MARKETPLACE, SOCIAL, E-COMMERCE, GAMING, MOBILE).
 
-**LANE B — FAMILIAR** (`track: "familiar"`) — inspiration, "I could do this better":
-- **Traction**: How popular/validated is it? Weigh HN upvotes, GitHub stars, Dev.to upvotes. Recognizable, proven demand = HIGH.
-- **Relevance**: How close is it to the builder's existing domains & stack? HIGH = good (this is the OPPOSITE of novelty — familiarity is the point here).
-- **Improvability**: Is there an obvious angle to do it better — sharper UX, Estonian-market fit, a missing feature, better taste? HIGH = good.
+**LANE B — LEVEL UP** (`track: "familiar"`) — proven revenue in adjacent markets:
+- **Traction**: How popular/validated? Revenue numbers, user counts, upvotes. Proven paying market = HIGH. (1-10)
+- **Relevance**: How well does the builder's existing stack and skills apply? (1-10)
+- **Improvability**: Concrete angle — Estonian market gap, sharper UX, missing feature, price undercut? (1-10)
 - Composite = (traction × 0.3) + (relevance × 0.35) + (improvability × 0.35). Threshold = 7.0.
-- Summary: 1-2 sentences on THE ANGLE — concretely, what you'd do better/differently than they did.
+- Summary: 2 sentences — name the REVENUE ANGLE and what existing project is the skeleton.
 
-For BOTH lanes: assign 1-3 domain categories.
+For BOTH lanes: assign 1-3 domain categories. Note revenue signal if visible (MRR, pricing tier, "free").
 
-**BALANCE — soft 50/50.** Aim for roughly equal counts per lane each run (target ~8-12 each). If one lane is thin after honest scoring, lower that lane's bar slightly (down to ~6.5) to surface the best available rather than padding the other lane. Never accept noise to hit a number.
+**BALANCE — soft 50/50.** Target ~equal counts per lane. Thin lane lowers bar to ~6.5.
 
-**Wildcards (one per lane):** among scored REJECTS, mark the highest-**stretch** novel reject AND the highest-**traction** familiar reject as wildcards (`isWildcard: true, status: "accepted"`, with that lane's `track` and scores).
+**Wildcards (one per lane):** highest-stretch PUSH reject + highest-traction LEVEL UP reject get promoted (`isWildcard: true`).
 
 ### Step 5: Write decisions to DB
 Format decisions as JSON, write to a file, and pipe it in (PowerShell/Windows-safe — do NOT use the `echo | cd` form):
@@ -69,13 +87,24 @@ Clean up `_decisions.json` after the run.
 cd C:\Users\Kasutaja\Claude_Projects\idea-radar\worker\src && npx tsx update-acceptance-rates.ts
 ```
 
-### Step 7: Trigger newsletter (if configured)
-If CRON_SECRET and BREVO_API_KEY are set in .env.local:
+### Step 7: Generate Builder Memo
+Generate a ~800-1200 word coaching brief grounded in this run's accepted discoveries and the Builder Profile. Structure:
+1. **What Came In** — raw numbers (sources, filtered, accepted by lane)
+2. **Patterns You Are Stuck In** — name the comfort zone patterns this run reveals
+3. **Direct Callouts** — every accepted discovery linked, with lane label (PUSH/LEVEL UP)
+4. **The Gap** — the single biggest growth gap between skill level and portfolio
+5. **One Concrete Suggestion** — one specific product to build next, with why and how
+
+Write the memo as JSON and pipe to `save-memo.ts`:
 ```bash
-curl -s -H "Authorization: Bearer $(grep CRON_SECRET C:\Users\Kasutaja\Claude_Projects\idea-radar\.env.local | cut -d= -f2)" https://idea-radar-topaz.vercel.app/api/newsletter/send
+cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/save-memo.ts < _memo.json
+```
+
+### Step 8: Trigger newsletter (if configured)
+If CRON_SECRET and RESEND_API_KEY are set:
+```bash
+curl -s -H "Authorization: Bearer <CRON_SECRET>" https://idea-radar-topaz.vercel.app/api/newsletter/send
 ```
 
 ## Completion
-Log a summary: sources scraped, items found, pre-filter survivors, accepted count **split by lane (novel / familiar)**, rejected count, wildcard count. Report this to the Loop Control Center.
-
-> The Builder Memo (separate step, see project memory) should also report the novel/familiar split and reflect on the mix.
+Log a summary: sources scraped, items found, pre-filter survivors, accepted count **split by lane (PUSH / LEVEL UP)**, rejected count, wildcard count. Report this to the Loop Control Center.
