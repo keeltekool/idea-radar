@@ -1,7 +1,6 @@
 "use client";
 
 import { ScorePill } from "./score-pill";
-import { SourceBadge } from "./source-badge";
 
 type Discovery = {
   id: number;
@@ -61,17 +60,19 @@ export function DiscoveryCard({ discovery, variant }: Props) {
 
   if (variant === "basic") {
     return (
-      <article className="bg-surface border border-stone-border rounded-lg p-6 flex flex-col gap-3 hover:bg-cream transition-colors">
+      <article className="bg-surface border border-stone-border p-5 flex flex-col gap-2 hover:bg-cream transition-colors">
         <div className="flex items-center gap-2">
-          <SourceBadge name={d.sourceName} />
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate bg-cream border border-stone-border px-2 py-0.5">
+            {d.sourceName}
+          </span>
           {d.author && (
             <span className="text-body text-sm">by {d.author}</span>
           )}
           {dateLabel && (
-            <span className="text-slate text-xs">· {dateLabel}</span>
+            <span className="text-slate text-xs">&middot; {dateLabel}</span>
           )}
           <span
-            className={`ml-auto px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider border ${
+            className={`ml-auto px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider border ${
               d.status === "accepted"
                 ? "text-olive border-[#d4e0d0] bg-[#f0f5ee]"
                 : d.status === "rejected"
@@ -82,7 +83,7 @@ export function DiscoveryCard({ discovery, variant }: Props) {
             {d.status}
           </span>
         </div>
-        <h3 className="font-serif text-xl text-ink">
+        <h3 className="text-base font-bold text-ink">
           <a href={d.url} target="_blank" rel="noopener" className="hover:underline">
             {d.title}
           </a>
@@ -96,120 +97,105 @@ export function DiscoveryCard({ discovery, variant }: Props) {
 
   return (
     <article
-      className={`bg-surface border rounded-lg p-6 flex flex-col gap-3 hover:bg-cream transition-colors ${
+      className={`bg-surface border grid hover:bg-cream/50 transition-colors ${
         d.isWildcard ? "border-2 border-ochre" : "border-stone-border"
       }`}
+      style={{ gridTemplateColumns: "72px 1fr" }}
     >
-      {d.isWildcard && (
-        <div className="absolute -top-0 -right-0 bg-ochre text-white text-[10px] font-semibold uppercase tracking-widest px-3 py-1 rounded-bl-lg">
-          Wildcard
-        </div>
-      )}
+      {/* Score strip */}
+      <div className="bg-ink flex flex-col items-center justify-center py-6">
+        <span className="font-serif text-[28px] font-bold leading-none text-canvas">
+          {d.compositeScore?.toFixed(1) ?? "—"}
+        </span>
+        <span className="text-[9px] uppercase tracking-wider mt-1 text-canvas/40">
+          {d.isWildcard ? "Wild" : isFamiliar ? "Up" : "Push"}
+        </span>
+      </div>
 
-      <div className="flex justify-between items-start">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <SourceBadge name={d.sourceName} />
-            {d.author && (
-              <span className="text-body text-sm">by {d.author}</span>
-            )}
-            {dateLabel && (
-              <span className="text-slate text-xs">· {dateLabel}</span>
-            )}
-          </div>
-          <h3 className="font-serif text-2xl text-ink mb-1">
-            <a
-              href={d.url}
-              target="_blank"
-              rel="noopener"
-              className="hover:underline"
-            >
+      {/* Content */}
+      <div className="p-6">
+        {/* Title row */}
+        <div className="flex items-baseline gap-2.5 mb-1.5 flex-wrap">
+          <h3 className="text-lg font-extrabold text-ink leading-tight">
+            <a href={d.url} target="_blank" rel="noopener" className="hover:underline">
               {d.title}
             </a>
           </h3>
-          {d.description && (
-            <p className="text-body text-sm line-clamp-2">{d.description}</p>
-          )}
-        </div>
-
-        {d.compositeScore !== null && (
-          <div className="flex flex-col items-center pl-4">
-            <div className="w-16 h-16 rounded-full border-2 border-ink bg-ink text-white flex items-center justify-center font-serif text-2xl">
-              {d.compositeScore.toFixed(1)}
-            </div>
-            <span className="text-[11px] text-slate mt-1 uppercase tracking-wider font-semibold">
-              Score
-            </span>
-          </div>
-        )}
-      </div>
-
-      <div className="flex gap-2 my-1">
-        {isFamiliar ? (
-          <>
-            <ScorePill label="Traction" value={d.tractionScore} type="traction" />
-            <ScorePill label="Relevance" value={d.relevanceScore} type="relevance" />
-            <ScorePill label="Do Better" value={d.improvabilityScore} type="improvability" />
-          </>
-        ) : (
-          <>
-            <ScorePill label="Feasibility" value={d.feasibilityScore} type="feasibility" />
-            <ScorePill label="Novelty" value={d.noveltyScore} type="novelty" />
-            <ScorePill label="Stretch" value={d.stretchScore} type="stretch" />
-          </>
-        )}
-      </div>
-
-      {d.summary && (
-        <div className="bg-cream border border-stone-border rounded p-3">
-          <h4 className="text-[11px] font-semibold uppercase tracking-wider text-ink mb-1">
-            {isFamiliar ? "The angle to do it better" : "Why this matters"}
-          </h4>
-          <p className="text-body text-sm">{d.summary}</p>
-        </div>
-      )}
-
-      <div className="flex justify-between items-center mt-auto pt-3">
-        <div className="flex gap-2 flex-wrap">
-          {(d.techStack || []).slice(0, 4).map((tag) => (
-            <span
-              key={tag}
-              className="text-slate text-[10px] uppercase tracking-widest border border-stone-border px-2 py-1 rounded"
-            >
-              {tag}
-            </span>
-          ))}
           {(d.categories || []).slice(0, 2).map((cat) => (
             <span
               key={cat}
-              className="text-olive text-[10px] uppercase tracking-widest border border-[#d4e0d0] bg-[#f0f5ee] px-2 py-1 rounded"
+              className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 ${
+                d.isWildcard
+                  ? "bg-ochre-wash text-ochre"
+                  : isFamiliar
+                    ? "bg-ochre-wash text-ochre"
+                    : "bg-olive-wash text-olive"
+              }`}
             >
               {cat}
             </span>
           ))}
+          {d.isWildcard && (
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-ochre-wash text-ochre">
+              Wildcard
+            </span>
+          )}
         </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={() => sendFeedback("pass")}
-            className={`px-3 py-1.5 rounded border text-[11px] font-semibold uppercase tracking-wider transition-colors ${
-              d.userFeedback === "pass"
-                ? "bg-slate text-white border-slate"
-                : "border-stone-border text-slate hover:text-ink hover:border-ink"
-            }`}
-          >
-            Pass
-          </button>
-          <button
-            onClick={() => sendFeedback("spark")}
-            className={`px-3 py-1.5 rounded border text-[11px] font-semibold uppercase tracking-wider transition-colors ${
-              d.userFeedback === "spark"
-                ? "bg-olive text-white border-olive"
-                : "border-stone-border text-slate hover:text-olive hover:border-olive"
-            }`}
-          >
-            Sparked ✦
-          </button>
+        {/* Source + date */}
+        <p className="text-xs text-slate mb-3">
+          {d.sourceName}
+          {d.author ? ` · by ${d.author}` : ""}
+          {dateLabel ? ` · ${dateLabel}` : ""}
+        </p>
+
+        {/* Summary — the main content */}
+        {d.summary && (
+          <p className="text-sm leading-relaxed text-body mb-4">
+            {d.summary}
+          </p>
+        )}
+
+        {/* Score pills + feedback */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex gap-1.5 flex-wrap">
+            {isFamiliar ? (
+              <>
+                <ScorePill label="Traction" value={d.tractionScore} type="traction" />
+                <ScorePill label="Relevance" value={d.relevanceScore} type="relevance" />
+                <ScorePill label="Do Better" value={d.improvabilityScore} type="improvability" />
+              </>
+            ) : (
+              <>
+                <ScorePill label="Novelty" value={d.noveltyScore} type="novelty" />
+                <ScorePill label="Stretch" value={d.stretchScore} type="stretch" />
+                <ScorePill label="Feasibility" value={d.feasibilityScore} type="feasibility" />
+              </>
+            )}
+          </div>
+
+          <div className="flex gap-2 flex-shrink-0">
+            <button
+              onClick={() => sendFeedback("pass")}
+              className={`px-3 py-1.5 border text-[11px] font-semibold uppercase tracking-wider transition-colors ${
+                d.userFeedback === "pass"
+                  ? "bg-slate text-white border-slate"
+                  : "border-stone-border text-slate hover:text-ink hover:border-ink"
+              }`}
+            >
+              Pass
+            </button>
+            <button
+              onClick={() => sendFeedback("spark")}
+              className={`px-3 py-1.5 border text-[11px] font-semibold uppercase tracking-wider transition-colors ${
+                d.userFeedback === "spark"
+                  ? "bg-olive text-white border-olive"
+                  : "border-stone-border text-slate hover:text-olive hover:border-olive"
+              }`}
+            >
+              Sparked
+            </button>
+          </div>
         </div>
       </div>
     </article>
