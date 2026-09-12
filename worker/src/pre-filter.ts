@@ -4,88 +4,12 @@ config({ path: "../../.env.local" });
 import { createDb } from "../../src/db/index";
 import { discoveries } from "../../src/db/schema";
 import { eq } from "drizzle-orm";
+import { passesPreFilter } from "../../src/lib/filter-terms";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
   console.error("DATABASE_URL is required");
   process.exit(1);
-}
-
-const REQUIRED_TERMS = [
-  "built",
-  "ship",
-  "launch",
-  "saas",
-  "side project",
-  "sideproject",
-  "indie",
-  "solo",
-  "tool",
-  "app",
-  "platform",
-  "startup",
-  "maker",
-  "product",
-  "pricing",
-  "users",
-  "mvp",
-  "marketplace",
-  "booking",
-  "tracker",
-  "pwa",
-  "mobile",
-  "subscription",
-  "revenue",
-  "customers",
-  "launched",
-  "health",
-  "fitness",
-  "education",
-  "fintech",
-  "creative",
-  "e-commerce",
-  "community",
-];
-
-const BLOCKED_TERMS = [
-  "tutorial",
-  "course",
-  "beginner",
-  "how to",
-  "introduction to",
-  "getting started",
-  "boilerplate",
-  "template repo",
-  "awesome-list",
-  "cheat sheet",
-  "interview prep",
-  "learn ",
-  "roadmap to",
-  "study guide",
-  "library",
-  "framework",
-  "package",
-  "npm ",
-  "pip ",
-  "docker",
-  "kubernetes",
-  "devops",
-  "infrastructure",
-  "benchmark",
-  "linting",
-  "eslint",
-  "webpack",
-  "vite plugin",
-];
-
-function passesPreFilter(title: string, description: string | null): boolean {
-  const text = `${title} ${description || ""}`.toLowerCase();
-
-  const hasBlocked = BLOCKED_TERMS.some((term) => text.includes(term));
-  if (hasBlocked) return false;
-
-  const hasRequired = REQUIRED_TERMS.some((term) => text.includes(term));
-  return hasRequired;
 }
 
 async function main() {
