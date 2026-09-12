@@ -29,14 +29,14 @@
 - Admin: via Tracker Admin (eudi-wallet-tracker.vercel.app/admin), password gate
 - Loop API: Bearer LOOP_TOKEN
 
-## Pipeline (automated bi-weekly + cloud routine)
+## Pipeline (automated twice weekly + cloud routine)
 
 ```
-GitHub Actions (1st & 15th, 06:00 UTC):
+GitHub Actions (Mon & Thu, 03:00 UTC / 06:00 Tallinn):
   1. Scrape 31 active sources → pending discoveries in Neon
   2. Pre-filter (keyword gate) → relevant/irrelevant
 
-Cloud routine (1st & 15th, 07:00 Tallinn, after GH Actions):
+Cloud routine (Mon & Thu, 04:00 UTC / 07:00 Tallinn, 1h after GH Actions):
   3. GET /api/loop?op=get-relevant → read items + builder profile
   4. AI scores each discovery (PUSH/LEVEL UP lanes, growth compass criteria)
   5. POST /api/loop op=score-decisions → write accepted/rejected + scores
@@ -105,8 +105,8 @@ npx drizzle-kit push                           # Push schema to Neon
 ## Deploy
 
 - **Dashboard:** auto-deploys on push to `master` via Vercel
-- **Scrape:** GitHub Actions bi-weekly (1st & 15th) or manual `workflow_dispatch`
-- **Pipeline scoring:** Cloud routine bi-weekly (pending setup) or manual via Claude Code
+- **Scrape:** GitHub Actions Mon & Thu 03:00 UTC or manual `workflow_dispatch`
+- **Pipeline scoring:** Cloud routine Mon & Thu 04:00 UTC (Opus 5) or manual via Claude Code
 
 ## Gotchas
 
@@ -136,5 +136,5 @@ npx drizzle-kit push                           # Push schema to Neon
 ## Pending Items
 
 - **Resend API key** — user creates key named `idea-radar` in Resend dashboard, adds to .env.local + Vercel
-- **Cloud routine** — set up via `/schedule` (bi-weekly 1st & 15th, 07:00 Tallinn, Opus 5)
+- **Cloud routine** — LIVE, Mon & Thu 04:00 UTC (07:00 Tallinn), Opus 5. Routine ID: `trig_01F7P4x3PHq1YW7JuStN7HcW`
 - **Builder Profile rescan** — run `scan-profile.ts` + synthesize with growth-gap framing (67 projects)

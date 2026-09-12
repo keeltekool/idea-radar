@@ -2,8 +2,8 @@ name: Scrape Sources
 
 on:
   schedule:
-    # Bi-weekly: 1st and 15th of each month at 06:00 UTC
-    - cron: "0 6 1,15 * *"
+    # Twice a week: Mon & Thu at 03:00 UTC (06:00 Tallinn), 1h before cloud routine
+    - cron: "0 3 * * 1,4"
   workflow_dispatch: # Manual trigger from GitHub UI
 
 jobs:

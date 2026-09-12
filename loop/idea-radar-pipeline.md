@@ -1,7 +1,7 @@
 # Idea Radar Pipeline — Loop Prompt
 
 ## Goal
-Scrape 14 consumer-product sources, keyword-filter noise, score survivors against the Builder Profile's GROWTH GAPS, and curate discoveries that PUSH the builder into unfamiliar domains or LEVEL UP their revenue potential.
+Scrape 31 consumer-product sources (Mon & Thu), keyword-filter noise, score survivors against the Builder Profile's GROWTH GAPS, and curate discoveries that PUSH the builder into unfamiliar domains or LEVEL UP their craft.
 
 ## Working Directory
 `C:\Users\Kasutaja\Claude_Projects\idea-radar`
@@ -100,11 +100,56 @@ Write the memo as JSON and pipe to `save-memo.ts`:
 cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/save-memo.ts < _memo.json
 ```
 
-### Step 8: Trigger newsletter (if configured)
-If CRON_SECRET and RESEND_API_KEY are set:
-```bash
-curl -s -H "Authorization: Bearer <CRON_SECRET>" https://idea-radar-topaz.vercel.app/api/newsletter/send
+### Step 8: Generate and send newsletter
+
+Write the newsletter as an editorial digest — not a list dump, but a coached read. You are writing to a builder who checks this email twice a week to stay sharp. Every word earns its place.
+
+Pick the **4-5 strongest PUSH** discoveries and **2-3 strongest LEVEL UP** discoveries from this run. For each, write a 1-2 sentence editorial — not the summary you already wrote, but WHY this one matters to THIS builder. What would building it teach? What craft would it stretch?
+
+Generate a JSON payload with this structure and POST it to the loop API:
+
+```json
+{
+  "op": "send-newsletter",
+  "newsletter": {
+    "subject": "Idea Radar — <count> discoveries scored for your growth",
+    "hook": "<2-3 sentences. Open with the most striking discovery from this run. What makes it worth the builder's attention? No preamble, no 'this week' — lead with the thing.>",
+    "stats": { "total": <screened>, "accepted": <scored>, "push": <push count>, "levelUp": <levelUp count> },
+    "pushPicks": [
+      {
+        "title": "<discovery title>",
+        "url": "<discovery url>",
+        "score": <composite>,
+        "categories": ["<cat1>", "<cat2>"],
+        "editorial": "<1-2 sentences. What new skill would building this teach? What makes it cool? Be specific, not generic.>"
+      }
+    ],
+    "levelUpPicks": [
+      {
+        "title": "<title>",
+        "url": "<url>",
+        "score": <composite>,
+        "categories": ["<cat1>"],
+        "editorial": "<1-2 sentences. What's the craft angle? What would you do differently and why would it be better?>"
+      }
+    ],
+    "gap": "<2-3 sentences from your memo's Gap section. The single biggest growth gap this run reveals.>",
+    "suggestion": "<2-3 sentences from your memo's suggestion. One specific product to build next, with why.>",
+    "wildcard": {
+      "title": "<wildcard title>",
+      "url": "<url>",
+      "score": <composite>,
+      "editorial": "<1-2 sentences. Why this reject deserved a second look.>"
+    }
+  }
+}
 ```
+
+```bash
+curl -s -X POST -H "Authorization: Bearer <LOOP_TOKEN>" -H "Content-Type: application/json" -d @newsletter.json "https://idea-radar-topaz.vercel.app/api/loop"
+```
+
+The API renders it into a branded dark-theme email and sends to all subscribers via Resend. If no subscribers exist, it returns `sent: 0`.
 
 ## Completion
 Log a summary: sources scraped, items found, pre-filter survivors, accepted count **split by lane (PUSH / LEVEL UP)**, rejected count, wildcard count. Report this to the Loop Control Center.
