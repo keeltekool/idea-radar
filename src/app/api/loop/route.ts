@@ -329,33 +329,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ saved: true, memoId: memo.id });
     }
 
-    if (op === "purge-old") {
-      const keepIds = body.keepIds as number[];
-      if (!keepIds?.length) {
-        return NextResponse.json({ error: "keepIds required" }, { status: 400 });
-      }
-      const accepted = await db
-        .select({ id: discoveries.id })
-        .from(discoveries)
-        .where(eq(discoveries.status, "accepted"));
-
-      const toReject = accepted.filter((a) => !keepIds.includes(a.id));
-
-      for (const item of toReject) {
-        await db
-          .update(discoveries)
-          .set({ status: "rejected", rejectionReason: "purged-old-scoring" })
-          .where(eq(discoveries.id, item.id));
-      }
-
-      return NextResponse.json({
-        before: accepted.length,
-        rejected: toReject.length,
-        remaining: keepIds.length,
-      });
-    }
-
-    // Send newsletter with AI-generated editorial content
+    // Send newsletter — AI-written coaching brief, not a link dump
     if (op === "send-newsletter") {
       const resendKey = (process.env.RESEND_API_KEY || "")
         .split("")
@@ -371,18 +345,14 @@ export async function POST(req: Request) {
 
       const nl = body.newsletter as {
         subject: string;
-        hook: string;
+        paragraphs: string[];
         stats: { total: number; accepted: number; push: number; levelUp: number };
-        pushPicks: { title: string; url: string; score: number; categories: string[]; editorial: string }[];
-        levelUpPicks: { title: string; url: string; score: number; categories: string[]; editorial: string }[];
-        gap: string;
-        suggestion: string;
-        wildcard?: { title: string; url: string; score: number; editorial: string };
+        references: { title: string; url: string }[];
       };
 
-      if (!nl?.hook || !nl?.pushPicks?.length) {
+      if (!nl?.paragraphs?.length) {
         return NextResponse.json(
-          { error: "newsletter requires hook and pushPicks" },
+          { error: "newsletter requires paragraphs" },
           { status: 400 }
         );
       }
@@ -390,83 +360,47 @@ export async function POST(req: Request) {
       const esc = (s: string) =>
         s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-      const pickCard = (
-        p: { title: string; url: string; score: number; categories: string[]; editorial: string },
-        lane: "push" | "levelUp"
-      ) => {
-        const laneColor = lane === "push" ? "#4B6344" : "#B07B2E";
-        const laneBg = lane === "push" ? "#1a2418" : "#2a2010";
-        const tags = (p.categories || [])
-          .slice(0, 3)
-          .map(
-            (c) =>
-              `<span style="font-size:9px;padding:2px 7px;background:${laneBg};color:${laneColor};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:0.5px;text-transform:uppercase">${esc(c)}</span>`
-          )
-          .join(" ");
-        return `<div style="margin:0 0 20px;padding:0 0 20px;border-bottom:1px solid #1a1a1a">
-<div style="margin:0 0 8px">
-<span style="font-size:24px;color:${laneColor};font-weight:700;font-family:Georgia,'Times New Roman',serif;margin-right:10px">${p.score.toFixed(1)}</span>${tags}
-</div>
-<p style="font-size:16px;font-weight:700;color:#F1EFEA;margin:0 0 8px;line-height:1.35"><a href="${esc(p.url)}" style="color:#F1EFEA;text-decoration:none">${esc(p.title)}</a></p>
-<p style="font-size:13px;line-height:1.65;color:#999;margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">${esc(p.editorial)}</p>
-</div>`;
+      const linkify = (text: string, refs: { title: string; url: string }[]) => {
+        let html = esc(text);
+        for (const ref of refs) {
+          const escaped = esc(ref.title);
+          html = html.replace(
+            escaped,
+            `<a href="${esc(ref.url)}" style="color:#4B6344;text-decoration:underline">${escaped}</a>`
+          );
+        }
+        return html;
       };
 
-      const pushCards = nl.pushPicks.map((p) => pickCard(p, "push")).join("\n");
-      const levelUpCards = nl.levelUpPicks.map((p) => pickCard(p, "levelUp")).join("\n");
-
-      const wildcardBlock = nl.wildcard
-        ? `<div style="margin:28px 0 0">
-<div style="border-left:3px solid #4B6344;padding:16px 20px;background:#111">
-<p style="color:#4B6344;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:0 0 8px;font-weight:700">Wildcard</p>
-<p style="font-size:15px;color:#F1EFEA;margin:0 0 6px;font-weight:700"><a href="${esc(nl.wildcard.url)}" style="color:#F1EFEA;text-decoration:none">${esc(nl.wildcard.title)}</a> <span style="color:#4B6344;font-family:Georgia,serif;font-size:14px">${nl.wildcard.score.toFixed(1)}</span></p>
-<p style="font-size:13px;line-height:1.6;color:#999;margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">${esc(nl.wildcard.editorial)}</p>
-</div></div>`
-        : "";
+      const bodyHtml = nl.paragraphs
+        .map((p) =>
+          `<p style="font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.75;color:#C8C4BC;margin:0 0 20px">${linkify(p, nl.references || [])}</p>`
+        )
+        .join("\n");
 
       const renderHtml = (unsubUrl: string) =>
         `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="background:#0d0d0d;margin:0;padding:0">
-<div style="max-width:560px;margin:0 auto;padding:48px 20px">
+<div style="max-width:540px;margin:0 auto;padding:48px 24px">
 
-<p style="font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:700;color:#F9F8F6;text-align:center;margin:0 0 4px;letter-spacing:-0.5px">Idea Radar</p>
+<p style="font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:700;color:#F9F8F6;text-align:center;margin:0 0 4px;letter-spacing:-0.5px">Idea Radar</p>
 <p style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#75726A;text-align:center;margin:0 0 36px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">Growth Compass</p>
 
 <div style="border-top:1px solid #2a2a2a;margin:0 0 32px"></div>
 
-<p style="font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.7;color:#E0DDD6;margin:0 0 28px">${esc(nl.hook)}</p>
-
-<div style="background:#111;padding:14px 20px;margin:0 0 32px;text-align:center">
-<span style="color:#75726A;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase">${nl.stats.total} screened &middot; ${nl.stats.accepted} scored &middot; ${nl.stats.push} push &middot; ${nl.stats.levelUp} level up</span>
+<div style="background:#111;padding:10px 16px;margin:0 0 28px;text-align:center">
+<span style="color:#75726A;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase">${nl.stats.total} screened &middot; ${nl.stats.accepted} scored &middot; ${nl.stats.push} push &middot; ${nl.stats.levelUp} level up</span>
 </div>
 
-<p style="color:#4B6344;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:0 0 20px;font-weight:700">Push &mdash; Unfamiliar territory</p>
-
-${pushCards}
-
-${nl.levelUpPicks.length > 0 ? `<p style="color:#B07B2E;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:8px 0 20px;font-weight:700">Level Up &mdash; Do it better</p>
-
-${levelUpCards}` : ""}
-
-${wildcardBlock}
-
-<div style="border-top:1px solid #2a2a2a;margin:32px 0 0;padding:28px 0 0">
-<p style="color:#F9F8F6;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;font-weight:700">The Gap</p>
-<p style="font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.7;color:#999;margin:0">${esc(nl.gap)}</p>
-</div>
-
-<div style="background:#4B6344;padding:20px 24px;margin:28px 0 0">
-<p style="color:#F9F8F6;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:0 0 10px;font-weight:700">Build this next</p>
-<p style="font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.7;color:#E0DDD6;margin:0">${esc(nl.suggestion)}</p>
-</div>
+${bodyHtml}
 
 <div style="text-align:center;margin:32px 0 0">
-<a href="https://idea-radar-topaz.vercel.app" style="display:inline-block;background:#24241F;color:#F9F8F6;font-size:11px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:14px 40px;text-decoration:none;border:1px solid #3a3a3a">Open the Radar</a>
+<a href="https://idea-radar-topaz.vercel.app" style="display:inline-block;background:#4B6344;color:#F9F8F6;font-size:11px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:14px 40px;text-decoration:none">Open the Radar</a>
 </div>
 
-<div style="border-top:1px solid #1a1a1a;margin:36px 0 0;padding:24px 0 0;text-align:center">
-<p style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.6;margin:0">Twice weekly from Idea Radar</p>
-<p style="margin:8px 0 0"><a href="${esc(unsubUrl)}" style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-decoration:underline">Unsubscribe</a></p>
+<div style="border-top:1px solid #1a1a1a;margin:36px 0 0;padding:20px 0 0;text-align:center">
+<p style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0">Twice weekly from Idea Radar</p>
+<p style="margin:6px 0 0"><a href="${esc(unsubUrl)}" style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-decoration:underline">Unsubscribe</a></p>
 </div>
 
 </div></body></html>`;
@@ -497,7 +431,7 @@ ${wildcardBlock}
             body: JSON.stringify({
               from: "Idea Radar <onboarding@resend.dev>",
               to: sub.email,
-              subject: nl.subject || `Idea Radar — ${nl.stats.accepted} discoveries scored`,
+              subject: nl.subject,
               html,
             }),
           });

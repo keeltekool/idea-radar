@@ -102,45 +102,37 @@ cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/save-memo.
 
 ### Step 8: Generate and send newsletter
 
-Write the newsletter as an editorial digest — not a list dump, but a coached read. You are writing to a builder who checks this email twice a week to stay sharp. Every word earns its place.
+The newsletter is a **coaching brief**, not a link list. You are writing 4-6 paragraphs to a builder who reads this to understand what the scoring revealed about their growth trajectory. Discoveries are inline citations supporting your analysis — never the main event.
 
-Pick the **4-5 strongest PUSH** discoveries and **2-3 strongest LEVEL UP** discoveries from this run. For each, write a 1-2 sentence editorial — not the summary you already wrote, but WHY this one matters to THIS builder. What would building it teach? What craft would it stretch?
+**Voice:** Direct, specific, no filler. Name the pattern, name the gap, name the product. Reference discoveries by title inline (the API auto-links them).
 
-Generate a JSON payload with this structure and POST it to the loop API:
+**Structure your paragraphs like this:**
+1. Open with the sharpest insight from this run — a pattern, a contrast, a number that should make the builder uncomfortable. No "this week we scored..." preamble.
+2. Name the pattern the scoring reveals — what domains keep appearing, what keeps getting rejected, what the comfort zone looks like from the data.
+3. Pick 2-3 discoveries and explain WHY they matter — not what they are, but what building something like them would teach. Weave the discovery titles into prose naturally.
+4. Name the gap — the single biggest hole between the builder's portfolio and where the market is going.
+5. One concrete suggestion — a specific product to build, with the growth-gap rationale.
+6. (Optional) A wildcard or a contrarian take — something from the rejects that deserved a second look.
+
+Generate this JSON and POST it:
 
 ```json
 {
   "op": "send-newsletter",
   "newsletter": {
-    "subject": "Idea Radar — <count> discoveries scored for your growth",
-    "hook": "<2-3 sentences. Open with the most striking discovery from this run. What makes it worth the builder's attention? No preamble, no 'this week' — lead with the thing.>",
-    "stats": { "total": <screened>, "accepted": <scored>, "push": <push count>, "levelUp": <levelUp count> },
-    "pushPicks": [
-      {
-        "title": "<discovery title>",
-        "url": "<discovery url>",
-        "score": <composite>,
-        "categories": ["<cat1>", "<cat2>"],
-        "editorial": "<1-2 sentences. What new skill would building this teach? What makes it cool? Be specific, not generic.>"
-      }
+    "subject": "<Short, specific subject — name the insight, not the count>",
+    "stats": { "total": <screened>, "accepted": <scored>, "push": <push>, "levelUp": <levelUp> },
+    "paragraphs": [
+      "<paragraph 1 — the hook insight>",
+      "<paragraph 2 — the pattern>",
+      "<paragraph 3 — discoveries as evidence, titles inline>",
+      "<paragraph 4 — the gap>",
+      "<paragraph 5 — the build suggestion>"
     ],
-    "levelUpPicks": [
-      {
-        "title": "<title>",
-        "url": "<url>",
-        "score": <composite>,
-        "categories": ["<cat1>"],
-        "editorial": "<1-2 sentences. What's the craft angle? What would you do differently and why would it be better?>"
-      }
-    ],
-    "gap": "<2-3 sentences from your memo's Gap section. The single biggest growth gap this run reveals.>",
-    "suggestion": "<2-3 sentences from your memo's suggestion. One specific product to build next, with why.>",
-    "wildcard": {
-      "title": "<wildcard title>",
-      "url": "<url>",
-      "score": <composite>,
-      "editorial": "<1-2 sentences. Why this reject deserved a second look.>"
-    }
+    "references": [
+      { "title": "<exact discovery title as used in paragraphs>", "url": "<url>" },
+      { "title": "<another>", "url": "<url>" }
+    ]
   }
 }
 ```
@@ -149,7 +141,7 @@ Generate a JSON payload with this structure and POST it to the loop API:
 curl -s -X POST -H "Authorization: Bearer <LOOP_TOKEN>" -H "Content-Type: application/json" -d @newsletter.json "https://idea-radar-topaz.vercel.app/api/loop"
 ```
 
-The API renders it into a branded dark-theme email and sends to all subscribers via Resend. If no subscribers exist, it returns `sent: 0`.
+The API auto-links discovery titles in the prose, wraps it in a branded dark-theme email, and sends to all subscribers. Discovery titles in `references` must match exactly how they appear in the paragraphs.
 
 ## Completion
 Log a summary: sources scraped, items found, pre-filter survivors, accepted count **split by lane (PUSH / LEVEL UP)**, rejected count, wildcard count. Report this to the Loop Control Center.
