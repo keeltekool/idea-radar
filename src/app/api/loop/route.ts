@@ -331,7 +331,11 @@ export async function POST(req: Request) {
 
     // Send newsletter with AI-generated editorial content
     if (op === "send-newsletter") {
-      const resendKey = process.env.RESEND_API_KEY;
+      const resendKey = (process.env.RESEND_API_KEY || "")
+        .split("")
+        .filter((c) => c.charCodeAt(0) < 128)
+        .join("")
+        .trim();
       if (!resendKey) {
         return NextResponse.json(
           { error: "RESEND_API_KEY not configured" },
