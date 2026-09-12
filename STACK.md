@@ -46,22 +46,19 @@ Cloud routine (Mon & Thu, 04:00 UTC / 07:00 Tallinn, 1h after GH Actions):
 Manual fallback: worker scripts in worker/src/ (run-scrape, pre-filter, ai-pass, etc.)
 ```
 
-## Sources (31 active from 8 platforms)
+## Sources (25 active from 6 platforms)
 
 | Platform | Sources | Count |
 |----------|---------|-------|
 | Product Hunt | RSS feed (no auth needed) | 1 |
-| Hacker News | Show HN, Launch HN, Ask HN (Algolia API) | 3 |
-| YouTube | Greg Isenberg, Marc Lou, Fireship, Pieter Levels, Simon Grimm, Will Kwan, Startup School | 6 (est.) |
+| Hacker News | Show HN, Launch HN (Algolia API) | 2 |
+| YouTube | Marc Lou, Fireship, Pieter Levels, Simon Grimm, Will Kwan | 5 |
 | Reddit | r/SideProject, r/InternetIsBeautiful, r/microsaas, r/indiebiz, r/AppIdeas, r/buildinpublic, r/startups, r/EntrepreneurRideAlong, r/imadethis | 9 |
 | Dev.to | showdev, sideproject | 2 |
 | Medium | buildinpublic, indie-hacking, saas, side-project | 4 |
 | Kickstarter | Kicktraq Technology, Kicktraq Design | 2 |
-| TechCrunch | Startups feed | 1 |
-| Y Combinator | Blog | 1 |
-| Changelog | Podcast feed | 1 |
 
-7 developer-technical sources deactivated (GitHub Trending, Lobsters, Dev.to ai, r/webdev, r/nextjs, Medium ai-tools + 7 more filler).
+Deactivated (news/opinion, not products): TechCrunch, Y Combinator Blog, Changelog, Ask HN, Greg Isenberg YouTube, Startup School YouTube + 7 dev-technical sources.
 
 ## Scoring — Growth Compass (PUSH / LEVEL UP)
 
