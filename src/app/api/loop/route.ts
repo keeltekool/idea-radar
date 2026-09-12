@@ -329,6 +329,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ saved: true, memoId: memo.id });
     }
 
+    if (op === "purge-old") {
+      const keepIds = body.keepIds as number[];
+      if (!keepIds?.length) {
+        return NextResponse.json({ error: "keepIds required" }, { status: 400 });
+      }
+      const accepted = await db
+        .select({ id: discoveries.id })
+        .from(discoveries)
+        .where(eq(discoveries.status, "accepted"));
+
+      const toReject = accepted.filter((a) => !keepIds.includes(a.id));
+
+      for (const item of toReject) {
+        await db
+          .update(discoveries)
+          .set({ status: "rejected", rejectionReason: "purged-old-scoring" })
+          .where(eq(discoveries.id, item.id));
+      }
+
+      return NextResponse.json({
+        before: accepted.length,
+        rejected: toReject.length,
+        remaining: keepIds.length,
+      });
+    }
+
     // Send newsletter with AI-generated editorial content
     if (op === "send-newsletter") {
       const resendKey = (process.env.RESEND_API_KEY || "")
