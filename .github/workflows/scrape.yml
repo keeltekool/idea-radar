@@ -1,0 +1,35 @@
+name: Scrape Sources
+
+on:
+  schedule:
+    # Bi-weekly: 1st and 15th of each month at 06:00 UTC
+    - cron: "0 6 1,15 * *"
+  workflow_dispatch: # Manual trigger from GitHub UI
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run scraper
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
+        run: cd worker && npx tsx src/run-scrape.ts
+
+      - name: Run pre-filter
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: cd worker && npx tsx src/pre-filter.ts
