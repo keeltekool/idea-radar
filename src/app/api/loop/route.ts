@@ -451,7 +451,7 @@ ${wildcardBlock}
       }
 
       let sent = 0;
-      let errors = 0;
+      const errs: string[] = [];
 
       for (const sub of subs) {
         const unsubUrl = `https://idea-radar-topaz.vercel.app/api/newsletter/unsubscribe?email=${encodeURIComponent(sub.email)}`;
@@ -472,14 +472,23 @@ ${wildcardBlock}
             }),
           });
 
-          if (!res.ok) throw new Error(`${res.status}`);
-          sent++;
-        } catch {
-          errors++;
+          if (!res.ok) {
+            const errBody = await res.text();
+            errs.push(`${sub.email}: ${res.status} ${errBody}`);
+          } else {
+            sent++;
+          }
+        } catch (e) {
+          errs.push(`${sub.email}: ${String(e)}`);
         }
       }
 
-      return NextResponse.json({ sent, errors, total: subs.length });
+      return NextResponse.json({
+        sent,
+        errors: errs.length,
+        total: subs.length,
+        ...(errs.length > 0 && { errorDetails: errs }),
+      });
     }
 
     return NextResponse.json({ error: `Unknown op: ${op}` }, { status: 400 });
