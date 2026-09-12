@@ -78,8 +78,8 @@ export function DashboardContent() {
     if (currentTab.status !== "all") params.set("status", currentTab.status);
     if (search) params.set("search", search);
     if (sourceFilter) params.set("source", sourceFilter);
-    params.set("sort", tab === "radar" ? "score" : sort);
-    params.set("limit", tab === "radar" ? "200" : "50");
+    params.set("sort", tab === "curated" ? "score" : sort);
+    params.set("limit", tab === "curated" ? "200" : "50");
 
     fetch(`/api/discoveries?${params}`)
       .then((r) => r.json())
