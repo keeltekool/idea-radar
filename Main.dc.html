@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #F9F8F6; color: #24241F; }
+    a { color: #4B6344; text-decoration: none; } a:hover { color: #3A4E35; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<!-- Header — compact, stays out of the way -->
+<div style="background:#24241F">
+  <div style="max-width:1280px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:56px">
+    <div style="display:flex;align-items:baseline;gap:10px">
+      <span style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;color:#F9F8F6;font-weight:700">Idea Radar</span>
+    </div>
+    <nav style="display:flex;gap:24px">
+      <a href="#" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#F9F8F6;border-bottom:2px solid #4B6344;padding-bottom:2px">Radar</a>
+      <a href="#" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(249,248,246,0.45)">Memos</a>
+      <a href="#" style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(249,248,246,0.45)">Profile</a>
+    </nav>
+  </div>
+</div>
+
+<div style="max-width:1280px;margin:0 auto;padding:32px 40px 80px">
+
+  <!-- MEMO HERO — the coach speaks first -->
+  <div style="background:#24241F;padding:40px 48px;margin-bottom:40px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:0;right:0;width:200px;height:100%;background:linear-gradient(135deg,#4B634420 0%,transparent 60%)"></div>
+    <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#4B6344;font-weight:700;margin:0 0 16px">Memo #15 &middot; Sep 10</p>
+    <p style="font-family:'Newsreader',serif;font-style:italic;font-size:26px;line-height:1.5;color:#F1EFEA;margin:0 0 24px;max-width:720px">&ldquo;You keep building the same shape: scrape, filter, display. Forty-five projects and not one canvas editor, not one collaborative tool, not one thing with a microphone. The stack is not the ceiling &mdash; the imagination is.&rdquo;</p>
+    <a href="#" style="font-size:13px;font-weight:700;color:#4B6344;display:inline-flex;align-items:center;gap:6px">Read the full memo <span style="font-size:16px">&rarr;</span></a>
+  </div>
+
+  <!-- RUN STATS — tiny, informational -->
+  <div style="display:flex;gap:32px;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid #E5E1DA">
+    <span style="font-size:12px;color:#75726A">14 sources &middot; 235 scraped &middot; 98 passed filter &middot; <strong style="color:#24241F">12 accepted</strong></span>
+    <span style="font-size:12px;color:#75726A">Last run: 2 days ago</span>
+  </div>
+
+  <!-- LANE TABS — not columns, tabs -->
+  <div style="display:flex;gap:0;margin-bottom:32px">
+    <button style="padding:12px 28px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:#24241F;color:#F9F8F6;border:none;cursor:pointer;font-family:inherit">Push <span style="font-size:11px;font-weight:500;opacity:0.5;margin-left:4px">7</span></button>
+    <button style="padding:12px 28px;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:#F1EFEA;color:#75726A;border:1px solid #E5E1DA;border-left:none;cursor:pointer;font-family:inherit">Level Up <span style="font-size:11px;font-weight:500;margin-left:4px">5</span></button>
+    <div style="flex:1"></div>
+    <select style="padding:8px 12px;border:1px solid #E5E1DA;background:#fff;font-size:12px;font-family:inherit;color:#75726A">
+      <option>Newest</option>
+      <option>Highest score</option>
+    </select>
+  </div>
+
+  <!-- DISCOVERY CARDS — full width, one per row, immersive -->
+
+  <!-- Card 1: PUSH -->
+  <div style="background:#fff;border:1px solid #E5E1DA;padding:0;margin-bottom:20px;display:grid;grid-template-columns:72px 1fr;min-height:0">
+    <!-- Score strip -->
+    <div style="background:#24241F;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0">
+      <span style="font-family:'Newsreader',serif;font-size:28px;color:#F9F8F6;font-weight:700;line-height:1">8.2</span>
+      <span style="font-size:9px;color:rgba(249,248,246,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Push</span>
+    </div>
+    <!-- Content -->
+    <div style="padding:24px 28px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+        <h3 style="font-size:18px;font-weight:800;margin:0;line-height:1.2">Cycle-Aware Trip Planner</h3>
+        <span style="font-size:10px;padding:2px 8px;background:#EEF1EA;color:#4B6344;font-weight:700;letter-spacing:1px;text-transform:uppercase">Health</span>
+      </div>
+      <p style="font-size:12px;color:#75726A;margin:0 0 12px">Product Hunt &middot; 2 days ago &middot; by a solo builder</p>
+      <p style="font-size:14px;line-height:1.7;color:#45443E;margin:0 0 16px">Plans trips around menstrual cycles. Dead simple product &mdash; one DB table, calendar UI, content layer. Your travel companion proves you can build trip tools; this adds a health dimension you have never tried. <strong style="color:#24241F">New skill: health data modeling, sensitive-data UX.</strong></p>
+      <div style="display:flex;gap:16px;align-items:center">
+        <div style="display:flex;gap:6px">
+          <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Novelty 9</span>
+          <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Stretch 8</span>
+          <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Feasibility 8</span>
+        </div>
+        <div style="flex:1"></div>
+        <a href="#" style="font-size:12px;font-weight:600;color:#4B6344">View source &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: PUSH -->
+  <div style="background:#fff;border:1px solid #E5E1DA;padding:0;margin-bottom:20px;display:grid;grid-template-columns:72px 1fr">
+    <div style="background:#24241F;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0">
+      <span style="font-family:'Newsreader',serif;font-size:28px;color:#F9F8F6;font-weight:700;line-height:1">7.8</span>
+      <span style="font-size:9px;color:rgba(249,248,246,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Push</span>
+    </div>
+    <div style="padding:24px 28px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+        <h3 style="font-size:18px;font-weight:800;margin:0;line-height:1.2">Collaborative Whiteboard with Voice</h3>
+        <span style="font-size:10px;padding:2px 8px;background:#EEF1EA;color:#4B6344;font-weight:700;letter-spacing:1px;text-transform:uppercase">Realtime</span>
+        <span style="font-size:10px;padding:2px 8px;background:#EEF1EA;color:#4B6344;font-weight:700;letter-spacing:1px;text-transform:uppercase">Creative</span>
+      </div>
+      <p style="font-size:12px;color:#75726A;margin:0 0 12px">Hacker News Show HN &middot; 1 day ago &middot; 127 points</p>
+      <p style="font-size:14px;line-height:1.7;color:#45443E;margin:0 0 16px">Canvas editor with voice chat built on WebRTC. Zero collaborative or realtime tools in your portfolio. This is the furthest thing from scrape-filter-display. <strong style="color:#24241F">New skill: WebRTC, canvas API, conflict resolution, multiplayer state.</strong></p>
+      <div style="display:flex;gap:6px">
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Novelty 9</span>
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Stretch 9</span>
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Feasibility 5</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: PUSH — Wildcard -->
+  <div style="background:#fff;border:2px solid #B07B2E;padding:0;margin-bottom:20px;display:grid;grid-template-columns:72px 1fr">
+    <div style="background:#24241F;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0">
+      <span style="font-family:'Newsreader',serif;font-size:28px;color:#B07B2E;font-weight:700;line-height:1">6.4</span>
+      <span style="font-size:9px;color:#B07B2E;text-transform:uppercase;letter-spacing:1px;margin-top:4px">Wild</span>
+    </div>
+    <div style="padding:24px 28px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+        <h3 style="font-size:18px;font-weight:800;margin:0;line-height:1.2">AI Dungeon Master for Tabletop RPG</h3>
+        <span style="font-size:10px;padding:2px 8px;background:#F7EFE2;color:#B07B2E;font-weight:700;letter-spacing:1px;text-transform:uppercase">Gaming</span>
+        <span style="font-size:10px;padding:2px 8px;background:#F7EFE2;color:#B07B2E;font-weight:700;letter-spacing:1px;text-transform:uppercase">Wildcard</span>
+      </div>
+      <p style="font-size:12px;color:#75726A;margin:0 0 12px">Reddit r/SideProject &middot; 3 days ago</p>
+      <p style="font-size:14px;line-height:1.7;color:#45443E;margin:0 0 16px">Claude generates quests, NPCs, combat encounters in real time. Maximum stretch from anything in your portfolio &mdash; narrative AI, game state management, turn-based UX. <strong style="color:#24241F">New skill: game loop architecture, narrative generation, session persistence.</strong></p>
+      <div style="display:flex;gap:6px">
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Novelty 10</span>
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Stretch 10</span>
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Feasibility 4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: PUSH -->
+  <div style="background:#fff;border:1px solid #E5E1DA;padding:0;margin-bottom:20px;display:grid;grid-template-columns:72px 1fr">
+    <div style="background:#24241F;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 0">
+      <span style="font-family:'Newsreader',serif;font-size:28px;color:#F9F8F6;font-weight:700;line-height:1">7.6</span>
+      <span style="font-size:9px;color:rgba(249,248,246,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px">Push</span>
+    </div>
+    <div style="padding:24px 28px">
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px">
+        <h3 style="font-size:18px;font-weight:800;margin:0;line-height:1.2">Generative Art Studio</h3>
+        <span style="font-size:10px;padding:2px 8px;background:#EEF1EA;color:#4B6344;font-weight:700;letter-spacing:1px;text-transform:uppercase">Creative</span>
+      </div>
+      <p style="font-size:12px;color:#75726A;margin:0 0 12px">Kicktraq &middot; 5 days ago</p>
+      <p style="font-size:14px;line-height:1.7;color:#45443E;margin:0 0 16px">Browser-based generative art with exportable prints. Canvas API + WebGL + parameter sliders. Zero creative tools in your portfolio. <strong style="color:#24241F">New skill: Canvas/WebGL rendering, generative algorithms, print-resolution export.</strong></p>
+      <div style="display:flex;gap:6px">
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Novelty 8</span>
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Stretch 8</span>
+        <span style="font-size:10px;padding:3px 8px;background:#F1EFEA;color:#75726A;letter-spacing:0.5px">Feasibility 7</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #F9F8F6; color: #24241F; }
+    a { color: #4B6344; text-decoration: none; } a:hover { color: #3A4E35; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<!-- Header -->
+<div style="background:#24241F;border-bottom:1px solid #3a3a35">
+  <div style="max-width:1280px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <span style="font-family:'Newsreader',serif;font-style:italic;font-size:24px;color:#F9F8F6;font-weight:700">Idea Radar</span>
+      <span style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(249,248,246,0.4)">Growth Compass</span>
+    </div>
+    <nav style="display:flex;gap:28px">
+      <a href="#" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(249,248,246,0.5)">Dashboard</a>
+      <a href="#" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#F9F8F6;border-bottom:2px solid #B07B2E;padding-bottom:4px">Memos</a>
+      <a href="#" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(249,248,246,0.5)">Profile</a>
+      <a href="#" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(249,248,246,0.5)">Newsletter</a>
+    </nav>
+  </div>
+</div>
+
+<div style="max-width:760px;margin:0 auto;padding:48px 40px 80px">
+
+  <h1 style="font-family:'Newsreader',serif;font-style:italic;font-size:44px;font-weight:400;margin:0 0 8px;line-height:1.1">Builder Memos</h1>
+  <p style="font-size:14px;color:#75726A;margin:0 0 40px;line-height:1.5">Coaching briefs from your bi-weekly runs. Each memo analyzes what came in, names the patterns you are stuck in, and points at one concrete next move.</p>
+
+  <!-- Latest Memo - Expanded -->
+  <div style="background:#fff;border:1px solid #E5E1DA;margin-bottom:24px">
+    <div style="padding:24px 28px;border-bottom:1px solid #E5E1DA;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:10px;padding:4px 10px;background:#4B6344;color:#F9F8F6;font-weight:700;letter-spacing:1px;text-transform:uppercase">Latest</span>
+        <span style="font-family:'Newsreader',serif;font-size:18px;font-weight:700">Memo #15</span>
+        <span style="font-size:12px;color:#75726A">Sep 10, 2026</span>
+      </div>
+      <span style="font-size:11px;color:#75726A">6 discoveries &middot; 4 push &middot; 2 level up</span>
+    </div>
+
+    <div style="padding:28px 28px 36px;line-height:1.8;font-size:15px;color:#45443E">
+
+      <h3 style="font-family:'Newsreader',serif;font-size:20px;font-weight:700;color:#24241F;margin:0 0 12px">What Came In</h3>
+      <p style="margin:0 0 24px">246 raw items from 12 sources. After keyword filtering: 89 relevant. After scoring: 4 push, 2 level up, 2 wildcards promoted.</p>
+
+      <h3 style="font-family:'Newsreader',serif;font-size:20px;font-weight:700;color:#24241F;margin:0 0 12px">Patterns You Are Stuck In</h3>
+      <p style="margin:0 0 8px">Your last 10 projects share a template: <strong style="color:#24241F">scrape &rarr; filter &rarr; display</strong>. Hinnavaht, EUDI, HankeRadar, Idea Radar itself, Athlon, Allekirjoitus tracker &mdash; six of your most recent builds are aggregators with the same pipeline architecture. You build the pipeline well; you keep building the pipeline.</p>
+      <p style="margin:0 0 24px">You have <strong style="color:#24241F">zero products with recurring revenue</strong>. SongDrop has Stripe wired but no paying users. Every other project is free. This is the single biggest gap between your skill level and your business potential.</p>
+
+      <h3 style="font-family:'Newsreader',serif;font-size:20px;font-weight:700;color:#24241F;margin:0 0 12px">Direct Callouts</h3>
+      <ul style="margin:0 0 24px;padding-left:20px">
+        <li style="margin-bottom:10px"><a href="#" style="font-weight:600;text-decoration:underline">Cycle-Aware Trip Planner</a> (8.2) &mdash; health domain, simple product, your travel companion proves you can build it. <span style="color:#4B6344;font-weight:600">PUSH.</span></li>
+        <li style="margin-bottom:10px"><a href="#" style="font-weight:600;text-decoration:underline">Active Recall Study App</a> (7.6) &mdash; education, offline-first PWA pattern you already know from Keepr. <span style="color:#4B6344;font-weight:600">PUSH.</span></li>
+        <li style="margin-bottom:10px"><a href="#" style="font-weight:600;text-decoration:underline">Freelancer Services Hub</a> (7.8) &mdash; marketplace with Stripe. Your Rental Business Kit is the skeleton. <span style="color:#B07B2E;font-weight:600">LEVEL UP.</span></li>
+      </ul>
+
+      <h3 style="font-family:'Newsreader',serif;font-size:20px;font-weight:700;color:#24241F;margin:0 0 12px">The Gap</h3>
+      <p style="margin:0 0 24px">Your portfolio is deep in data utilities and thin in products people pay for. The stack is not the bottleneck &mdash; Next.js + Neon + Clerk + Stripe covers everything from SaaS to marketplaces. The bottleneck is choosing to build another free tracker instead of a product with a price tag.</p>
+
+      <div style="background:#24241F;padding:24px 28px;margin:0 -28px -36px">
+        <h3 style="font-family:'Newsreader',serif;font-size:20px;font-weight:700;color:#4B6344;margin:0 0 12px">One Concrete Suggestion</h3>
+        <p style="color:#F1EFEA;margin:0;line-height:1.7;font-size:15px">Take the Freelancer Services Hub idea and build it for Estonian freelancers. You already have the Clerk + Stripe + Neon multi-tenant skeleton from Rental Business Kit. The market has no local tool. Price it at &euro;9/month. If 50 freelancers sign up in Tallinn, that is &euro;450 MRR &mdash; your first real recurring revenue.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Older Memo - Collapsed -->
+  <div style="background:#fff;border:1px solid #E5E1DA;margin-bottom:12px">
+    <div style="padding:20px 28px;display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-family:'Newsreader',serif;font-size:16px;font-weight:700">Memo #14</span>
+        <span style="font-size:12px;color:#75726A">Aug 28, 2026</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;color:#75726A">5 discoveries</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="#75726A" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1px solid #E5E1DA;margin-bottom:12px">
+    <div style="padding:20px 28px;display:flex;align-items:center;justify-content:space-between;cursor:pointer">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-family:'Newsreader',serif;font-size:16px;font-weight:700">Memo #13</span>
+        <span style="font-size:12px;color:#75726A">Aug 14, 2026</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:11px;color:#75726A">8 discoveries</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 5L6 8L9 5" stroke="#75726A" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</x-dc>
+</body>
+</html>
