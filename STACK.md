@@ -1,12 +1,12 @@
 # Idea Radar — Stack
 
-> Last updated: 2026-09-12
+> Last updated: 2026-09-14
 
 ## Services
 
 | Service | Purpose | Env Vars |
 |---------|---------|----------|
-| **Neon** | Postgres DB (sources, discoveries, builder_profile, builder_memos, scrape_runs) | `DATABASE_URL` |
+| **Neon** | Postgres DB (sources, discoveries, builder_profile, builder_memos, scrape_runs, youtube_videos, youtube_memos) | `DATABASE_URL` |
 | **Neon (ee-ai-watch)** | EE AI Builders Watch DB — watch_* tables + admin-compatible sources/snapshots/scrape_runs | `DATABASE_URL_EEWATCH` |
 | **Vercel** | Next.js dashboard hosting + Loop API | `LOOP_TOKEN`, `CRON_SECRET` |
 | **GitHub Actions** | Bi-weekly scraper (1st & 15th, 06:00 UTC) + pre-filter | `DATABASE_URL`, `GH_API_TOKEN` (GH secrets) |
