@@ -114,7 +114,7 @@ The newsletter is a **coaching brief**, not a link list. You are writing 4-6 par
 5. One concrete suggestion — a specific product to build, with the growth-gap rationale.
 6. (Optional) A wildcard or a contrarian take — something from the rejects that deserved a second look.
 
-Generate this JSON and POST it:
+Generate this JSON and POST it. Each section gets its own labeled block in the email — scannable, not a wall of text:
 
 ```json
 {
@@ -122,15 +122,15 @@ Generate this JSON and POST it:
   "newsletter": {
     "subject": "<Short, specific subject — name the insight, not the count>",
     "stats": { "total": <screened>, "accepted": <scored>, "push": <push>, "levelUp": <levelUp> },
-    "paragraphs": [
-      "<paragraph 1 — the hook insight>",
-      "<paragraph 2 — the pattern>",
-      "<paragraph 3 — discoveries as evidence, titles inline>",
-      "<paragraph 4 — the gap>",
-      "<paragraph 5 — the build suggestion>"
+    "sections": [
+      { "label": "The signal", "text": "<2-3 sentences. The sharpest insight. Lead with the thing.>" },
+      { "label": "The pattern", "text": "<What domains keep appearing, what the comfort zone looks like from the data.>" },
+      { "label": "What stood out", "text": "<2-3 discoveries woven into prose. What building them would teach. Titles inline for auto-linking.>" },
+      { "label": "The gap", "text": "<The single biggest hole between portfolio and market.>" },
+      { "label": "Build this", "text": "<One specific product to build, with the growth-gap rationale.>" }
     ],
     "references": [
-      { "title": "<exact discovery title as used in paragraphs>", "url": "<url>" },
+      { "title": "<exact discovery title as used in sections>", "url": "<url>" },
       { "title": "<another>", "url": "<url>" }
     ]
   }
