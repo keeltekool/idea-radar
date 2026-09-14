@@ -1,82 +1,66 @@
 # Idea Radar — RESUME HERE
 
 > Fresh-session entry point. Read top to bottom, then the "Read next" files in order.
-> Settled decisions are settled — do not re-ask, do not re-litigate. Updated 2026-09-12.
+> Settled decisions are settled — do not re-ask, do not re-litigate. Updated 2026-09-14.
 
 ## State
 
 - **Prod URL:** https://idea-radar-topaz.vercel.app
 - **Repo:** keeltekool/idea-radar
-- **Last commit:** `2db3eb0` — GH Actions + newsletter migration
+- **Last commit:** See `git log --oneline -5`
 - **Tree:** clean after push
 - **Deployed:** yes, Vercel auto-deploy
 
 ## What this project is (30 seconds)
 
-Builder growth compass — scrapes 31 consumer-product sources bi-weekly, AI-scores discoveries for growth potential using PUSH/LEVEL UP lanes with comfort-zone penalties and growth-gap bonuses, generates coaching memos. Dashboard with dark memo hero, full-width discovery cards with score strips, domain tags. Source management via federated EUDI admin.
+Builder growth compass with two radars:
+
+1. **Main Radar** — scrapes 20 non-YouTube consumer-product sources twice weekly (Mon/Thu), AI-scores discoveries using PUSH/LEVEL UP lanes with growth-gap bonuses, generates coaching memos and prose newsletter. Cloud routine Mon/Thu 04:00 UTC.
+
+2. **YouTube Radar** (NEW, 2026-09-14) — scrapes 21 YouTube tutorial channels weekly (Sunday), extracts full metadata + transcripts via yt-dlp, AI analyzes what each video teaches and what to build from it, generates visual newsletter with thumbnails. Cloud routine Sunday 17:00 UTC.
+
+Both radars share: same Neon DB, same Vercel deployment, same Resend newsletter subscriber list. Switcher dropdown in header toggles between Main Radar / YouTube Radar / EE Watch.
 
 ## Current state — done / undone
 
-### Done (2026-09-12 session)
-- Source overhaul: 7 developer sources deactivated, 16 consumer sources added (31 active total)
-- Keyword filter retuned for consumer products + growth domains
-- Scoring criteria rewritten: PUSH/LEVEL UP lanes, comfort-zone penalties, growth-gap bonuses
-- UI redesign: PUSH/LEVEL UP tabs, dark memo hero, full-width cards with score strips, domain tags
-- `/api/loop` route built — EUDI pattern, token-guarded (GET: filter, get-relevant, status; POST: filter-decisions, run-filter, score-decisions, update-rates, save-memo)
-- LOOP_TOKEN + CRON_SECRET generated and added to .env.local + Vercel
-- GitHub Actions workflow: `.github/workflows/scrape.yml` — bi-weekly 1st & 15th, 06:00 UTC
-- GH secrets set: DATABASE_URL, GH_API_TOKEN
-- Newsletter migrated from Brevo to Resend (send route rewritten, env vars cleaned)
-- STACK.md fully updated
-- Plan saved: `docs/plans/2026-09-12-automation-plan.md`
+### Done (2026-09-14 session)
+- YouTube Radar: schema, scraper, API, dashboard, newsletter, cloud routine — all built and deployed
+- 21 YouTube tutorial channel sources seeded with channel IDs
+- 315 videos scraped with full metadata (views, ratings, descriptions, thumbnails)
+- 49+ transcripts pulled via yt-dlp
+- GH Actions workflow for Sunday scrape + transcript pulling
+- Cloud routine created (Opus 5, Sunday 17:00 UTC)
+- Radar switcher dropdown (3-way: Main Radar / YouTube Radar / EE Watch)
+- Main radar: 405 old garbage items purged, 6 news sources killed, pre-filter tightened
+- Main radar newsletter rebuilt as prose coaching brief (not card dump)
+- Main radar cloud routine updated to twice weekly (Mon/Thu)
+- All 6 pages verified: 0 console errors, 0 failed requests
 
 ### Undone / pending
-- **Resend API key** — user must create key named `idea-radar` at resend.com, then add to .env.local + Vercel as `RESEND_API_KEY`
-- **Cloud routine setup** — bi-weekly (1st & 15th, 07:00 Tallinn, Opus 5). Use `/schedule`. Prompt should read from `loop/idea-radar-pipeline.md` Steps 3-7. Token: LOOP_TOKEN from .env.local. Endpoint: `https://idea-radar-topaz.vercel.app/api/loop`
-- **First full curation pass** — 98 relevant items sitting in DB from the test scrape. Need AI scoring with new growth compass criteria.
-- **Builder Profile rescan** — run `scan-profile.ts` (67 projects found), synthesize with growth-gap framing, save via `save-profile.ts`
-- **GH Actions verification** — second run was triggered, check if it succeeded (may need `channel_binding` stripped from DATABASE_URL secret)
-- **Loop endpoint live test** — verify `GET /api/loop?op=status` returns 200 with correct token
-- **Portfolio update** — run `/portfolio` for Idea Radar entry
+- **First YouTube Radar run** — cloud routine triggered, waiting for completion
+- **Tracker Admin wiring** — wire YouTube Radar as project #6 in EUDI admin
+- **Builder Profile rescan** — run scan-profile.ts (67 projects)
+- **Portfolio update** — run /portfolio for Idea Radar entry
+- **YouTube sources management** — user will amend the 21-channel list via Tracker Admin
+
+## Cloud Routines
+
+| Routine | Schedule | Model | ID |
+|---------|----------|-------|-----|
+| Main Radar Curation | Mon & Thu 04:00 UTC | Opus 5 | `trig_01F7P4x3PHq1YW7JuStN7HcW` |
+| YouTube Radar Curation | Sunday 17:00 UTC | Opus 5 | `trig_01WFvdCPwdBqeaUbciNPX4tM` |
 
 ## Read next (in this order)
-1. `STACK.md` — full services table, pipeline architecture, sources list, gotchas
-2. `loop/idea-radar-pipeline.md` — the full pipeline prompt with scoring criteria
-3. `docs/plans/2026-09-12-automation-plan.md` — the 8-task implementation plan
-4. `docs/plans/2026-09-12-resurrection-plan.md` — the strategic plan (sources, scoring, UI)
+1. `STACK.md` — full services table, pipeline architecture, sources list, YouTube Radar section
+2. `docs/SPEC-youtube-radar.md` — YouTube Radar spec (complete)
+3. `docs/plans/2026-09-14-youtube-radar-plan.md` — build plan (5 phases)
+4. `loop/idea-radar-pipeline.md` — main radar routine prompt
+5. `loop/youtube-radar-pipeline.md` — YouTube radar routine prompt
 
-## Critical context that must not be lost
+## Critical context
 
-1. **Sources are in Neon, managed via federated EUDI admin** — not hardcoded. EUDI admin at `eudi-wallet-tracker.vercel.app/admin` has Idea Radar as project #3.
-2. **Scoring penalizes comfort zone** — aggregators, trackers, dashboards, Estonian utilities get -2 on novelty/stretch. Growth gaps (health, education, creative, multiplayer, social, gaming, mobile, hardware) get +2.
-3. **This is NOT a business tool** — no revenue signals, no MRR badges, no market analysis. It's a builder inspiration tool. "What cool things are people building that make you go I want to build something like that."
-4. **PUSH lane = what new skill would this teach you.** LEVEL UP lane = what craft angle would make yours better. NOT "what market to enter" or "what revenue opportunity."
-5. **EUDI pattern for loop endpoints** — cloud routine calls token-guarded /api/loop, DB never leaves Vercel. Scrape happens on GitHub Actions (separate from routine).
-6. **The user wants to be pushed into unfamiliar domains** — they are stuck building the same patterns (scrape→filter→display). The tool should fight that tendency.
-7. **Newsletter is Resend** (Brevo deprecated globally). API key not yet created for this project.
-8. **Reddit RSS** — use `.rss` endpoint, not `.json`. JSON endpoints return 403/429 from datacenter IPs.
-9. **Product Hunt** — switched from GraphQL API (needed auth token) to RSS feed (no auth needed).
-
-## Gotchas from this session
-
-- Worker scripts use `config({ path: "../../.env.local" })` — must run from `worker/src/` directory or the env vars don't load
-- GitHub Actions: DATABASE_URL secret had invalid format on first attempt — re-set with `gh secret set --body` (not piped)
-- Vercel env vars added between deploys need a new deploy (empty commit) to take effect
-- The design canvas went through 3 iterations — revenue signals were wrong framing, same-layout-with-relabels was lazy. Final approved version: full-width cards with score strip, tabs instead of columns, dark memo hero.
-- Reddit rate limiting: rapid sequential requests to multiple subreddits get 429. 1.5s delay between sources in the scraper helps.
-
-## Pending owner items
-- [ ] Create Resend API key named `idea-radar` at resend.com → add to .env.local + Vercel as RESEND_API_KEY
-- [ ] Set up cloud routine via `/schedule` (1st & 15th, 07:00 Tallinn, Opus 5, prompt from pipeline.md)
-- [ ] Run first full curation pass with new scoring (98 items waiting)
-- [ ] Review dashboard at https://idea-radar-topaz.vercel.app after curation
-
-## The continuation prompt (paste into the fresh window)
-
-```
-Continue the Idea Radar resurrection build. Read C:\Users\Kasutaja\Claude_Projects\idea-radar\RESUME-HERE.md first and follow it exactly — settled decisions are settled, do not re-ask them.
-
-Mission: Complete the remaining items — (1) set up the bi-weekly cloud routine via /schedule following EUDI pattern (prompt from loop/idea-radar-pipeline.md, endpoint https://idea-radar-topaz.vercel.app/api/loop, LOOP_TOKEN from .env.local), (2) run the first full curation pass on the 98 relevant items using the growth compass scoring, (3) rescan Builder Profile from 67 projects with growth-gap framing, (4) verify GH Actions scrape works end-to-end, (5) portfolio update.
-
-The user needs to create a Resend API key for the newsletter — prompt them for it. Sources: STACK.md for architecture, loop/idea-radar-pipeline.md for scoring criteria. Gates: loop endpoint returns 200, GH Actions scrape succeeds, dashboard shows scored discoveries. Go.
-```
+1. **YouTube transcripts run in GH Actions (yt-dlp), not Vercel** — YouTube blocks datacenter IPs from fetching captions. GH Actions pulls transcripts and stores in DB. Cloud routine reads from DB.
+2. **Main radar purged** — 405 old garbage items rejected, only 37 properly curated items remain.
+3. **Newsletter is prose** — not card dumps. Main radar: sectioned coaching brief. YouTube: visual with thumbnails.
+4. **Source types:** `youtube` type in sources table is for YouTube Radar only. Main radar orchestrator skips youtube-type sources.
+5. **Resend BOM fix** — RESEND_API_KEY on Vercel had BOM corruption. The loop route strips non-ASCII from the key.
