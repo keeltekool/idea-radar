@@ -34,6 +34,7 @@ export default function YouTubeDashboard() {
   const [tab, setTab] = useState<Tab>("curated");
   const [videos, setVideos] = useState<Video[]>([]);
   const [total, setTotal] = useState(0);
+  const [allTotal, setAllTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("newest");
@@ -43,6 +44,10 @@ export default function YouTubeDashboard() {
     fetch("/api/youtube/memos?limit=1")
       .then((r) => r.json())
       .then((data) => setLatestMemo(data.items?.[0] || null))
+      .catch(() => {});
+    fetch("/api/youtube/videos?status=all&limit=1")
+      .then((r) => r.json())
+      .then((data) => setAllTotal(data.total || 0))
       .catch(() => {});
   }, []);
 
@@ -91,15 +96,18 @@ export default function YouTubeDashboard() {
         </div>
       )}
 
-      {!latestMemo && !loading && videos.length === 0 && (
+      {!latestMemo && !loading && tab === "curated" && videos.length === 0 && (
         <div className="bg-cream border border-stone-border p-8 text-center mb-6">
-          <p className="text-body text-sm">YouTube Radar starts Sunday. {total === 0 ? "No videos scraped yet." : `${total} videos in the database.`}</p>
+          <p className="text-body text-sm">No curated videos yet. Switch to the All tab to see scraped videos, or wait for the Sunday run.</p>
         </div>
       )}
 
       <div className="flex items-center gap-6 mb-6 pb-4 border-b border-stone-border">
         <span className="text-xs text-slate">
-          <strong className="text-ink">{total} videos</strong>
+          <strong className="text-ink">{allTotal} videos</strong>
+          {tab !== "all" && total !== allTotal && (
+            <> &middot; {total} {tab === "curated" ? "curated" : "filtered"}</>
+          )}
         </span>
       </div>
 

@@ -132,7 +132,9 @@ export async function GET(req: Request) {
       const [sourceCount] = await db
         .select({ count: sql<number>`count(*)::int` })
         .from(sources)
-        .where(eq(sources.active, true));
+        .where(
+          and(eq(sources.active, true), sql`${sources.type} != 'youtube'`)
+        );
 
       const [lastMemo] = await db
         .select({
