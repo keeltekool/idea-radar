@@ -48,6 +48,8 @@ export async function GET(req: Request) {
           ratingCount: v.ratingCount,
           channelName: v.channelName,
           publishedAt: v.publishedAt,
+          hasTranscript: !!v.transcript,
+          transcriptLength: v.transcript?.length || 0,
         })),
         builderProfile: profile?.content || null,
       });
@@ -146,31 +148,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ accepted, skipped, filtered, total: decisions.length });
     }
 
-    if (op === "pull-transcript") {
+    if (op === "get-transcript") {
       const { videoId } = body as { videoId: string; op: string };
       if (!videoId) {
         return NextResponse.json({ error: "videoId required" }, { status: 400 });
       }
 
-      try {
-        const { YoutubeTranscript } = await import("youtube-transcript");
-        const segments = await YoutubeTranscript.fetchTranscript(videoId, { lang: "en" });
-        const transcript = segments.map((s: { text: string }) => s.text).join(" ");
+      const [video] = await db
+        .select({ transcript: youtubeVideos.transcript })
+        .from(youtubeVideos)
+        .where(eq(youtubeVideos.videoId, videoId));
 
-        // Store in DB
-        await db
-          .update(youtubeVideos)
-          .set({ transcript })
-          .where(eq(youtubeVideos.videoId, videoId));
-
-        return NextResponse.json({ videoId, length: transcript.length });
-      } catch (e) {
-        return NextResponse.json({
-          videoId,
-          error: `Transcript not available: ${String(e)}`,
-          length: 0,
-        });
+      if (!video?.transcript) {
+        return NextResponse.json({ videoId, transcript: null, length: 0 });
       }
+
+      return NextResponse.json({ videoId, transcript: video.transcript, length: video.transcript.length });
     }
 
     if (op === "save-memo") {

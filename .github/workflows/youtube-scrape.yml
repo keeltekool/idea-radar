@@ -9,7 +9,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
 
     steps:
       - name: Checkout code
@@ -23,7 +23,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run YouTube scraper
+      - name: Install yt-dlp
+        run: pip install yt-dlp
+
+      - name: Run YouTube RSS scraper
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: cd worker && npx tsx src/youtube-scrape.ts
+
+      - name: Pull transcripts for new videos
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TMPDIR: /tmp
+        run: cd worker && npx tsx src/youtube-transcripts.ts
