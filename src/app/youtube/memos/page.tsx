@@ -49,14 +49,17 @@ export default function YouTubeMemosPage() {
           </button>
 
           {expanded === memo.id && (
-            <div className="pb-6 prose prose-sm max-w-none text-body leading-relaxed">
+            <div className="pb-6 max-w-none text-body leading-relaxed">
               {memo.content.split("\n").map((line, i) => {
+                if (line.startsWith("# ") && !line.startsWith("## "))
+                  return <h2 key={i} className="text-ink font-bold text-xl mt-6 mb-3 border-b border-stone-border pb-2">{line.replace(/^#+ /, "")}</h2>;
                 if (line.startsWith("## "))
-                  return <h2 key={i} className="text-ink font-bold text-lg mt-6 mb-2">{line.replace("## ", "")}</h2>;
-                if (line.startsWith("**") && line.endsWith("**"))
-                  return <p key={i} className="font-bold text-ink mt-4 mb-1">{line.replace(/\*\*/g, "")}</p>;
-                if (line.trim() === "") return <div key={i} className="h-2" />;
-                return <p key={i} className="mb-2">{line}</p>;
+                  return <h3 key={i} className="text-ink font-bold text-base mt-6 mb-2">{line.replace("## ", "")}</h3>;
+                if (line.trim() === "") return <div key={i} className="h-3" />;
+                const rendered = line
+                  .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-ink font-semibold">$1</strong>')
+                  .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+                return <p key={i} className="mb-2 text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: rendered }} />;
               })}
             </div>
           )}

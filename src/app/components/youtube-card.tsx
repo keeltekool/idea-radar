@@ -53,19 +53,19 @@ export function YouTubeCard({ video, scored }: { video: Video; scored: boolean }
   const url = `https://www.youtube.com/watch?v=${video.videoId}`;
 
   return (
-    <div className="border border-stone-border bg-canvas p-0 mb-4">
-      <div className="flex flex-col sm:flex-row gap-0">
+    <div className="border border-stone-border bg-canvas mb-4">
+      <div className="flex flex-col sm:flex-row">
         {video.thumbnailUrl && (
           <a
             href={url}
             target="_blank"
             rel="noopener"
-            className="shrink-0 block sm:w-[200px] md:w-[240px]"
+            className="shrink-0 block sm:w-[220px] md:w-[260px] m-4 sm:mr-0"
           >
             <img
               src={video.thumbnailUrl}
               alt=""
-              className="w-full aspect-video object-cover"
+              className="w-full aspect-video object-cover rounded-sm"
               loading="lazy"
             />
           </a>

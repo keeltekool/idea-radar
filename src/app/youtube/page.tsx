@@ -88,7 +88,7 @@ export default function YouTubeDashboard() {
             </span>
           </div>
           <p className="font-serif italic text-lg md:text-xl leading-relaxed text-canvas/90 line-clamp-4">
-            &ldquo;{latestMemo.content.slice(0, 300)}...&rdquo;
+            &ldquo;{latestMemo.content.replace(/[#*_]/g, "").replace(/\n+/g, " ").slice(0, 300).trim()}...&rdquo;
           </p>
           <a href="/youtube/memos" className="inline-block mt-4 text-sm text-olive hover:underline">
             Read the full memo &rarr;
