@@ -130,8 +130,29 @@ npx drizzle-kit push                           # Push schema to Neon
 9. Dashboard shows dark memo hero card (if memos exist)
 10. `GET /api/loop?op=status` with Bearer LOOP_TOKEN → returns source/discovery counts
 
+## YouTube Radar (`/youtube` — separate view)
+
+Tutorial-focused YouTube content radar with transcript analysis. 21 channels, weekly cycle.
+
+- **Sources:** 21 YouTube tutorial channels (type `youtube` in sources table)
+- **Table:** `youtube_videos` (315+ videos with full metadata + transcripts), `youtube_memos`
+- **Scrape:** GH Actions Sunday 14:00 UTC — RSS metadata + yt-dlp transcripts
+- **Routine:** Cloud routine Sunday 17:00 UTC (Opus 5). Routine ID: `trig_01WFvdCPwdBqeaUbciNPX4tM`
+- **API:** `/api/youtube-loop` (token-guarded), `/api/youtube/videos` (public), `/api/youtube/memos`
+- **Newsletter:** Visual with thumbnails, sections: signal/watch/skip/technique/build-this
+- **Dashboard:** `/youtube` with curated/filtered/all tabs, video cards with thumbnails + AI analysis
+- **Memos:** `/youtube/memos`
+- **Spec:** `docs/SPEC-youtube-radar.md`
+
+## Cloud Routines
+
+| Routine | Schedule | Model | ID |
+|---------|----------|-------|-----|
+| Main Radar Curation | Mon & Thu 04:00 UTC | Opus 5 | `trig_01F7P4x3PHq1YW7JuStN7HcW` |
+| YouTube Radar Curation | Sunday 17:00 UTC | Opus 5 | `trig_01WFvdCPwdBqeaUbciNPX4tM` |
+
 ## Pending Items
 
-- **Resend API key** — user creates key named `idea-radar` in Resend dashboard, adds to .env.local + Vercel
-- **Cloud routine** — LIVE, Mon & Thu 04:00 UTC (07:00 Tallinn), Opus 5. Routine ID: `trig_01F7P4x3PHq1YW7JuStN7HcW`
+- **Resend API key** — LIVE (added to .env.local + Vercel)
 - **Builder Profile rescan** — run `scan-profile.ts` + synthesize with growth-gap framing (67 projects)
+- **Tracker Admin** — wire YouTube Radar as project in EUDI admin
