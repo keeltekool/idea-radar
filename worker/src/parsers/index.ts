@@ -7,7 +7,7 @@ import { parseRss } from "./rss";
 import type { ParseResult } from "./types";
 
 type SourceInput = {
-  type: "producthunt" | "github" | "hackernews" | "devto" | "reddit" | "rss";
+  type: "producthunt" | "github" | "hackernews" | "devto" | "reddit" | "rss" | "youtube";
   url: string;
   config: Record<string, unknown>;
 };

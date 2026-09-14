@@ -49,3 +49,8 @@ scripts/output/
 
 # LinkedIn session for social sweep (holds cookies — never commit)
 .pw-profile/
+.pw-yt-profile/
+yt-subscriptions.json
+yt-subs-screenshot.png
+scrape-yt-subs.mjs
+deploy-verify-*.png

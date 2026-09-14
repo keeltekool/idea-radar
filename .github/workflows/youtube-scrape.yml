@@ -1,0 +1,29 @@
+name: YouTube Scrape
+
+on:
+  schedule:
+    # Weekly: Sunday at 14:00 UTC (17:00 Tallinn), 3h before cloud routine
+    - cron: "0 14 * * 0"
+  workflow_dispatch: # Manual trigger from GitHub UI
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run YouTube scraper
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: cd worker && npx tsx src/youtube-scrape.ts

@@ -8,6 +8,24 @@
         "value": "plus jakarta sans",
         "createdAt": "2026-09-12T18:51:45.380Z",
         "reason": "Existing project design system font — matching the app, not choosing anew"
+      },
+      {
+        "rule": "overused-font",
+        "value": "*",
+        "files": [
+          "C:\\Users\\Kasutaja\\Claude_Projects\\idea-radar\\src\\app\\api\\loop\\route.ts"
+        ],
+        "createdAt": "2026-09-12T20:54:42.213Z",
+        "reason": "email HTML template: must use system font stacks, web fonts don't load in email clients"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "C:\\Users\\Kasutaja\\Claude_Projects\\idea-radar\\src\\app\\api\\loop\\route.ts"
+        ],
+        "createdAt": "2026-09-12T20:54:42.324Z",
+        "reason": "email HTML template: border-left callout is standard email pattern"
       }
     ]
   }

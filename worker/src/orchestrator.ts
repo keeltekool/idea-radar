@@ -26,6 +26,7 @@ export async function runScrape(db: Database): Promise<void> {
     console.log(`[scrape] Found ${activeSources.length} active sources`);
 
     for (const source of activeSources) {
+      if (source.type === "youtube") continue;
       console.log(`[scrape] Processing: ${source.name} (${source.type})`);
 
       try {
