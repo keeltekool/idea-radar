@@ -35,6 +35,12 @@
         ],
         "createdAt": "2026-09-14T16:33:48.651Z",
         "reason": "email HTML template: must use system font stacks, web fonts don't load in email clients"
+      },
+      {
+        "rule": "overused-font",
+        "value": "helvetica",
+        "createdAt": "2026-09-19T16:03:59.607Z",
+        "reason": "Claude: src/app/api/youtube-loop/route.ts is an HTML email template; email clients do not load web fonts, system stack is required. Pre-existing, not touched by the 2026-09-19 copy edit."
       }
     ]
   }
