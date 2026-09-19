@@ -262,7 +262,7 @@ ${renderSection(s)}
 <div style="border-top:1px solid #2a2a2a;margin:0 0 32px"></div>
 
 <div style="background:#111;padding:10px 16px;margin:0 0 28px;text-align:center">
-<span style="color:#75726A;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase">${nl.stats.total} screened &middot; ${nl.stats.scored} scored &middot; weekly run</span>
+<span style="color:#75726A;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:1.5px;text-transform:uppercase">${nl.stats.total} screened &middot; ${nl.stats.scored} scored</span>
 </div>
 
 ${bodyHtml}
@@ -272,7 +272,7 @@ ${bodyHtml}
 </div>
 
 <div style="border-top:1px solid #1a1a1a;margin:36px 0 0;padding:20px 0 0;text-align:center">
-<p style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0">Weekly from YouTube Radar</p>
+<p style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0">From YouTube Radar</p>
 <p style="margin:6px 0 0"><a href="${esc(unsubUrl)}" style="color:#444;font-size:10px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-decoration:underline">Unsubscribe</a></p>
 </div>
 

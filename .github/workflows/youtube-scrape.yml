@@ -2,8 +2,9 @@ name: YouTube Scrape
 
 on:
   schedule:
-    # Weekly: Sunday at 14:00 UTC (17:00 Tallinn), 3h before cloud routine
-    - cron: "0 14 * * 0"
+    # Sun/Tue/Thu at 09:00 UTC — 8h before the 17:00 UTC cloud routine
+    # (GitHub fires scheduled runs 3–6h late on this account; the margin absorbs it)
+    - cron: "0 9 * * 0,2,4"
   workflow_dispatch: # Manual trigger from GitHub UI
 
 jobs:

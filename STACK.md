@@ -132,12 +132,12 @@ npx drizzle-kit push                           # Push schema to Neon
 
 ## YouTube Radar (`/youtube` — separate view)
 
-Tutorial-focused YouTube content radar with transcript analysis. 21 channels, weekly cycle.
+Tutorial-focused YouTube content radar with transcript analysis. 21 channels, three cycles a week (Sun/Tue/Thu).
 
 - **Sources:** 21 YouTube tutorial channels (type `youtube` in sources table)
 - **Table:** `youtube_videos` (315+ videos with full metadata + transcripts), `youtube_memos`
-- **Scrape:** GH Actions Sunday 14:00 UTC — RSS metadata + yt-dlp transcripts
-- **Routine:** Cloud routine Sunday 17:00 UTC (Opus 5). Routine ID: `trig_01WFvdCPwdBqeaUbciNPX4tM`
+- **Scrape:** GH Actions Sun/Tue/Thu 09:00 UTC — RSS metadata + yt-dlp transcripts (8h margin: GitHub fires schedules 3–6h late on this account)
+- **Routine:** Cloud routine Sun/Tue/Thu 17:00 UTC (Opus 5). Routine ID: `trig_01WFvdCPwdBqeaUbciNPX4tM`
 - **API:** `/api/youtube-loop` (token-guarded), `/api/youtube/videos` (public), `/api/youtube/memos`
 - **Newsletter:** Visual with thumbnails, sections: signal/watch/skip/technique/build-this
 - **Dashboard:** `/youtube` with curated/filtered/all tabs, video cards with thumbnails + AI analysis
@@ -149,7 +149,7 @@ Tutorial-focused YouTube content radar with transcript analysis. 21 channels, we
 | Routine | Schedule | Model | ID |
 |---------|----------|-------|-----|
 | Main Radar Curation | Mon & Thu 04:00 UTC | Opus 5 | `trig_01F7P4x3PHq1YW7JuStN7HcW` |
-| YouTube Radar Curation | Sunday 17:00 UTC | Opus 5 | `trig_01WFvdCPwdBqeaUbciNPX4tM` |
+| YouTube Radar Curation | Sun/Tue/Thu 17:00 UTC | Opus 5 | `trig_01WFvdCPwdBqeaUbciNPX4tM` |
 
 ## Pending Items
 
