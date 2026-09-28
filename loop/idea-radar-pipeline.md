@@ -37,7 +37,7 @@ The builder has 45+ projects. These patterns are OVERREPRESENTED and get a -2 pe
 - Aggregators / scrapers / feed readers (EUDI, Athlon, HankeRadar, Idea Radar, VAIB-X)
 - Price trackers / comparison tools (Hinnavaht, Sinu Aed, PriceHNTR)
 - Dashboard / admin UIs (LCC, Launchpad, Spordipaev)
-- Estonian-market utilities (Keeletark, Kalkulaator, Energiatark)
+- Estonian-market utilities (Kalkulaator, Energiatark)
 
 **THE BUILDER'S GROWTH GAPS (reward these with +2 on novelty/stretch):**
 - Health / wellness / fitness (only GymPal)
