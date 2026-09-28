@@ -32,4 +32,5 @@ jobs:
       - name: Run pre-filter
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }} # Jev gate; without it the keyword gate runs
         run: cd worker && npx tsx src/pre-filter.ts

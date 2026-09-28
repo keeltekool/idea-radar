@@ -84,6 +84,7 @@ export const discoveries = pgTable(
     relevanceScore: real("relevance_score"),
     improvabilityScore: real("improvability_score"),
     compositeScore: real("composite_score"),
+    jevScore: real("jev_score"), // Jev pre-filter score; null = keyword fallback or pre-Jev item
     summary: text("summary"),
     categories: text("categories").array().default([]),
     rejectionReason: text("rejection_reason"),

@@ -1,7 +1,7 @@
 # Idea Radar Pipeline — Loop Prompt
 
 ## Goal
-Scrape 31 consumer-product sources (Mon & Thu), keyword-filter noise, score survivors against the Builder Profile's GROWTH GAPS, and curate discoveries that PUSH the builder into unfamiliar domains or LEVEL UP their craft.
+Scrape 31 consumer-product sources (Mon & Thu), filter noise (Jev gate), score survivors against the Builder Profile's GROWTH GAPS, and curate discoveries that PUSH the builder into unfamiliar domains or LEVEL UP their craft.
 
 ## Working Directory
 `C:\Users\Kasutaja\Claude_Projects\idea-radar`
@@ -14,11 +14,11 @@ cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/run-scrape
 ```
 Fetches from 14 active consumer-product sources (Product Hunt, HN Show/Launch, Dev.to, Reddit, Medium, Kicktraq, YouTube) and stores raw items as "pending" in Neon.
 
-### Step 2: Pre-filter (keyword gate)
+### Step 2: Pre-filter (Jev gate, keyword fallback)
 ```bash
 cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/pre-filter.ts
 ```
-Marks items as "relevant" or "irrelevant" based on consumer-product keyword matching. No AI needed.
+Marks items as "relevant" or "irrelevant". Jev (TypeSafe decision model, `worker/src/jev-gate.ts`) scores each item against the Builder Profile and keeps it at `jev_score` ≥ 0.215. If `TYPESAFE_API_KEY` is missing or a call fails, that item falls back to the keyword gate (`src/lib/filter-terms.ts`); the summary line reports `keywordFallback`. Evidence and thresholds: `Claude_Projects/jev/KNOWLEDGE.md` §11.
 
 ### Step 3: Read relevant discoveries for scoring
 ```bash

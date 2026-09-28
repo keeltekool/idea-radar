@@ -1,6 +1,6 @@
 # Idea Radar — Stack
 
-> Last updated: 2026-09-14
+> Last updated: 2026-09-28
 
 ## Services
 
@@ -9,7 +9,8 @@
 | **Neon** | Postgres DB (sources, discoveries, builder_profile, builder_memos, scrape_runs, youtube_videos, youtube_memos) | `DATABASE_URL` |
 | **Neon (ee-ai-watch)** | EE AI Builders Watch DB — watch_* tables + admin-compatible sources/snapshots/scrape_runs | `DATABASE_URL_EEWATCH` |
 | **Vercel** | Next.js dashboard hosting + Loop API | `LOOP_TOKEN`, `CRON_SECRET` |
-| **GitHub Actions** | Bi-weekly scraper (1st & 15th, 06:00 UTC) + pre-filter | `DATABASE_URL`, `GH_API_TOKEN` (GH secrets) |
+| **GitHub Actions** | Bi-weekly scraper (1st & 15th, 06:00 UTC) + pre-filter | `DATABASE_URL`, `GH_API_TOKEN`, `TYPESAFE_API_KEY` (GH secrets) |
+| **TypeSafe AI (Jev)** | Pre-filter gate: 3 yes/no questions per item vs the Builder Profile, keep at score ≥ 0.215, keyword gate as fallback. Evidence: `jev/KNOWLEDGE.md` §11 | `TYPESAFE_API_KEY` (key `idea-radar`) |
 | **Resend** | Newsletter email delivery (pending API key setup) | `RESEND_API_KEY` |
 | **Loop Control Center** | FALLBACK — manual loops intact | `LCC_API_KEY`, `EEWATCH_LCC_LOOP_ID` |
 | **GitHub** | `GITHUB_TOKEN` for GitHub Search API source | `GITHUB_TOKEN` |
@@ -34,7 +35,7 @@
 ```
 GitHub Actions (Mon & Thu, 03:00 UTC / 06:00 Tallinn):
   1. Scrape 31 active sources → pending discoveries in Neon
-  2. Pre-filter (keyword gate) → relevant/irrelevant
+  2. Pre-filter (Jev gate, keyword fallback) → relevant/irrelevant + jev_score
 
 Cloud routine (Mon & Thu, 04:00 UTC / 07:00 Tallinn, 1h after GH Actions):
   3. GET /api/loop?op=get-relevant → read items + builder profile
