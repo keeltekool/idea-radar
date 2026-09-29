@@ -27,7 +27,7 @@
 ## Auth
 
 - Dashboard: public, no auth (personal tool)
-- Admin: via Tracker Admin (eudi-wallet-tracker.vercel.app/admin), password gate
+- Admin: **Scrapyard** (https://scrapyard-ten.vercel.app), password gate
 - Loop API: Bearer LOOP_TOKEN
 
 ## Pipeline (automated twice weekly + cloud routine)
@@ -70,18 +70,17 @@ Two lanes with comfort-zone penalties and growth-gap bonuses:
 - **Growth gap bonus (+2):** health, education, creative tools, multiplayer/realtime, social, gaming, mobile-first, hardware/IoT, new interaction patterns
 - Full criteria in `loop/idea-radar-pipeline.md`
 
-## Admin (Federated — Tracker Admin project #3)
+## Admin (Scrapyard)
 
-Shared admin at `eudi-wallet-tracker.vercel.app/admin` with project switcher.
-- `DATABASE_URL_IDEARADAR` env var on EUDI Vercel
-- `schema-idearadar.ts` in EUDI repo
-- Source table with type badges, acceptance rates, bulk actions
+Sources of Idea Radar, Idea Radar YouTube and EE AI Builders Watch are managed in **Scrapyard** (https://scrapyard-ten.vercel.app, repo `keeltekool/scrapyard`), the shared admin for all radars (moved out of EUDI 2026-09-29).
+- `DATABASE_URL_IDEARADAR` and `DATABASE_URL_EEWATCH` live in Scrapyard's Vercel env
+- Schema read copies in `scrapyard/schemas/`: a change to `sources` or `scrape_runs` here must be mirrored there
 
 ## EE AI Builders Watch (`/watch` tab — separate product, same app)
 
 Estonian AI trainer/agency competitive tracker. Spec: `EE-AI-Influencers-Watcher/SPEC.md`.
 - Own Neon (`ee-ai-watch`), schema owner `src/db/schema-watch.ts` + `drizzle.config.watch.ts`
-- Admin = Tracker Admin project #5 "EE AI Builders Watch"
+- Admin = Scrapyard radar "EE AI Builders Watch"
 - Run: `run loop ee-ai-watch` → executes `loop/ee-ai-watch-pipeline.md`
 - Routes: `/watch`, `/watch/player/[slug]`, `/watch/memos`, `/watch/brief`
 
@@ -125,7 +124,7 @@ npx drizzle-kit push                           # Push schema to Neon
 3. Click "Filtered" — relevant items visible
 4. Navigate to `/profile` — Builder Profile renders
 5. Navigate to `/newsletter` — subscribe form renders
-6. Tracker Admin → switch to "Idea Radar" — 31 sources visible
+6. Scrapyard → Idea Radar: sources visible
 7. Feedback buttons (Sparked/Pass) update DB
 8. Navigate to `/memo` — memos page renders with history
 9. Dashboard shows dark memo hero card (if memos exist)
@@ -156,4 +155,3 @@ Tutorial-focused YouTube content radar with transcript analysis. 21 channels, th
 
 - **Resend API key** — LIVE (added to .env.local + Vercel)
 - **Builder Profile rescan** — run `scan-profile.ts` + synthesize with growth-gap framing (67 projects)
-- **Tracker Admin** — wire YouTube Radar as project in EUDI admin
