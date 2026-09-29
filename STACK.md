@@ -74,7 +74,7 @@ Two lanes with comfort-zone penalties and growth-gap bonuses:
 
 Sources of Idea Radar, Idea Radar YouTube and EE AI Builders Watch are managed in **Scrapyard** (https://scrapyard-ten.vercel.app, repo `keeltekool/scrapyard`), the shared admin for all radars (moved out of EUDI 2026-09-29).
 - `DATABASE_URL_IDEARADAR` and `DATABASE_URL_EEWATCH` live in Scrapyard's Vercel env
-- Schema read copies in `scrapyard/schemas/`: a change to `sources` or `scrape_runs` here must be mirrored there
+- Column names Scrapyard uses are in `scrapyard/radars/`: a change to `sources` or `scrape_runs` here must be mirrored there
 
 ## EE AI Builders Watch (`/watch` tab — separate product, same app)
 
