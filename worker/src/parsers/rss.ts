@@ -17,7 +17,7 @@ async function fetchRedditFeed(feedUrl: string): Promise<string> {
   for (let attempt = 0; ; attempt++) {
     const res = await fetch(feedUrl, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(15000) });
     if (res.status === 429 && attempt < 2) {
-      const wait = Math.min(Number(res.headers.get("x-ratelimit-reset") ?? res.headers.get("retry-after")) || 60, 90);
+      const wait = Math.min(Number(res.headers.get("x-ratelimit-reset") ?? res.headers.get("retry-after")) || 60, 61); // the window is 60 s
       await new Promise((r) => setTimeout(r, (wait + 1) * 1000));
       continue;
     }
