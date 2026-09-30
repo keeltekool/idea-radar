@@ -2,8 +2,8 @@
  * EE AI Builders Watch — authoritative schema for the `ee-ai-watch` Neon DB
  * (Neon project twilight-tree-93490667, env var DATABASE_URL_EEWATCH).
  *
- * This DB is federated into Tracker Admin (eudi-wallet-tracker) as project
- * `eewatch`; the admin keeps a manually synced copy in `src/db/schema-eewatch.ts`.
+ * Scrapyard manages this DB's sources as radar `eewatch`; the columns it touches are named in
+ * `scrapyard/radars/eewatch.ts` (update it when a mapped column changes).
  * DDL is pushed from THIS file via `drizzle.config.watch.ts` — the copy never
  * runs migrations.
  *

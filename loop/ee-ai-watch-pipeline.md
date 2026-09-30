@@ -10,7 +10,7 @@ Working dir: `C:\Users\Kasutaja\Claude_Projects\idea-radar`. Spec: `EE-AI-Influe
 3. **Baseline absorption:** `status="new"` snapshots (new sources) update signal profiles, never the change log.
 4. **Field Brief edits are surgical** — touch only stale sentences, cite source URLs. Never regenerate.
 5. **Social Sweep is a STANDARD step of every run** (user decision 2026-07-09). It is attended (runs are attended anyway), read-only forever, and MUST abort instantly on any LinkedIn challenge/captcha screen — the run then continues on website data only. The user may say "skip the sweep" for a given run; otherwise it fires.
-6. **LinkedIn coverage is a PROCESS, not ad-hoc** (user decision 2026-07-10). The owner only ever adds a website URL in Tracker Admin. Player registration and LinkedIn enrichment happen inside the run (steps 1–2 below); coverage is reported every run. Facebook is permanently out of scope.
+6. **LinkedIn coverage is a PROCESS, not ad-hoc** (user decision 2026-07-10). The owner only ever adds a website URL in Scrapyard. Player registration and LinkedIn enrichment happen inside the run (steps 1–2 below); coverage is reported every run. Facebook is permanently out of scope.
 
 ## Steps
 
