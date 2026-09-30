@@ -110,7 +110,7 @@ npx drizzle-kit push                           # Push schema to Neon
 | Gotcha | Fix |
 |--------|-----|
 | Neon `channel_binding=require` breaks Drizzle | Strip from connection string, use `sslmode=require` only |
-| Reddit rate limits from datacenter IPs (429) | Use RSS format (.rss), 1.5s delay between sources |
+| Reddit lets one unauthenticated RSS request per ~60 s window through from a GitHub Actions runner (x-ratelimit-used 1, remaining 0); every Reddit feed after the first got 429 (2026-09-14 to 09-28) | `parseRss` waits `x-ratelimit-reset` on a 429 and retries (max 2); scrape job timeout 25 min. Proven on a runner 2026-09-30: 9/9 feeds in 439 s |
 | Product Hunt RSS works without auth token | Switched from GraphQL API to RSS — no token needed |
 | Medium RSS feeds inconsistent | Treat as Tier 2, title+excerpt only (paywall) |
 | GitHub Search API rate limit | `GITHUB_TOKEN` in .env.local + GH_API_TOKEN secret |
