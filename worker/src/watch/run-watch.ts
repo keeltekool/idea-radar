@@ -146,9 +146,10 @@ async function main() {
       // Resolve or create the source row
       let row = sourceRow;
       if (!row) {
-        // A discovered link becomes a source only when it loads as an HTML page. Images, feeds and broken paths
-        // would otherwise be re-inserted on every crawl after Scrapyard's fix loop deletes them.
-        if (!result.ok || !result.html) continue;
+        // A discovered link becomes a source only when it loads as an HTML page with readable text. Images, feeds,
+        // broken paths and near-empty pages would otherwise be re-inserted on every crawl after Scrapyard's fix loop
+        // deletes them.
+        if (!result.ok || !result.html || normalizeText(htmlToText(result.html)).length < THIN_TEXT_CHARS) continue;
         const [created] = await db
           .insert(sources)
           .values({
