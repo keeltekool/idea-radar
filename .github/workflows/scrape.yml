@@ -9,7 +9,7 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25 # Reddit allows ~1 request/min from a runner; parseRss waits out each 429 window
 
     steps:
       - name: Checkout code

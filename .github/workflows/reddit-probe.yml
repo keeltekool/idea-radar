@@ -1,17 +1,17 @@
-# Temporary diagnostic (Scrapyard fix-loop plan, task 7.1): how Reddit rate-limits RSS from a GitHub Actions runner.
-# Prints status codes and rate-limit headers only. Delete after reading the result.
+# Temporary diagnostic (Scrapyard fix-loop plan, task 7.1): the real parseRss over every active Reddit feed from a
+# GitHub Actions runner. Writes nothing. Delete after reading the result.
 name: reddit-probe
 on:
   workflow_dispatch:
 jobs:
   probe:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - name: Probe Reddit from the runner
-        run: |
-          probe() {
-            h=$(curl -s -D - -o /dev/null -A "idea-radar-bot/1.0" "$1" | tr -d '\r' | grep -iE '^(HTTP/|retry-after|x-ratelimit)' | tr '\n' ' ')
-            echo "$(date +%T) $1 :: $h"
-          }
-          for sub in SideProject startups AppIdeas indiebiz buildinpublic; do probe "https://www.reddit.com/r/$sub/hot/.rss"; sleep 20; done
-          for sub in EntrepreneurRideAlong InternetIsBeautiful microsaas imadethis; do probe "https://www.reddit.com/r/$sub/hot/.rss"; sleep 45; done
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - name: Reddit feeds through parseRss
+        run: cd worker && npx tsx src/_reddit-check.ts
