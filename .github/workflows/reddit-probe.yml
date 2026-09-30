@@ -1,5 +1,5 @@
-# Temporary diagnostic (Scrapyard fix-loop plan, task 7.1): which Reddit endpoint and user agent answer from a
-# GitHub Actions runner. Prints status codes only. Delete after reading the result.
+# Temporary diagnostic (Scrapyard fix-loop plan, task 7.1): how Reddit rate-limits RSS from a GitHub Actions runner.
+# Prints status codes and rate-limit headers only. Delete after reading the result.
 name: reddit-probe
 on:
   workflow_dispatch:
@@ -9,10 +9,9 @@ jobs:
     steps:
       - name: Probe Reddit from the runner
         run: |
-          probe() { printf "%-9s %-62s %s\n" "$(curl -s -o /dev/null -w '%{http_code}' -A "$2" "$1")" "$1" "$2"; sleep 3; }
-          probe "https://www.reddit.com/r/SideProject/hot/.rss" "idea-radar-bot/1.0"
-          probe "https://www.reddit.com/r/SideProject/hot/.rss" "script:idea-radar:1.0 (personal project discovery)"
-          probe "https://old.reddit.com/r/SideProject/hot/.rss" "script:idea-radar:1.0 (personal project discovery)"
-          probe "https://www.reddit.com/r/SideProject/hot.json?limit=25" "script:idea-radar:1.0 (personal project discovery)"
-          probe "https://www.reddit.com/r/SideProject/hot/.rss" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
-          probe "https://www.reddit.com/r/startups/hot/.rss" "script:idea-radar:1.0 (personal project discovery)"
+          probe() {
+            h=$(curl -s -D - -o /dev/null -A "idea-radar-bot/1.0" "$1" | tr -d '\r' | grep -iE '^(HTTP/|retry-after|x-ratelimit)' | tr '\n' ' ')
+            echo "$(date +%T) $1 :: $h"
+          }
+          for sub in SideProject startups AppIdeas indiebiz buildinpublic; do probe "https://www.reddit.com/r/$sub/hot/.rss"; sleep 20; done
+          for sub in EntrepreneurRideAlong InternetIsBeautiful microsaas imadethis; do probe "https://www.reddit.com/r/$sub/hot/.rss"; sleep 45; done
