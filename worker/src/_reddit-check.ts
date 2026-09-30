@@ -3,6 +3,7 @@
 import { parseRss } from "./parsers/rss";
 
 const subs = ["SideProject", "InternetIsBeautiful", "microsaas", "indiebiz", "startups", "AppIdeas", "buildinpublic", "EntrepreneurRideAlong", "imadethis"];
+async function main() {
 let ok = 0;
 const t0 = Date.now();
 for (const sub of subs) {
@@ -13,3 +14,5 @@ for (const sub of subs) {
   await new Promise((res) => setTimeout(res, 1000));
 }
 console.log(`RESULT ${ok}/${subs.length} Reddit feeds OK in ${Math.round((Date.now() - t0) / 1000)}s`);
+}
+main();
