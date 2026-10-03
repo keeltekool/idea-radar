@@ -136,8 +136,8 @@ Tutorial-focused YouTube content radar with transcript analysis. 21 channels, th
 
 - **Sources:** 21 YouTube tutorial channels (type `youtube` in sources table)
 - **Table:** `youtube_videos` (315+ videos with full metadata + transcripts), `youtube_memos`
-- **Scrape:** GH Actions Sun/Tue/Thu 09:00 UTC — RSS metadata, Shorts skipped (8h margin: GitHub fires schedules 3–6h late on this account). Transcripts: yt-dlp asks for `en-orig` first; `en` on an English video is YouTube's machine-translated copy and answers HTTP 429 even from a home IP. GitHub runners are bot-blocked outright ("Sign in to confirm you're not a bot", 53/53 on 2026-10-03), so the transcript step fails red there; transcripts only come from a home IP: `cd worker && TMPDIR=<existing dir> npx tsx src/youtube-transcripts.ts` (`--check <videoId>` tests one video, no DB). Without them the routine scores on metadata and labels picks "not transcript-verified".
-- **Routine:** Cloud routine Sun/Tue/Thu 17:00 UTC (Opus 5). Routine ID: `trig_01WFvdCPwdBqeaUbciNPX4tM`
+- **Scrape:** GH Actions Sun/Tue/Thu 09:00 UTC collects RSS metadata between manual runs (Shorts skipped); the loop also fetches at its start. Transcripts: yt-dlp asks for `en-orig` first; `en` on an English video is YouTube's machine-translated copy and answers HTTP 429 even from a home IP. GitHub runners and cloud routines are bot-blocked outright ("Sign in to confirm you're not a bot", 53/53 on 2026-10-03), so transcripts only come from the owner's machine, inside the loop (`--check <videoId>` tests one video without the DB).
+- **Run:** manual LCC loop `run loop youtube-radar` (every 84h, LOCAL-ONLY): fetch videos → transcripts → score → memo → newsletter. LCC loop `63d77be4-15aa-4f7c-8e2c-c17b62e79bbb`. The cloud routine `trig_01WFvdCPwdBqeaUbciNPX4tM` is switched off (2026-10-03).
 - **API:** `/api/youtube-loop` (token-guarded), `/api/youtube/videos` (public), `/api/youtube/memos`
 - **Newsletter:** Visual with thumbnails, sections: signal/watch/skip/technique/build-this
 - **Dashboard:** `/youtube` with curated/filtered/all tabs, video cards with thumbnails + AI analysis
@@ -149,7 +149,7 @@ Tutorial-focused YouTube content radar with transcript analysis. 21 channels, th
 | Routine | Schedule | Model | ID |
 |---------|----------|-------|-----|
 | Main Radar Curation | Mon & Thu 04:00 UTC | Opus 5 | `trig_01F7P4x3PHq1YW7JuStN7HcW` |
-| YouTube Radar Curation | Sun/Tue/Thu 17:00 UTC | Opus 5 | `trig_01WFvdCPwdBqeaUbciNPX4tM` |
+| ~~YouTube Radar Curation~~ | off since 2026-10-03, replaced by `run loop youtube-radar` | — | `trig_01WFvdCPwdBqeaUbciNPX4tM` |
 
 ## Pending Items
 

@@ -1,7 +1,11 @@
-# YouTube Radar Pipeline — Cloud Routine Prompt
+# YouTube Radar Pipeline
+
+Run by the manual Loop Control Center loop `run loop youtube-radar` on the owner's machine (the loop prompt in LCC is
+the source of truth; it fetches videos and pulls transcripts first, then follows the steps below). The cloud routine
+`trig_01WFvdCPwdBqeaUbciNPX4tM` was switched off 2026-10-03: YouTube bot-blocks transcript pulls from the cloud.
 
 ## Goal
-Score YouTube tutorial videos scraped by GH Actions, analyze transcripts for the best ones, generate a coaching memo and send a visual newsletter with thumbnails.
+Score YouTube tutorial videos, analyze transcripts for the best ones, generate a coaching memo and send a visual newsletter with thumbnails.
 
 ## API Access
 - Endpoint: https://idea-radar-topaz.vercel.app/api/youtube-loop

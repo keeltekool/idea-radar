@@ -2,8 +2,9 @@ name: YouTube Scrape
 
 on:
   schedule:
-    # Sun/Tue/Thu at 09:00 UTC — 8h before the 17:00 UTC cloud routine
-    # (GitHub fires scheduled runs 3–6h late on this account; the margin absorbs it)
+    # Sun/Tue/Thu at 09:00 UTC: collects video metadata between manual runs of `run loop youtube-radar`, so
+    # nothing scrolls out of a channel feed's last 15. Transcripts are pulled by that loop on the owner's machine:
+    # YouTube bot-blocks yt-dlp from GitHub runners.
     - cron: "0 9 * * 0,2,4"
   workflow_dispatch: # Manual trigger from GitHub UI
 
@@ -24,16 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install yt-dlp
-        run: pip install yt-dlp
-
       - name: Run YouTube RSS scraper
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: cd worker && npx tsx src/youtube-scrape.ts
 
-      - name: Pull transcripts for new videos
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          TMPDIR: /tmp
-        run: cd worker && npx tsx src/youtube-transcripts.ts
