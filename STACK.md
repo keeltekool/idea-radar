@@ -1,6 +1,6 @@
 # Idea Radar — Stack
 
-> Last updated: 2026-09-28
+> Last updated: 2026-10-03
 
 ## Services
 
@@ -136,7 +136,7 @@ Tutorial-focused YouTube content radar with transcript analysis. 21 channels, th
 
 - **Sources:** 21 YouTube tutorial channels (type `youtube` in sources table)
 - **Table:** `youtube_videos` (315+ videos with full metadata + transcripts), `youtube_memos`
-- **Scrape:** GH Actions Sun/Tue/Thu 09:00 UTC — RSS metadata (8h margin: GitHub fires schedules 3–6h late on this account). The yt-dlp transcript step in the same workflow fails 100% from GitHub runners (YouTube blocks datacenter IPs; verified 2026-09-19: 0/60 on the runner, 58/60 from the owner's machine). Transcripts currently come only from a local run of `worker/src/youtube-transcripts.ts` (needs `DATABASE_URL` + a `TMPDIR` that exists). Without them the routine scores on metadata and labels picks "not transcript-verified".
+- **Scrape:** GH Actions Sun/Tue/Thu 09:00 UTC — RSS metadata, Shorts skipped (8h margin: GitHub fires schedules 3–6h late on this account). Transcripts: yt-dlp asks for `en-orig` first; `en` on an English video is YouTube's machine-translated copy and answers HTTP 429 even from a home IP. GitHub runners are bot-blocked outright ("Sign in to confirm you're not a bot", 53/53 on 2026-10-03), so the transcript step fails red there; transcripts only come from a home IP: `cd worker && TMPDIR=<existing dir> npx tsx src/youtube-transcripts.ts` (`--check <videoId>` tests one video, no DB). Without them the routine scores on metadata and labels picks "not transcript-verified".
 - **Routine:** Cloud routine Sun/Tue/Thu 17:00 UTC (Opus 5). Routine ID: `trig_01WFvdCPwdBqeaUbciNPX4tM`
 - **API:** `/api/youtube-loop` (token-guarded), `/api/youtube/videos` (public), `/api/youtube/memos`
 - **Newsletter:** Visual with thumbnails, sections: signal/watch/skip/technique/build-this

@@ -71,6 +71,8 @@ async function main() {
       for (const item of feed.items || []) {
         const videoId = (item as any).ytVideoId || item.link?.match(/v=([^&]+)/)?.[1];
         if (!videoId || !item.title) continue;
+        // Shorts aren't tutorials: a third of the channels' uploads, almost none accepted.
+        if (item.link?.includes("/shorts/")) continue;
 
         // Dedupe
         const existing = await db
