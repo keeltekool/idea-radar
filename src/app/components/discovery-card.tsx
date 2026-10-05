@@ -100,7 +100,7 @@ export function DiscoveryCard({ discovery, variant }: Props) {
       className={`bg-surface border grid hover:bg-cream/50 transition-colors ${
         d.isWildcard ? "border-2 border-ochre" : "border-stone-border"
       }`}
-      style={{ gridTemplateColumns: "72px 1fr" }}
+      style={{ gridTemplateColumns: "72px minmax(0, 1fr)" }}
     >
       {/* Score strip */}
       <div className="bg-ink flex flex-col items-center justify-center py-6">
@@ -116,7 +116,7 @@ export function DiscoveryCard({ discovery, variant }: Props) {
       <div className="p-6">
         {/* Title row */}
         <div className="flex items-baseline gap-2.5 mb-1.5 flex-wrap">
-          <h3 className="text-lg font-extrabold text-ink leading-tight">
+          <h3 className="text-lg font-extrabold text-ink leading-tight [overflow-wrap:anywhere]">
             <a href={d.url} target="_blank" rel="noopener" className="hover:underline">
               {d.title}
             </a>
@@ -157,7 +157,7 @@ export function DiscoveryCard({ discovery, variant }: Props) {
         )}
 
         {/* Score pills + feedback */}
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex gap-1.5 flex-wrap">
             {isFamiliar ? (
               <>

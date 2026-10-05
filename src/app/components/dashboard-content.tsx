@@ -109,7 +109,7 @@ export function DashboardContent() {
       </div>
 
       {/* Tab bar */}
-      <div className="flex items-center gap-0 mb-6">
+      <div className="flex flex-wrap items-center gap-0 gap-y-3 mb-6">
         {TABS.map((t) => (
           <button
             key={t.key}
@@ -126,8 +126,8 @@ export function DashboardContent() {
 
         <div className="flex-1" />
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+          <div className="relative flex-1 min-w-0 sm:flex-none">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate text-base">
               search
             </span>
@@ -136,7 +136,7 @@ export function DashboardContent() {
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-48 bg-surface border border-stone-border py-2 pl-9 pr-3 text-sm focus:outline-none focus:border-ink transition-colors"
+              className="w-full sm:w-48 bg-surface border border-stone-border py-2 pl-9 pr-3 text-sm focus:outline-none focus:border-ink transition-colors"
             />
           </div>
 
