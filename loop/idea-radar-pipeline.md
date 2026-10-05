@@ -80,6 +80,8 @@ Each decision is one of:
 - Familiar: `{"id":N,"status":"accepted","track":"familiar","traction":N,"relevance":N,"improvability":N,"composite":N,"summary":"...","categories":["..."],"isWildcard":false}`
 - Rejected: `{"id":N,"status":"rejected","reason":"one-word"}`
 
+`summary` follows the Writing rules below: exactly 2 short sentences, under 35 words total. Sentence 1: what it is, with its traction if known. Sentence 2: what building it would teach you. Example: "A browser solar system drawing 526k asteroids live, 384 upvotes on Show HN. Teaches: rendering huge datasets at 60fps with instancing and LOD."
+
 Clean up `_decisions.json` after the run.
 
 ### Step 6: Update acceptance rates

@@ -369,7 +369,7 @@ export async function POST(req: Request) {
           const escaped = esc(ref.title);
           html = html.replace(
             escaped,
-            `<a href="${esc(ref.url)}" style="color:#4B6344;text-decoration:underline">${escaped}</a>`
+            `<a href="${esc(ref.url)}" style="color:#9DB894;text-decoration:underline">${escaped}</a>`
           );
         }
         return html;
