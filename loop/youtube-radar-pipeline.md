@@ -61,11 +61,11 @@ Body: `{"op":"score-decisions","decisions":[...]}`
 Each decision: `{"id":N,"status":"accepted"|"skipped"|"filtered","score":N,"verdict":"watch"|"skip","takeaway":"...","buildSuggestion":"...","tags":["..."],"extractedTools":["..."]}`
 
 ### Step 6: Generate and save memo
-Write a 500-800 word coaching brief about this week's YouTube landscape:
-- What topics dominated
-- Which creators produced the strongest content
-- One technique worth learning this week
-- One product to build from the tutorials
+A coaching brief about this week's YouTube landscape, in Markdown, under the **Writing rules** in `loop/idea-radar-pipeline.md` (short lines, bullets, digits, no storytelling; read them first). Keep these headings, bullets under each:
+- `## What dominated` — 2-4 bullets: topics with counts
+- `## Strongest creators` — one bullet per creator: name, the video, why it was strong in one line
+- `## The technique` — first line names it, then 2-3 bullets: what it is, where you'd use it
+- `## Build this` — `**Product name**: what it is, one line`, then `- Why:` and 3 numbered first steps
 ```bash
 curl -s -X POST -H "Authorization: Bearer <LOOP_TOKEN>" -H "Content-Type: application/json" \
   -d @memo.json "https://idea-radar-topaz.vercel.app/api/youtube-loop"
@@ -73,7 +73,7 @@ curl -s -X POST -H "Authorization: Bearer <LOOP_TOKEN>" -H "Content-Type: applic
 Body: `{"op":"save-memo","content":"...","videoCount":N}`
 
 ### Step 7: Generate and send newsletter
-The newsletter is a VISUAL coaching brief with thumbnails. Structure it as sections:
+The newsletter is a VISUAL coaching brief with thumbnails, written under the same **Writing rules** in `loop/idea-radar-pipeline.md`. Every `text` field: lines separated by `\n`, a line starting with `- ` renders as a bullet, `**x**` renders bold. "The signal" = 2-3 bullets. "The technique" and "Build this" = a bold name on the first line, then 2-3 bullets (Build this ends with 3 numbered first steps). Video `takeaway` and `buildSuggestion` are one plain line each, under 20 words. Structure it as sections:
 
 ```json
 {

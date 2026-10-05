@@ -26,8 +26,11 @@ export function LatestMemoCard() {
 
   const firstQuote = memo.content
     .split("\n")
-    .find((l) => l.trim().length > 40 && !l.startsWith("#") && !l.startsWith("-"));
-  const preview = (firstQuote || memo.content.slice(0, 300)).replace(/[#*_]/g, "").trim();
+    .find((l) => l.trim().length > 40 && !l.startsWith("#") && !l.includes("]("));
+  const preview = (firstQuote || memo.content.slice(0, 300))
+    .replace(/^\s*-\s+/, "")
+    .replace(/[#*_]/g, "")
+    .trim();
   const date = new Date(memo.generatedAt).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",

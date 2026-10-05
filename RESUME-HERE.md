@@ -15,7 +15,7 @@
 
 Builder growth compass with two radars:
 
-1. **Main Radar** — scrapes 20 non-YouTube consumer-product sources twice weekly (Mon/Thu), AI-scores discoveries using PUSH/LEVEL UP lanes with growth-gap bonuses, generates coaching memos and prose newsletter. Cloud routine Mon/Thu 04:00 UTC.
+1. **Main Radar** — scrapes 20 non-YouTube consumer-product sources twice weekly (Mon/Thu), AI-scores discoveries using PUSH/LEVEL UP lanes with growth-gap bonuses, generates coaching memos and a sectioned newsletter (short bullet blocks, see Writing rules in loop/idea-radar-pipeline.md). Cloud routine Mon/Thu 04:00 UTC.
 
 2. **YouTube Radar** (NEW, 2026-09-14) — scrapes 21 YouTube tutorial channels weekly (Sunday), extracts full metadata + transcripts via yt-dlp, AI analyzes what each video teaches and what to build from it, generates visual newsletter with thumbnails. Cloud routine Sunday 17:00 UTC.
 
@@ -61,6 +61,6 @@ Both radars share: same Neon DB, same Vercel deployment, same Resend newsletter 
 
 1. **YouTube transcripts run in GH Actions (yt-dlp), not Vercel** — YouTube blocks datacenter IPs from fetching captions. GH Actions pulls transcripts and stores in DB. Cloud routine reads from DB.
 2. **Main radar purged** — 405 old garbage items rejected, only 37 properly curated items remain.
-3. **Newsletter is prose** — not card dumps. Main radar: sectioned coaching brief. YouTube: visual with thumbnails.
+3. **Newsletter and memo are short bullet blocks**, never prose (owner order 05.10.2026). Rules: "Writing rules" in loop/idea-radar-pipeline.md. Main radar: sectioned coaching brief. YouTube: visual with thumbnails.
 4. **Source types:** `youtube` type in sources table is for YouTube Radar only. Main radar orchestrator skips youtube-type sources.
 5. **Resend BOM fix** — RESEND_API_KEY on Vercel had BOM corruption. The loop route strips non-ASCII from the key.

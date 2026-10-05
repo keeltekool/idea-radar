@@ -9,6 +9,7 @@ import {
 import { eq, and, desc, inArray, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { passesPreFilter } from "@/lib/filter-terms";
+import { textToHtml } from "@/lib/email-text";
 
 /**
  * Loop API — token-guarded endpoints for the Idea Radar cloud routine.
@@ -377,8 +378,8 @@ export async function POST(req: Request) {
       const bodyHtml = nl.sections
         .map((s) =>
           `<div style="margin:0 0 28px;padding:0 0 24px;border-bottom:1px solid #1a1a1a">
-<p style="color:#75726A;font-size:9px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;margin:0 0 12px;font-weight:700">${esc(s.label)}</p>
-<p style="font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.75;color:#C8C4BC;margin:0">${linkify(s.text, nl.references || [])}</p>
+<p style="color:#9A968C;font-size:11px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px;font-weight:700">${esc(s.label)}</p>
+${textToHtml(linkify(s.text, nl.references || []))}
 </div>`
         )
         .join("\n");

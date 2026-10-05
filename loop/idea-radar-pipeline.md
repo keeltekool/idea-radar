@@ -87,13 +87,31 @@ Clean up `_decisions.json` after the run.
 cd C:\Users\Kasutaja\Claude_Projects\idea-radar\worker\src && npx tsx update-acceptance-rates.ts
 ```
 
+### Writing rules (memo AND newsletter — read before Steps 7 and 8)
+The reader skims this on a phone between other things. Every line must make sense on its own and point at something to look at or do. If a line needs the line before it to make sense, rewrite it.
+
+- **Blocks, not paragraphs.** Every section is short lines. One idea per line, max ~20 words per line. Never write a paragraph of more than 2 sentences.
+- **Plain words.** Write it the way you'd text a friend who builds software. Digits for all numbers ("43", never "Forty-three").
+- **Every discovery mentioned answers three things:** what it is, which lane (PUSH / LEVEL UP), what building it would teach.
+- **Bold** only the one name per line that matters (an item title, the product to build).
+- **Banned:** storytelling openers, rhetorical setups and reveals ("Read that the right way:", "That is the move you keep…", "You are not X. You are Y."), "not X, it's Y" contrasts, dramatic one-line closers, metaphors, em-dash chains, preamble ("This week we scored…"), a recap at the end, the words "honest", "genuinely", "quietly", "the real story".
+- Keep every section name and its job as defined below. Only the form is fixed here, not the analysis: the insight, the pattern, the gap and the build suggestion stay as sharp as before.
+
+Bad (old style, never again):
+> Forty-three discoveries cleared the PUSH lane at the full 7.0 bar without strain. LEVEL UP needed the lowered 6.5 bar to reach 29. Read that the right way: the market is not short of things that would stretch you — your portfolio is short of things that genuinely fit, because fit now means another aggregator.
+
+Good:
+> - 43 PUSH at the full 7.0 bar. LEVEL UP needed the bar lowered to 6.5 to reach 29.
+> - Plenty out there would stretch you. Little fits your stack without being another aggregator.
+> - Top tags: new-interaction 18, creative-tools 18, AI 17.
+
 ### Step 7: Generate Builder Memo
-Generate a ~800-1200 word coaching brief grounded in this run's accepted discoveries and the Builder Profile. Structure:
-1. **What Came In** — raw numbers (sources, filtered, accepted by lane)
-2. **Patterns You Are Stuck In** — name the comfort zone patterns this run reveals
-3. **Direct Callouts** — every accepted discovery linked, with lane label (PUSH/LEVEL UP)
-4. **The Gap** — the single biggest growth gap between skill level and portfolio
-5. **One Concrete Suggestion** — one specific product to build next, with why and how
+A coaching brief grounded in this run's accepted discoveries and the Builder Profile, written in Markdown under the Writing rules above. Bullets under every heading; length follows the content. Sections (keep these exact headings):
+1. `## What Came In` — 3-5 bullets: raw numbers (sources, filtered, accepted by lane, rejected and why, wildcards)
+2. `## Patterns You Are Stuck In` — 2-4 bullets: the comfort-zone patterns this run reveals, each with counts and 2-3 example items
+3. `## Direct Callouts` — every accepted discovery, one bullet each, under `### PUSH` and `### LEVEL UP` subheadings: `- [Title](url) — what it is, in under 12 words`. Mark wildcards with `(wildcard)`.
+4. `## The Gap` — first line names the single biggest growth gap in one sentence, then 2-3 bullets of evidence from the profile and this run
+5. `## One Concrete Suggestion` — `**Product name**: what it is, one line`, then `- Why:` 1-2 bullets (which missing skill it forces), then `- How:` 3 numbered first steps, then where to ship it
 
 Write the memo as JSON and pipe to `save-memo.ts`:
 ```bash
@@ -102,19 +120,19 @@ cd C:\Users\Kasutaja\Claude_Projects\idea-radar && npx tsx worker/src/save-memo.
 
 ### Step 8: Generate and send newsletter
 
-The newsletter is a **coaching brief**, not a link list. You are writing 4-6 paragraphs to a builder who reads this to understand what the scoring revealed about their growth trajectory. Discoveries are inline citations supporting your analysis — never the main event.
+The newsletter is a **coaching brief**: what the scoring revealed about the builder's growth, written under the Writing rules above. Discoveries support the analysis; titles are auto-linked by the API.
 
-**Voice:** Direct, specific, no filler. Name the pattern, name the gap, name the product. Reference discoveries by title inline (the API auto-links them).
+**Format of every `text` field:** separate lines with `\n`. A line starting with `- ` renders as a bullet. `**x**` renders bold. Each line renders as its own row, so write rows, not prose.
 
-**Structure your paragraphs like this:**
-1. Open with the sharpest insight from this run — a pattern, a contrast, a number that should make the builder uncomfortable. No "this week we scored..." preamble.
-2. Name the pattern the scoring reveals — what domains keep appearing, what keeps getting rejected, what the comfort zone looks like from the data.
-3. Pick 2-3 discoveries and explain WHY they matter — not what they are, but what building something like them would teach. Weave the discovery titles into prose naturally.
-4. Name the gap — the single biggest hole between the builder's portfolio and where the market is going.
-5. One concrete suggestion — a specific product to build, with the growth-gap rationale.
-6. (Optional) A wildcard or a contrarian take — something from the rejects that deserved a second look.
+**Sections (keep these labels, in this order):**
+1. **The signal** — 2-3 bullets. The sharpest insight from this run: a number, a contrast, the thing that should make the builder uncomfortable. Lead with it.
+2. **The pattern** — 2-4 bullets. What domains keep appearing, what keeps getting rejected, what the comfort zone looks like from the data. Counts and 2-3 example items per bullet.
+3. **What stood out** — 3-5 bullets, one per discovery: `- **Exact Title** (PUSH) — what it is. Teaches: what building it would teach you.` Pick the discoveries that matter most for growth.
+4. **The gap** — first line: the single biggest hole between portfolio and market, one sentence. Then 1-3 bullets of evidence.
+5. **Build this** — first line: `**Product name**: what it is, one line.` Then `- Why: …` (the growth gap it closes), then numbered first steps `1. …`, `2. …`, `3. …` on their own lines, then where to ship it.
+6. **Second look** (optional) — 1-2 bullets: a wildcard or reject that deserved another look, and why in one line.
 
-Generate this JSON and POST it. Each section gets its own labeled block in the email — scannable, not a wall of text:
+Generate this JSON and POST it:
 
 ```json
 {
@@ -123,11 +141,12 @@ Generate this JSON and POST it. Each section gets its own labeled block in the e
     "subject": "<Short, specific subject — name the insight, not the count>",
     "stats": { "total": <screened>, "accepted": <scored>, "push": <push>, "levelUp": <levelUp> },
     "sections": [
-      { "label": "The signal", "text": "<2-3 sentences. The sharpest insight. Lead with the thing.>" },
-      { "label": "The pattern", "text": "<What domains keep appearing, what the comfort zone looks like from the data.>" },
-      { "label": "What stood out", "text": "<2-3 discoveries woven into prose. What building them would teach. Titles inline for auto-linking.>" },
-      { "label": "The gap", "text": "<The single biggest hole between portfolio and market.>" },
-      { "label": "Build this", "text": "<One specific product to build, with the growth-gap rationale.>" }
+      { "label": "The signal", "text": "- <line>\n- <line>\n- <line>" },
+      { "label": "The pattern", "text": "- <line>\n- <line>" },
+      { "label": "What stood out", "text": "- **<Exact Title>** (PUSH) — <what it is>. Teaches: <skill>.\n- ..." },
+      { "label": "The gap", "text": "<one sentence>\n- <evidence>\n- <evidence>" },
+      { "label": "Build this", "text": "**<Name>**: <what it is>.\n- Why: <gap it closes>\n1. <step>\n2. <step>\n3. <step>\nShip at <where>." },
+      { "label": "Second look", "text": "- **<Exact Title>** — <why, one line>" }
     ],
     "references": [
       { "title": "<exact discovery title as used in sections>", "url": "<url>" },
@@ -141,7 +160,7 @@ Generate this JSON and POST it. Each section gets its own labeled block in the e
 curl -s -X POST -H "Authorization: Bearer <LOOP_TOKEN>" -H "Content-Type: application/json" -d @newsletter.json "https://idea-radar-topaz.vercel.app/api/loop"
 ```
 
-The API auto-links discovery titles in the prose, wraps it in a branded dark-theme email, and sends to all subscribers. Discovery titles in `references` must match exactly how they appear in the paragraphs.
+The API auto-links discovery titles, wraps it in a branded dark-theme email, and sends to all subscribers. Discovery titles in `references` must match exactly how they appear in the sections.
 
 ## Completion
 Log a summary: sources scraped, items found, pre-filter survivors, accepted count **split by lane (PUSH / LEVEL UP)**, rejected count, wildcard count. Report this to the Loop Control Center.
